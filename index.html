@@ -6,1145 +6,1822 @@
 <title>Nolan AI — Purpose-Built AI for Capital Markets Diligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg:       #080C12;
-  --surface:  #0D1117;
-  --surface2: #111720;
-  --surface3: #161E2C;
-  --blue:     #2B6EF5;
-  --blue-2:   #1A5CE0;
-  --blue-3:   #1048C8;
-  --accent:   #60A5FA;
-  --accent-2: #93C5FD;
-  --green:    #34D399;
-  --green-2:  #10B981;
-  --amber:    #FBBF24;
-  --white:    #F0F6FF;
-  --muted:    #64748B;
-  --muted2:   #94A3B8;
-  --border:   rgba(255,255,255,0.07);
-  --border2:  rgba(43,110,245,0.2);
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:       #FAFBFD;
+    --surface:  #FFFFFF;
+    --surface2: #F4F6F9;
+    --surface3: #EDF0F5;
+    --blue:     #2B6EF5;
+    --blue-2:   #1A5CE0;
+    --blue-3:   #1048C8;
+    --accent:   #2B6EF5;
+    --accent-2: #1A5CE0;
+    --green:    #059669;
+    --text:     #0F172A;
+    --text-2:   #1E293B;
+    --muted:    #64748B;
+    --muted2:   #475569;
+    --border:   rgba(0,0,0,0.08);
+    --border2:  rgba(43,110,245,0.2);
+  }
 
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--white);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+  html { scroll-behavior: auto; }
 
-/* ─── NOISE TEXTURE ─── */
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  opacity: 0.5;
-}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
 
-/* ─── MESH BACKGROUND ─── */
-.mesh { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-.orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.10; }
-.orb-1 { width: 700px; height: 700px; top: -300px; left: -200px; background: rgba(43,110,245,0.5); }
-.orb-2 { width: 500px; height: 500px; top: 40%; right: -150px; background: rgba(43,110,245,0.3); }
-.orb-3 { width: 400px; height: 400px; bottom: 5%; left: 20%; background: rgba(96,165,250,0.2); }
-.orb-4 { width: 350px; height: 350px; top: 60%; left: 50%; background: rgba(52,211,153,0.12); }
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.3;
+  }
 
-/* ─── NAV ─── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 48px; height: 62px;
-  background: rgba(8,12,18,0.92);
-  backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--border);
-}
-.logo { display: flex; align-items: center; gap: 9px; text-decoration: none; flex-shrink: 0; }
-.logo-mark {
-  width: 26px; height: 26px;
-  background: linear-gradient(135deg, #2B6EF5, #1A5CE0);
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: white;
-}
-.logo-text { font-size: 15px; font-weight: 600; color: var(--white); letter-spacing: -0.3px; }
-.logo-text span { color: var(--accent); }
-.nav-links { display: flex; align-items: center; gap: 0; list-style: none; }
-.nav-links > li { position: relative; }
-.nav-links > li > a {
-  color: var(--muted); text-decoration: none;
-  font-size: 13px; font-weight: 400;
-  padding: 6px 12px; border-radius: 6px;
-  transition: all 0.15s; white-space: nowrap;
-}
-.nav-links > li > a:hover, .nav-links > li > a.active { color: var(--white); }
-.nav-links > li > a:hover { background: rgba(255,255,255,0.05); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    .reveal { opacity: 1 !important; transform: none !important; }
+  }
 
-/* Dropdown */
-.dropdown-trigger { cursor: pointer; display: flex; align-items: center; gap: 4px; }
-.dropdown-trigger svg { width: 10px; height: 10px; transition: transform 0.2s; }
-.dropdown { position: absolute; top: calc(100% + 8px); left: 0; min-width: 220px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 8px; opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s; }
-.nav-links > li:hover .dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-.dropdown a { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 6px; text-decoration: none; color: var(--muted2); font-size: 13px; transition: all 0.15s; }
-.dropdown a:hover { background: rgba(255,255,255,0.05); color: var(--white); }
-.dropdown-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
-.dropdown-icon.comfort { background: rgba(43,110,245,0.15); }
-.dropdown-icon.backup { background: rgba(52,211,153,0.15); }
-.dropdown-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; }
-.dropdown-label.comfort { color: var(--accent); }
-.dropdown-label.backup { color: var(--green); }
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px;
+    z-index: 100;
+    border-bottom: 1px solid transparent;
+    background: rgba(250,251,253,0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+  }
+  nav.scrolled {
+    border-bottom-color: var(--border);
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+  }
 
-.nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.btn-nav-login {
-  color: var(--muted2); text-decoration: none;
-  font-size: 13px; font-weight: 500; padding: 8px 16px; border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04);
-  transition: all 0.15s;
-}
-.btn-nav-login:hover { color: var(--white); border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.08); }
-.btn-nav-demo {
-  color: white; text-decoration: none;
-  font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 8px;
-  background: var(--blue); border: 1px solid rgba(43,110,245,0.5);
-  transition: all 0.15s;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-}
-.btn-nav-demo:hover { background: var(--blue-2); box-shadow: 0 0 18px rgba(43,110,245,0.4); transform: translateY(-1px); }
+  .logo {
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none; color: var(--text);
+    font-size: 15px; font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+  .logo-mark {
+    width: 24px; height: 24px;
+    background: var(--blue);
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px; color: white;
+    box-shadow: 0 2px 8px rgba(43,110,245,0.3);
+  }
+  .logo-text span { color: var(--accent); }
 
-/* ─── HERO ─── */
-.hero {
-  position: relative; z-index: 1;
-  padding: 160px 48px 60px;
-  max-width: 1000px; margin: 0 auto;
-  text-align: center;
-}
-.hero-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(43,110,245,0.08);
-  border: 1px solid rgba(43,110,245,0.2);
-  border-radius: 100px; padding: 6px 16px 6px 10px;
-  margin-bottom: 32px;
-}
-.badge-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--green); flex-shrink: 0;
-  box-shadow: 0 0 6px rgba(52,211,153,0.8);
-  animation: pulse 2s ease-in-out infinite;
-}
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-.badge-text { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.02em; color: var(--accent); }
-.hero h1 {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(42px, 5.5vw, 72px);
-  font-weight: 400; line-height: 1.08;
-  letter-spacing: -0.03em;
-  margin-bottom: 24px;
-}
-.hero h1 em { font-style: italic; color: var(--accent); }
-.hero p {
-  font-size: 18px; color: var(--muted2); line-height: 1.8;
-  font-weight: 300; max-width: 620px; margin: 0 auto 40px;
-}
-.hero-btns { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 80px; }
-.btn-primary {
-  background: var(--blue); color: white;
-  padding: 14px 32px; border-radius: 10px;
-  font-size: 14px; font-weight: 600;
-  text-decoration: none; border: none; cursor: pointer;
-  transition: all 0.15s; display: inline-flex; align-items: center; gap: 8px;
-  box-shadow: 0 2px 12px rgba(43,110,245,0.35);
-}
-.btn-primary:hover { background: var(--blue-2); transform: translateY(-1px); box-shadow: 0 0 28px rgba(43,110,245,0.4); }
-.btn-ghost {
-  background: transparent; color: var(--muted2);
-  padding: 14px 28px; border-radius: 10px;
-  font-size: 14px; font-weight: 500;
-  text-decoration: none;
-  border: 1px solid rgba(255,255,255,0.12);
-  transition: all 0.15s; display: inline-flex; align-items: center; gap: 8px;
-}
-.btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.04); }
+  .nav-links {
+    display: flex; gap: 6px; list-style: none;
+    position: absolute; left: 50%; transform: translateX(-50%);
+  }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 13px; font-weight: 400;
+    padding: 6px 12px; border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+    letter-spacing: -0.1px;
+    display: flex; align-items: center; gap: 3px;
+    position: relative;
+  }
+  .nav-links a:hover { color: var(--text); background: rgba(0,0,0,0.03); }
+  .nav-links a.active { color: var(--text); font-weight: 500; }
+  .chevron { width: 10px; height: 10px; transition: transform 0.2s; }
+  .dd-open > a .chevron { transform: rotate(180deg); }
 
-/* ─── STATS BAR ─── */
-.stat-row {
-  display: flex; align-items: center; justify-content: center;
-  flex-wrap: wrap;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 14px; overflow: hidden;
-  margin: 0 auto 0; max-width: 960px;
-  position: relative; z-index: 1;
-}
-.stat-item {
-  flex: 1; min-width: 160px;
-  padding: 32px 28px; text-align: center;
-  border-right: 1px solid var(--border);
-}
-.stat-item:last-child { border-right: none; }
-.stat-n {
-  font-family: 'Instrument Serif', serif;
-  font-size: 36px; font-weight: 400;
-  display: block; line-height: 1; margin-bottom: 6px;
-  background: linear-gradient(135deg, var(--white), var(--accent-2));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.stat-l { font-size: 12px; color: var(--muted); font-weight: 400; letter-spacing: 0.02em; }
+  .nav-dropdown {
+    position: fixed; top: 56px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 6px;
+    opacity: 0; visibility: hidden;
+    transform: translateY(-6px);
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    min-width: 260px;
+    z-index: 200;
+  }
+  .nav-dropdown.dd-open {
+    opacity: 1; visibility: visible;
+    transform: translateY(0);
+  }
+  .dropdown-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px; border-radius: 7px;
+    text-decoration: none; color: var(--text);
+    transition: background 0.12s;
+  }
+  .dropdown-item:hover { background: var(--surface2); }
+  .dropdown-icon {
+    width: 32px; height: 32px;
+    background: rgba(43,110,245,0.08);
+    border: 1px solid rgba(43,110,245,0.15);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .dropdown-label { font-size: 13px; font-weight: 500; display: block; }
+  .dropdown-sub { font-size: 11px; color: var(--muted); display: block; margin-top: 1px; }
+  .dropdown-divider { height: 1px; background: var(--border); margin: 4px 12px; }
 
-/* ─── SECTION BASICS ─── */
-.section { position: relative; z-index: 1; padding: 100px 48px; max-width: 1200px; margin: 0 auto; }
-.section-label {
-  font-family: 'DM Mono', monospace; font-size: 11px;
-  letter-spacing: 0.1em; color: var(--blue);
-  text-transform: uppercase; margin-bottom: 16px;
-}
-.section-label.green { color: var(--green); }
-.section-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(30px, 3.5vw, 48px);
-  font-weight: 400; line-height: 1.1; margin-bottom: 16px;
-}
-.section-sub {
-  color: var(--muted2); font-size: 16px; line-height: 1.8;
-  font-weight: 300; max-width: 620px; margin-bottom: 56px;
-}
-.section-center { text-align: center; }
-.section-center .section-sub { margin-left: auto; margin-right: auto; }
-.divider { height: 1px; background: var(--border); max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+  .nav-actions { display: flex; gap: 8px; align-items: center; }
+  .btn-nav-demo {
+    background: var(--blue);
+    color: white; text-decoration: none;
+    padding: 7px 16px; font-size: 13px; font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.2s;
+    box-shadow: 0 1px 3px rgba(43,110,245,0.3);
+  }
+  .btn-nav-demo:hover {
+    background: var(--blue-2);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(43,110,245,0.3);
+  }
 
-/* ─── APP DEMO SHELL ─── */
-.demo-shell {
-  position: relative; z-index: 1;
-  max-width: 1060px; margin: 0 auto;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03);
-}
-.demo-titlebar {
-  display: flex; align-items: center; gap: 8px;
-  padding: 12px 16px;
-  background: var(--surface2);
-  border-bottom: 1px solid var(--border);
-}
-.demo-dot { width: 10px; height: 10px; border-radius: 50%; }
-.demo-dot.red { background: #FF5F57; }
-.demo-dot.yellow { background: #FEBC2E; }
-.demo-dot.green { background: #28C840; }
-.demo-url {
-  flex: 1; text-align: center;
-  font-family: 'DM Mono', monospace; font-size: 11px;
-  color: var(--muted); letter-spacing: 0.02em;
-}
-.demo-body { display: flex; min-height: 420px; }
-.demo-sidebar {
-  width: 260px; flex-shrink: 0;
-  background: var(--surface2);
-  border-right: 1px solid var(--border);
-  padding: 20px 16px;
-  display: flex; flex-direction: column; gap: 6px;
-}
-.demo-sidebar-label {
-  font-family: 'DM Mono', monospace; font-size: 9px;
-  letter-spacing: 0.1em; color: var(--muted);
-  text-transform: uppercase; margin-bottom: 8px; padding: 0 8px;
-}
-.demo-sidebar-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 10px; border-radius: 6px;
-  font-size: 12px; color: var(--muted2);
-  cursor: default; transition: all 0.15s;
-}
-.demo-sidebar-item:hover { background: rgba(255,255,255,0.04); color: var(--white); }
-.demo-sidebar-item.active { background: rgba(43,110,245,0.1); color: var(--accent); }
-.circle-indicator {
-  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-}
-.circle-indicator.blue { background: var(--blue); box-shadow: 0 0 4px rgba(43,110,245,0.5); }
-.circle-indicator.muted { background: var(--muted); opacity: 0.4; }
-.circle-indicator.green-dot { background: var(--green); box-shadow: 0 0 4px rgba(52,211,153,0.5); }
-.demo-main {
-  flex: 1; position: relative;
-  display: flex; flex-direction: column;
-}
-.demo-toolbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 16px;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-}
-.demo-toolbar-left { display: flex; align-items: center; gap: 10px; }
-.demo-tool-btn {
-  width: 28px; height: 28px; border-radius: 5px;
-  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--muted); font-size: 12px;
-}
-.demo-tool-btn:hover { background: rgba(255,255,255,0.08); color: var(--white); }
-.demo-filename { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted2); }
-.demo-pdf-area {
-  flex: 1; padding: 24px;
-  display: flex; flex-direction: column; gap: 12px;
-  overflow: hidden;
-}
-.demo-text-line {
-  height: 8px; border-radius: 4px;
-  background: rgba(255,255,255,0.05);
-}
-.demo-text-line.w80 { width: 80%; }
-.demo-text-line.w60 { width: 60%; }
-.demo-text-line.w90 { width: 90%; }
-.demo-text-line.w70 { width: 70%; }
-.demo-text-line.w50 { width: 50%; }
-.demo-text-line.w40 { width: 40%; }
-.demo-highlight-box {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 6px 12px;
-  border-radius: 4px;
-  font-family: 'DM Mono', monospace; font-size: 12px;
-  position: relative;
-}
-.demo-highlight-box.comfort {
-  background: rgba(43,110,245,0.08);
-  border: 1.5px solid rgba(43,110,245,0.4);
-  color: var(--accent);
-}
-.demo-highlight-box.backup {
-  background: rgba(52,211,153,0.08);
-  border: 1.5px solid rgba(52,211,153,0.4);
-  color: var(--green);
-}
-.demo-highlight-box .tag {
-  font-size: 8px; font-weight: 600; letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 2px 5px; border-radius: 3px;
-}
-.demo-highlight-box.comfort .tag { background: rgba(43,110,245,0.2); color: var(--accent); }
-.demo-highlight-box.backup .tag { background: rgba(52,211,153,0.2); color: var(--green); }
-.demo-table {
-  width: 100%; border-collapse: collapse; margin: 4px 0;
-}
-.demo-table td {
-  padding: 4px 10px;
-  font-family: 'DM Mono', monospace; font-size: 10px;
-  color: var(--muted); border-bottom: 1px solid rgba(255,255,255,0.03);
-}
-.demo-table td:first-child { color: var(--muted2); }
-.demo-table .hl { color: var(--accent); }
+  /* ─── HERO ─── */
+  .hero {
+    padding: 180px 48px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .hero-mesh {
+    position: absolute; inset: 0;
+    overflow: hidden; z-index: 0;
+  }
+  .mesh-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+  }
+  .mesh-1 {
+    width: 600px; height: 600px;
+    background: var(--blue);
+    top: -180px; left: 50%; transform: translateX(-50%);
+    animation: orbFloat1 12s ease-in-out infinite;
+  }
+  .mesh-2 {
+    width: 300px; height: 300px;
+    background: #818CF8;
+    top: 60%; left: 15%;
+    animation: orbFloat2 15s ease-in-out infinite;
+  }
+  .mesh-3 {
+    width: 250px; height: 250px;
+    background: #60A5FA;
+    top: 30%; right: 10%;
+    animation: orbFloat3 18s ease-in-out infinite;
+  }
+  @keyframes orbFloat1 { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(30px)} }
+  @keyframes orbFloat2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(30px,-20px)} }
+  @keyframes orbFloat3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-25px,25px)} }
 
-/* ─── PRODUCT TOGGLE ─── */
-.product-toggle {
-  display: inline-flex; align-items: center;
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 10px; padding: 4px;
-  margin: 0 auto 48px; gap: 2px;
-}
-.product-toggle-btn {
-  padding: 10px 24px; border-radius: 8px;
-  font-size: 13px; font-weight: 500;
-  color: var(--muted); background: transparent;
-  border: none; cursor: pointer;
-  transition: all 0.2s; font-family: 'DM Sans', sans-serif;
-  display: flex; align-items: center; gap: 8px;
-}
-.product-toggle-btn.active {
-  background: rgba(43,110,245,0.12); color: var(--white);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-}
-.product-toggle-btn.active.backup-active {
-  background: rgba(52,211,153,0.12);
-}
-.product-toggle-btn:hover:not(.active) { color: var(--muted2); background: rgba(255,255,255,0.04); }
-.toggle-dot { width: 6px; height: 6px; border-radius: 50%; }
-.toggle-dot.blue { background: var(--blue); }
-.toggle-dot.green { background: var(--green); }
+  .hero-content { position: relative; z-index: 2; }
 
-/* ─── PRODUCT SECTIONS ─── */
-.product-content { display: none; }
-.product-content.active { display: block; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(43,110,245,0.06);
+    border: 1px solid rgba(43,110,245,0.15);
+    border-radius: 100px;
+    padding: 6px 16px 6px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.02em;
+    color: var(--accent);
+    margin-bottom: 48px;
+    opacity: 0; transform: translateY(20px);
+    animation: heroFadeUp 0.7s 0.1s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .badge-dot {
+    width: 18px; height: 18px;
+    background: rgba(43,110,245,0.12);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .badge-dot::after {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.7)} }
 
-/* ─── FEATURE GRID ─── */
-.feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-@media(max-width:900px) { .feature-grid { grid-template-columns: 1fr 1fr; } }
-@media(max-width:600px) { .feature-grid { grid-template-columns: 1fr; } }
-.feature-card {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 12px; padding: 28px;
-  position: relative; overflow: hidden;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.feature-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  opacity: 0; transition: opacity 0.2s;
-}
-.feature-card.blue-accent::before { background: linear-gradient(90deg, var(--blue), var(--accent)); }
-.feature-card.green-accent::before { background: linear-gradient(90deg, var(--green-2), var(--green)); }
-.feature-card:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-2px); }
-.feature-card:hover::before { opacity: 1; }
-.feature-icon {
-  width: 38px; height: 38px; border-radius: 9px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; margin-bottom: 18px;
-}
-.feature-icon.blue-bg { background: rgba(43,110,245,0.1); border: 1px solid rgba(43,110,245,0.2); }
-.feature-icon.green-bg { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); }
-.feature-card h3 {
-  font-family: 'Instrument Serif', serif;
-  font-size: 18px; font-weight: 400; margin-bottom: 10px; line-height: 1.2;
-}
-.feature-card p { font-size: 13px; color: var(--muted2); line-height: 1.75; font-weight: 300; }
+  .hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(52px, 7vw, 92px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    max-width: 880px;
+    margin: 0 auto 32px;
+    opacity: 0; transform: translateY(24px);
+    animation: heroFadeUp 0.8s 0.2s cubic-bezier(0.16,1,0.3,1) forwards;
+    color: var(--text);
+  }
+  .hero h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--blue), #4F8EFF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-/* ─── PROCESS STEPS ─── */
-.process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
-@media(max-width:900px) { .process-steps { grid-template-columns: 1fr 1fr; gap: 24px; } }
-@media(max-width:600px) { .process-steps { grid-template-columns: 1fr; } }
-.process-step { padding: 0 24px; text-align: center; position: relative; }
-.process-step:not(:last-child)::after {
-  content: ''; position: absolute; top: 22px; right: 0;
-  width: 1px; height: 24px; background: var(--border);
-}
-@media(max-width:900px) { .process-step:not(:last-child)::after { display: none; } }
-.step-num {
-  width: 44px; height: 44px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 16px;
-  font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500;
-}
-.step-num.blue-step { background: rgba(43,110,245,0.12); color: var(--accent); border: 1px solid rgba(43,110,245,0.25); }
-.step-num.green-step { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.25); }
-.process-step h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
-.process-step p { font-size: 13px; color: var(--muted2); line-height: 1.7; font-weight: 300; }
+  .hero-sub {
+    font-size: 18px;
+    color: var(--muted2);
+    max-width: 520px;
+    margin: 0 auto 56px;
+    line-height: 1.85;
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    opacity: 0; transform: translateY(20px);
+    animation: heroFadeUp 0.8s 0.35s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
 
-/* ─── COMPARISON TABLE ─── */
-.compare-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-.compare-table th {
-  padding: 16px 24px;
-  font-family: 'DM Mono', monospace; font-size: 11px;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--muted); font-weight: 400;
-  text-align: left;
-  background: var(--surface3);
-  border-bottom: 1px solid var(--border);
-}
-.compare-table th:nth-child(2) { color: var(--accent); }
-.compare-table th:nth-child(3) { color: var(--green); }
-.compare-table td {
-  padding: 14px 24px;
-  font-size: 13px; color: var(--muted2);
-  border-bottom: 1px solid var(--border);
-  line-height: 1.6; font-weight: 300;
-}
-.compare-table tr:last-child td { border-bottom: none; }
-.compare-table td:first-child { font-weight: 500; color: var(--white); font-size: 13px; }
+  .hero-btns {
+    display: flex; gap: 10px; align-items: center;
+    justify-content: center;
+    opacity: 0; transform: translateY(20px);
+    animation: heroFadeUp 0.8s 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
 
-/* ─── ROADMAP ─── */
-.roadmap { display: flex; flex-direction: column; gap: 0; }
-.roadmap-item {
-  display: flex; gap: 24px; align-items: flex-start;
-  padding: 28px 0;
-  border-bottom: 1px solid var(--border);
-}
-.roadmap-item:first-child { border-top: 1px solid var(--border); }
-.roadmap-marker {
-  width: 44px; height: 44px; flex-shrink: 0;
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
-}
-.roadmap-marker.live { background: rgba(43,110,245,0.12); color: var(--accent); border: 1px solid rgba(43,110,245,0.25); }
-.roadmap-marker.building { background: rgba(52,211,153,0.12); color: var(--green); border: 1px solid rgba(52,211,153,0.25); }
-.roadmap-marker.planned { background: rgba(251,191,36,0.08); color: var(--amber); border: 1px solid rgba(251,191,36,0.2); }
-.roadmap-content h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
-.roadmap-content p { font-size: 13px; color: var(--muted2); line-height: 1.7; font-weight: 300; }
-.roadmap-status {
-  font-family: 'DM Mono', monospace; font-size: 10px;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  padding: 3px 8px; border-radius: 4px; flex-shrink: 0;
-  margin-top: 2px;
-}
-.roadmap-status.live { background: rgba(43,110,245,0.1); color: var(--accent); }
-.roadmap-status.building { background: rgba(52,211,153,0.1); color: var(--green); }
-.roadmap-status.planned { background: rgba(251,191,36,0.08); color: var(--amber); }
+  @keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-/* ─── SECURITY PILLARS ─── */
-.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-@media(max-width:900px) { .pillars { grid-template-columns: 1fr 1fr; } }
-@media(max-width:600px) { .pillars { grid-template-columns: 1fr; } }
-.pillar {
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 12px; padding: 28px;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.pillar:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-2px); }
-.pillar-icon {
-  width: 38px; height: 38px; border-radius: 9px;
-  background: rgba(43,110,245,0.1); border: 1px solid rgba(43,110,245,0.2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; margin-bottom: 16px;
-}
-.pillar h4 {
-  font-family: 'Instrument Serif', serif;
-  font-size: 17px; font-weight: 400; margin-bottom: 8px;
-}
-.pillar p { font-size: 13px; color: var(--muted2); line-height: 1.75; font-weight: 300; }
+  .btn-primary {
+    background: var(--blue);
+    color: white;
+    padding: 11px 22px;
+    font-size: 14px; font-weight: 500;
+    letter-spacing: -0.1px;
+    text-decoration: none; border: none; cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+    display: inline-flex; align-items: center; gap: 6px;
+    box-shadow: 0 1px 3px rgba(43,110,245,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at center, rgba(255,255,255,0.1), transparent);
+    opacity: 0;
+  }
+  .btn-primary:hover {
+    background: var(--blue-2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(43,110,245,0.35);
+  }
 
-/* ─── QUOTE ─── */
-.quote-section {
-  position: relative; z-index: 1;
-  max-width: 800px; margin: 0 auto;
-  text-align: center; padding: 100px 48px;
-}
-.quote-mark {
-  font-family: 'Instrument Serif', serif;
-  font-size: 80px; color: rgba(43,110,245,0.15);
-  line-height: 0.5; margin-bottom: 24px;
-}
-.quote-text {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(22px, 2.8vw, 32px);
-  font-weight: 400; line-height: 1.5;
-  font-style: italic; color: var(--muted2);
-  margin-bottom: 24px;
-}
-.quote-attr { font-size: 13px; color: var(--muted); font-weight: 400; }
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted2);
+    padding: 11px 22px;
+    font-size: 14px; font-weight: 500;
+    letter-spacing: -0.1px;
+    text-decoration: none; border: 1px solid rgba(0,0,0,0.08); cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-ghost:hover {
+    color: var(--text);
+    border-color: rgba(0,0,0,0.15);
+    background: rgba(0,0,0,0.02);
+  }
 
-/* ─── CTA ─── */
-.cta-sec {
-  position: relative; z-index: 1;
-  text-align: center; padding: 100px 48px 120px;
-  max-width: 700px; margin: 0 auto;
-}
-.cta-sec h2 {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(32px, 4vw, 52px);
-  font-weight: 400; margin-bottom: 20px; line-height: 1.1;
-}
-.cta-sec p { color: var(--muted2); font-size: 16px; max-width: 440px; margin: 0 auto 40px; font-weight: 300; line-height: 1.8; }
-.cta-btns { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  /* ─── STATS BAR ─── */
+  .stats {
+    display: flex; justify-content: center; gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    max-width: 900px;
+    margin: 0 auto 80px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  }
+  .stat {
+    flex: 1; padding: 28px 24px; text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-n {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px; font-weight: 400;
+    display: block; line-height: 1;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--blue), var(--accent-2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-n span { font-size: 18px; }
+  .stat-l {
+    font-size: 13px; color: var(--muted);
+    font-weight: 400; letter-spacing: -0.02em;
+    line-height: 1.4;
+  }
 
-/* ─── FOOTER ─── */
-footer {
-  position: relative; z-index: 1;
-  border-top: 1px solid var(--border);
-  padding: 40px 48px;
-  max-width: 1200px; margin: 0 auto;
-}
-.footer-top {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 48px; margin-bottom: 40px;
-}
-@media(max-width:768px) { .footer-top { grid-template-columns: 1fr 1fr; gap: 32px; } }
-.footer-brand p { font-size: 13px; color: var(--muted); line-height: 1.7; font-weight: 300; margin-top: 12px; max-width: 280px; }
-.footer-col h5 {
-  font-family: 'DM Mono', monospace; font-size: 10px;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 16px;
-}
-.footer-col a { display: block; font-size: 13px; color: var(--muted2); text-decoration: none; margin-bottom: 10px; transition: color 0.15s; }
-.footer-col a:hover { color: var(--white); }
-.footer-bottom {
-  display: flex; align-items: center; justify-content: space-between;
-  border-top: 1px solid var(--border); padding-top: 24px;
-}
-.footer-copy { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+  /* ─── DEMO SECTION ─── */
+  .demo-wrap {
+    position: relative; z-index: 1;
+    padding: 100px 48px;
+    max-width: 1300px; margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    letter-spacing: 0.1em; color: var(--blue);
+    text-transform: uppercase; margin-bottom: 12px;
+    text-align: center; opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.6s 0.2s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .section-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 5vw, 52px);
+    font-weight: 400; text-align: center;
+    margin-bottom: 20px;
+    color: var(--text);
+    opacity: 0; transform: translateY(20px);
+    animation: slideUp 0.6s 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .section-sub {
+    font-size: 16px; color: var(--muted2);
+    text-align: center; margin: 0 auto 48px;
+    max-width: 600px; line-height: 1.6;
+    opacity: 0; transform: translateY(20px);
+    animation: slideUp 0.6s 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-/* ─── SCROLL REVEAL ─── */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+  /* ─── APP SHELL ─── */
+  .app-shell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    height: 620px;
+    opacity: 0; transform: scale(0.98);
+    animation: slideUp 0.7s 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  @media (max-width: 1024px) {
+    .app-shell { height: 500px; }
+  }
+  @media (max-width: 640px) {
+    .app-shell { height: 600px; flex-direction: column; }
+  }
 
-/* ─── TWO COL FEATURE ─── */
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-@media(max-width:768px) { .two-col { grid-template-columns: 1fr; gap: 40px; } }
-.two-col-visual {
-  background: var(--surface2); border: 1px solid var(--border);
-  border-radius: 12px; padding: 32px;
-  position: relative; overflow: hidden;
-}
+  .app-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    gap: 16px;
+  }
+  .app-chrome {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .chrome-dot {
+    width: 12px; height: 12px; border-radius: 50%;
+  }
+  .cd-r { background: #FF6058; }
+  .cd-y { background: #FFBD2E; }
+  .cd-g { background: #27C93F; }
+  .app-brand {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 500;
+    color: var(--text);
+    margin-left: 8px;
+  }
+  .app-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
 
-/* ─── MOBILE ─── */
-@media(max-width:768px) {
-  nav { padding: 0 20px; }
-  .nav-links { display: none; }
-  .hero { padding: 120px 20px 40px; }
-  .section { padding: 60px 20px; }
-  .demo-sidebar { display: none; }
-  .demo-shell { margin: 0 16px; }
-  .footer-top { grid-template-columns: 1fr; }
-  .hero-btns { flex-direction: column; }
-  .stat-row { flex-direction: column; }
-  .stat-item { border-right: none; border-bottom: 1px solid var(--border); }
-  .stat-item:last-child { border-bottom: none; }
-}
+  .app-tabs {
+    display: flex; gap: 2px;
+  }
+  .app-tab {
+    padding: 8px 14px; font-size: 12px; color: var(--muted);
+    background: transparent; border: none; cursor: pointer;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .app-tab.on {
+    color: var(--text); background: var(--surface);
+    font-weight: 500;
+  }
+
+  .app-acts {
+    display: flex; gap: 8px; margin-left: auto;
+  }
+  .abtn {
+    padding: 6px 12px; font-size: 12px;
+    border: none; border-radius: 5px;
+    cursor: pointer; transition: all 0.15s;
+    font-weight: 500;
+  }
+  .abtn-ghost {
+    background: var(--surface3); color: var(--text);
+  }
+  .abtn-ghost:hover { background: var(--border); }
+  .abtn-blue {
+    background: var(--blue); color: white;
+  }
+  .abtn-blue:hover { background: var(--blue-2); }
+
+  .app-body {
+    display: flex; flex: 1; overflow: hidden;
+  }
+  @media (max-width: 640px) {
+    .app-body { flex-direction: column; }
+  }
+
+  /* ─── SIDEBAR ─── */
+  .sb {
+    width: 280px; border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    background: var(--surface3);
+  }
+  @media (max-width: 640px) {
+    .sb { width: 100%; height: 160px; border-right: none; border-bottom: 1px solid var(--border); }
+  }
+
+  .sb-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    font-weight: 500; font-size: 13px;
+    color: var(--text);
+  }
+  .sb-count {
+    background: var(--surface2); padding: 2px 8px;
+    border-radius: 4px; font-size: 12px;
+  }
+  .sb-body {
+    flex: 1; overflow-y: auto;
+  }
+  .sb-body::-webkit-scrollbar { width: 6px; }
+  .sb-body::-webkit-scrollbar-track { background: transparent; }
+  .sb-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .ci {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 16px; cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    transition: all 0.12s;
+  }
+  .ci:hover { background: var(--surface2); }
+  .ci.on {
+    background: var(--surface);
+    border-bottom-color: var(--border);
+  }
+  .ci-n {
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    font-weight: 500; color: var(--muted);
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .ci-info { flex: 1; min-width: 0; }
+  .ci-val {
+    font-size: 13px; font-weight: 500;
+    color: var(--text); margin-bottom: 2px;
+  }
+  .ci-ctx {
+    font-size: 12px; color: var(--muted);
+    line-height: 1.3; margin-bottom: 6px;
+  }
+  .ci-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    padding: 3px 7px; border-radius: 4px;
+    font-weight: 500; letter-spacing: 0.02em;
+  }
+  .ci-tag.tag-c {
+    background: rgba(43,110,245,0.1); color: var(--blue);
+  }
+  .ci-tag.tag-r {
+    background: rgba(5,150,105,0.1); color: var(--green);
+  }
+
+  /* ─── PDF PANE ─── */
+  .pdf-pane {
+    flex: 1; display: flex; flex-direction: column;
+    background: var(--surface);
+    position: relative;
+  }
+  .pdf-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    font-size: 12px; color: var(--muted);
+  }
+  .pdf-nav-g {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .pnb {
+    background: transparent; border: none;
+    font-size: 14px; cursor: pointer; color: var(--text);
+    padding: 4px 6px; border-radius: 4px;
+    transition: background 0.12s;
+  }
+  .pnb:hover { background: var(--border); }
+
+  .proc-ov {
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0.95);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 10;
+    opacity: 1; transition: opacity 0.4s, visibility 0.4s;
+    visibility: visible;
+  }
+  .proc-ov.gone {
+    opacity: 0; visibility: hidden;
+  }
+
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid var(--surface3);
+    border-top-color: var(--blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 20px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .proc-txt {
+    font-size: 14px; font-weight: 500;
+    color: var(--text); margin-bottom: 24px;
+  }
+  .proc-steps {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .ps {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; color: var(--muted);
+  }
+  .ps.done { color: var(--text); }
+  .ps.act { color: var(--blue); }
+  .pdot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--muted); flex-shrink: 0;
+  }
+  .ps.done .pdot { background: var(--green); }
+  .ps.act .pdot {
+    background: var(--blue);
+    animation: pulse-dot 1.2s ease-in-out infinite;
+  }
+
+  .pdf-scroll {
+    flex: 1; overflow-y: auto;
+    padding: 24px;
+    background: white;
+  }
+  .pdf-scroll::-webkit-scrollbar { width: 6px; }
+  .pdf-scroll::-webkit-scrollbar-track { background: transparent; }
+  .pdf-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  .page {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 32px;
+    position: relative;
+    max-width: 700px;
+    font-size: 14px; line-height: 1.6;
+    font-family: 'Georgia', serif;
+  }
+
+  .comfort-stamp {
+    position: absolute; top: 16px; right: 16px;
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    font-weight: 600; letter-spacing: 0.05em;
+    color: #C8102E;
+    border: 1.5px solid #C8102E;
+    padding: 4px 10px; border-radius: 2px;
+    text-align: center; line-height: 1.5;
+  }
+
+  .page-hdr {
+    display: flex; justify-content: space-between;
+    font-size: 11px; color: var(--muted);
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pb { margin-bottom: 16px; }
+  .page h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 600;
+    margin-bottom: 12px; color: var(--text);
+  }
+  .page p { color: var(--text-2); }
+
+  .hl {
+    background: transparent;
+    font-weight: 700; color: #1a1a1a;
+    outline: 1.5px solid #C8102E; outline-offset: 2px;
+    border-radius: 0; padding: 0 2px;
+    position: relative; cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+  }
+  .hl:hover {
+    background: rgba(200,16,46,0.06);
+  }
+  .hl.active-hl {
+    background: rgba(200,16,46,0.08);
+    outline: 2px solid #E8192F; outline-offset: 3px;
+    box-shadow: 0 0 0 4px rgba(200,16,46,0.15), 0 0 12px rgba(200,16,46,0.1);
+    animation: hlPulse 2s ease-in-out infinite;
+  }
+  @keyframes hlPulse {
+    0%,100% { box-shadow: 0 0 0 4px rgba(200,16,46,0.15), 0 0 12px rgba(200,16,46,0.1); }
+    50% { box-shadow: 0 0 0 6px rgba(200,16,46,0.2), 0 0 20px rgba(200,16,46,0.15); }
+  }
+
+  .hl-tooltip {
+    position: absolute; top: calc(100% + 6px); left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: var(--text);
+    color: white;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; padding: 6px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.25s, transform 0.25s;
+    z-index: 20;
+    pointer-events: none;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  }
+  .hl-tooltip.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .tbl {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px; margin-top: 8px;
+  }
+  .tbl th, .tbl td {
+    padding: 8px 12px; text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .tbl th {
+    background: var(--surface3); font-weight: 600;
+    color: var(--text);
+  }
+  .tbl td { color: var(--text-2); }
+
+  /* ─── PRODUCTS SECTION ─── */
+  .prod-sec {
+    position: relative; z-index: 1;
+    padding: 100px 48px;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .prod-head {
+    text-align: center; margin-bottom: 60px;
+  }
+  .prod-toggle {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin-top: 32px;
+  }
+  .toggle-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 16px; border-radius: 6px;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all 0.2s;
+    border: 1px solid transparent;
+    color: var(--muted);
+  }
+  .toggle-item.active {
+    color: var(--text);
+    background: var(--surface2);
+    border-color: var(--border);
+  }
+  .toggle-icon {
+    width: 16px; height: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+  }
+
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; text-align: left;
+  }
+  @media(max-width:900px) { .feature-grid { grid-template-columns: 1fr 1fr; } }
+  @media(max-width:600px) { .feature-grid { grid-template-columns: 1fr; } }
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 28px;
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .feature-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .feature-card.blue-accent::before { background: linear-gradient(90deg, var(--blue), #60A5FA); }
+  .feature-card.green-accent::before { background: linear-gradient(90deg, #059669, #34D399); }
+  .feature-card:hover { border-color: rgba(43,110,245,0.15); transform: translateY(-2px); }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-icon {
+    width: 38px; height: 38px; border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 18px;
+  }
+  .feature-icon.blue-bg { background: rgba(43,110,245,0.08); border: 1px solid rgba(43,110,245,0.15); }
+  .feature-icon.green-bg { background: rgba(5,150,105,0.08); border: 1px solid rgba(5,150,105,0.15); }
+  .feature-card h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 18px; font-weight: 400; margin-bottom: 10px; line-height: 1.2;
+  }
+  .feature-card p { font-size: 13px; color: var(--muted); line-height: 1.75; font-weight: 300; }
+
+  /* ─── COMPARISON TABLE ─── */
+  .comp-table {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 60px;
+    opacity: 0; transform: translateY(20px);
+    animation: slideUp 0.6s 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .comp-row {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+  }
+  .comp-row:last-child { border-bottom: none; }
+  .comp-cell {
+    flex: 1; padding: 20px;
+    font-size: 14px; color: var(--text);
+  }
+  .comp-cell:first-child {
+    background: var(--surface2);
+    font-weight: 500;
+    flex: 0.8;
+  }
+  .comp-check {
+    color: var(--green);
+  }
+  .comp-x {
+    color: var(--muted);
+  }
+
+  /* ─── SECURITY SECTION ─── */
+  .sec-sec {
+    position: relative; z-index: 1;
+    padding: 100px 48px;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .sec-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px; margin-top: 48px;
+  }
+  .sec-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px;
+    opacity: 0; transform: translateY(24px);
+    animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .sec-card:nth-child(1) { animation-delay: 0.1s; }
+  .sec-card:nth-child(2) { animation-delay: 0.2s; }
+  .sec-card:nth-child(3) { animation-delay: 0.3s; }
+  .sec-card:nth-child(4) { animation-delay: 0.4s; }
+  .sec-card:nth-child(5) { animation-delay: 0.5s; }
+  .sec-card:nth-child(6) { animation-delay: 0.6s; }
+  .sec-icon {
+    font-size: 28px; margin-bottom: 12px;
+  }
+  .sec-t {
+    font-size: 16px; font-weight: 500;
+    color: var(--text); margin-bottom: 10px;
+  }
+  .sec-d {
+    font-size: 14px; color: var(--muted2);
+    line-height: 1.6;
+  }
+
+  /* ─── ROADMAP SECTION ─── */
+  .roadmap-sec {
+    position: relative; z-index: 1;
+    padding: 100px 48px;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .timeline {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px; margin-top: 48px;
+  }
+  .timeline-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    position: relative;
+    opacity: 0; transform: translateY(24px);
+    animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+  .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+  .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+  .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+  .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+  .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+  .timeline-badge {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--blue); margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .timeline-t {
+    font-size: 16px; font-weight: 500;
+    color: var(--text); margin-bottom: 8px;
+  }
+  .timeline-d {
+    font-size: 14px; color: var(--muted2);
+    line-height: 1.6;
+  }
+
+  /* ─── CTA SECTION ─── */
+  .cta-sec {
+    position: relative; z-index: 1;
+    padding: 100px 48px;
+    max-width: 900px; margin: 0 auto;
+    text-align: center;
+  }
+  .cta-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 60px 48px;
+    opacity: 0; transform: scale(0.98);
+    animation: slideUp 0.7s 0.2s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .cta-card h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 44px; font-weight: 400;
+    margin-bottom: 16px; color: var(--text);
+    line-height: 1.2;
+  }
+  .cta-card p {
+    font-size: 16px; color: var(--muted2);
+    margin-bottom: 32px; line-height: 1.6;
+  }
+  .cta-actions {
+    display: flex; gap: 12px; justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cta-tag {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); margin-top: 32px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 60px 48px;
+    position: relative; z-index: 1;
+  }
+  .footer-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  .footer-col h3 {
+    font-size: 13px; font-weight: 600;
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .footer-col a {
+    display: block;
+    font-size: 14px; color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: var(--text); }
+  .footer-bottom {
+    max-width: 1200px; margin: 0 auto;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-copy {
+    font-size: 13px; color: var(--muted);
+  }
+  .footer-legal {
+    display: flex; gap: 24px;
+  }
+  .footer-legal a {
+    font-size: 13px; color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-legal a:hover { color: var(--text); }
+
+  /* ─── HOW IT WORKS ─── */
+  .how-sec {
+    position: relative; z-index: 1;
+    padding: 100px 48px;
+    max-width: 1000px; margin: 0 auto;
+  }
+  .steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px; margin-top: 48px;
+  }
+  .step {
+    position: relative;
+    opacity: 0; transform: translateY(24px);
+    animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .step:nth-child(1) { animation-delay: 0.1s; }
+  .step:nth-child(2) { animation-delay: 0.2s; }
+  .step:nth-child(3) { animation-delay: 0.3s; }
+  .step:nth-child(4) { animation-delay: 0.4s; }
+
+  .step-bg {
+    position: absolute; top: 0; left: 0;
+    font-family: 'Instrument Serif', serif;
+    font-size: 80px; font-weight: 400;
+    color: var(--surface2);
+    line-height: 1;
+    z-index: 0;
+  }
+  .step-ico {
+    font-size: 32px; margin-bottom: 16px;
+    position: relative; z-index: 1;
+  }
+  .step-t {
+    font-size: 18px; font-weight: 500;
+    color: var(--text);
+    margin-bottom: 12px;
+    position: relative; z-index: 1;
+  }
+  .step-d {
+    font-size: 14px; color: var(--muted2);
+    line-height: 1.6;
+    position: relative; z-index: 1;
+    margin-bottom: 12px;
+  }
+  .step-m {
+    font-size: 12px; color: var(--blue);
+    font-weight: 500;
+    position: relative; z-index: 1;
+  }
+
+  /* ─── REVEAL ANIMATION ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .reveal.visible {
+    animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+
+  .from-scale {
+    transform: scale(0.98);
+  }
+  .from-scale.visible {
+    animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+
+  /* ─── STAGGER CHILDREN ─── */
+  .stagger-children > * {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .stagger-children > :nth-child(1) { animation-delay: 0.1s; }
+  .stagger-children > :nth-child(2) { animation-delay: 0.2s; }
+  .stagger-children > :nth-child(3) { animation-delay: 0.3s; }
+  .stagger-children > :nth-child(4) { animation-delay: 0.4s; }
+  .stagger-children > :nth-child(5) { animation-delay: 0.5s; }
+  .stagger-children > :nth-child(6) { animation-delay: 0.6s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    nav { padding: 0 24px; }
+    .logo-text { font-size: 13px; }
+    .nav-links { gap: 4px; }
+    .nav-links a { padding: 4px 8px; font-size: 12px; }
+    .nav-actions { gap: 4px; }
+
+    .hero { padding: 140px 24px 60px; }
+    .hero h1 { font-size: clamp(36px, 6vw, 52px); }
+    .hero-sub { font-size: 16px; }
+    .hero-btns { flex-direction: column; width: 100%; gap: 8px; }
+    .btn-primary, .btn-ghost { width: 100%; }
+
+    .stats { margin: 0 24px 60px; gap: 0; }
+    .stat { padding: 20px 16px; }
+    .stat-n { font-size: 24px; }
+
+    .demo-wrap { padding: 60px 24px; }
+    .section-title { font-size: clamp(28px, 4vw, 40px); }
+    .section-sub { font-size: 14px; }
+
+    .app-shell { height: auto; }
+    .app-bar { flex-wrap: wrap; gap: 12px; }
+    .app-tabs { flex-wrap: wrap; }
+    .app-acts { gap: 6px; width: 100%; }
+    .app-body { flex-direction: column; }
+    .sb { width: 100%; height: auto; border-right: none; }
+
+    .prod-sec, .sec-sec, .roadmap-sec, .cta-sec, .how-sec {
+      padding: 60px 24px;
+    }
+
+    .feature-grid, .sec-grid, .timeline {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-card { padding: 40px 24px; }
+    .cta-card h2 { font-size: 32px; }
+
+    .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (max-width: 480px) {
+    .nav-links { display: none; }
+    .hero { padding: 120px 16px 40px; }
+    .hero h1 { font-size: clamp(28px, 5vw, 40px); }
+    .stats { margin: 0 16px 40px; flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+
+    .page { padding: 20px; }
+    .cta-card { padding: 28px 16px; }
+    .cta-card h2 { font-size: 24px; }
+  }
 </style>
 </head>
 <body>
 
-<div class="mesh">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-  <div class="orb orb-4"></div>
-</div>
-
-<!-- ═══════════════════════ NAV ═══════════════════════ -->
-<nav>
+<nav id="mainNav">
   <a href="#" class="logo">
     <div class="logo-mark">N</div>
     <span class="logo-text">Nolan<span> AI</span></span>
   </a>
-  <ul class="nav-links">
+
+  <ul class="nav-links" id="navLinks">
     <li>
-      <a href="#products" class="dropdown-trigger">Products <svg viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 1l4 4 4-4"/></svg></a>
-      <div class="dropdown">
-        <a href="#comfort">
-          <div class="dropdown-icon comfort">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#60A5FA" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
-          </div>
+      <a href="#" id="productsToggle">
+        Products
+        <svg class="chevron" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <div class="nav-dropdown" id="productsDropdown">
+        <a href="#products" class="dropdown-item">
+          <div class="dropdown-icon">◎</div>
           <div>
-            <span class="dropdown-label comfort">Nolan Comfort</span>
-            <div style="font-size:12px;color:var(--muted);margin-top:2px;">Comfort letter automation</div>
+            <span class="dropdown-label">NolanComfort</span>
+            <span class="dropdown-sub">Comfort letter automation</span>
           </div>
         </a>
-        <a href="#backup">
-          <div class="dropdown-icon backup">
-            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#34D399" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-          </div>
+        <div class="dropdown-divider"></div>
+        <a href="#products" class="dropdown-item">
+          <div class="dropdown-icon">⊟</div>
           <div>
-            <span class="dropdown-label backup">Nolan Backup</span>
-            <div style="font-size:12px;color:var(--muted);margin-top:2px;">Statement-of-fact verification</div>
+            <span class="dropdown-label">NolanBackup</span>
+            <span class="dropdown-sub">Backup request workflows</span>
           </div>
         </a>
       </div>
     </li>
-    <li><a href="#platform">Platform</a></li>
+    <li><a href="#how">Platform</a></li>
     <li><a href="#security">Security</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#security">Trust Center</a></li>
   </ul>
+
   <div class="nav-actions">
-    <a href="https://forms.gle/T4yc24wcHq6BVC3WA" class="btn-nav-demo">Get in touch</a>
+    <a href="https://forms.gle/T4yc24wcHq6BVC3WA" target="_blank" class="btn-nav-demo">Get in touch</a>
   </div>
 </nav>
 
-<!-- ═══════════════════════ HERO ═══════════════════════ -->
-<section class="hero reveal">
-  <div class="hero-badge">
-    <div class="badge-dot"></div>
-    <span class="badge-text">Early access — coming Q3 2026</span>
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-mesh">
+    <div class="mesh-orb mesh-1"></div>
+    <div class="mesh-orb mesh-2"></div>
+    <div class="mesh-orb mesh-3"></div>
   </div>
-  <h1>Capital markets diligence,<br><em>automated.</em></h1>
-  <p>Nolan AI transforms SEC filings into deal-ready deliverables. Purpose-built for lawyers, auditors, and banking teams who move billion-dollar transactions.</p>
-  <div class="hero-btns">
-    <a href="#products" class="btn-primary">
-      See how it works
-    </a>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      Early access — coming Q3 2026
+    </div>
+    <h1>Capital markets diligence, automated.</h1>
+    <p class="hero-sub">From SEC filings to signed comfort letter, Nolan handles the verification work that slows every deal. NolanComfort and NolanBackup automate the workflows your team still does manually — with the accuracy your partners will actually sign off on.</p>
+    <div class="hero-btns">
+      <a href="#demo" class="btn-primary">See how it works</a>
+    </div>
   </div>
 </section>
 
-<!-- ═══════════════════════ STATS ═══════════════════════ -->
-<div class="stat-row reveal" style="margin-bottom:100px;">
-  <div class="stat-item">
-    <span class="stat-n">~90%</span>
+<!-- STATS -->
+<div class="stats" id="statsBar">
+  <div class="stat">
+    <span class="stat-n" data-count="90" data-suffix="%">0<span>%</span></span>
     <span class="stat-l">Target reduction in circle-up time</span>
   </div>
-  <div class="stat-item">
-    <span class="stat-n">~6hrs</span>
+  <div class="stat">
+    <span class="stat-n" data-count="6" data-suffix="hrs">0<span>hrs</span></span>
     <span class="stat-l">Estimated savings per 10-Q filing</span>
   </div>
-  <div class="stat-item">
-    <span class="stat-n">0</span>
+  <div class="stat">
+    <span class="stat-n">0<span></span></span>
     <span class="stat-l">Documents used for AI training</span>
   </div>
-  <div class="stat-item">
-    <span class="stat-n">2</span>
+  <div class="stat">
+    <span class="stat-n">2<span></span></span>
     <span class="stat-l">Purpose-built diligence tools</span>
   </div>
 </div>
 
-<!-- ═══════════════════════ APP DEMO ═══════════════════════ -->
-<div class="demo-shell reveal" style="max-width:1060px;margin:0 auto 120px;">
-  <div class="demo-titlebar">
-    <div class="demo-dot red"></div>
-    <div class="demo-dot yellow"></div>
-    <div class="demo-dot green"></div>
-    <span class="demo-url">app.nolan.ai / NolanComfort / 10-Q Review</span>
-  </div>
-  <div class="demo-body">
-    <div class="demo-sidebar">
-      <div class="demo-sidebar-label">Identified Figures</div>
-      <div class="demo-sidebar-item active">
-        <span class="circle-indicator blue"></span>
-        <span>$1.2B revenue</span>
+<!-- LIVE DEMO -->
+<section class="demo-wrap" id="demo">
+  <div class="section-label reveal">Live Product</div>
+  <h2 class="section-title reveal">From raw filing to comfort request — in seconds</h2>
+  <p class="section-sub reveal">Upload any SEC filing. Nolan identifies every financial figure requiring auditor comfort, draws the circles, and numbers them — ready for your review.</p>
+
+  <div class="app-shell reveal from-scale">
+    <div class="app-bar">
+      <div class="app-chrome">
+        <div class="chrome-dot cd-r"></div>
+        <div class="chrome-dot cd-y"></div>
+        <div class="chrome-dot cd-g"></div>
+        <div class="app-brand" style="margin-left:10px;"><div class="app-dot"></div>Nolan AI</div>
       </div>
-      <div class="demo-sidebar-item">
-        <span class="circle-indicator blue"></span>
-        <span>$340M operating income</span>
+      <div class="app-tabs">
+        <div class="app-tab on">Comfort</div>
+        <div class="app-tab">Back-up</div>
+        <div class="app-tab">Diligence</div>
       </div>
-      <div class="demo-sidebar-item">
-        <span class="circle-indicator muted"></span>
-        <span style="text-decoration:line-through;opacity:0.5;">~15% growth est.</span>
-      </div>
-      <div class="demo-sidebar-item">
-        <span class="circle-indicator blue"></span>
-        <span>4.2x leverage ratio</span>
-      </div>
-      <div class="demo-sidebar-item">
-        <span class="circle-indicator blue"></span>
-        <span>$89M net income</span>
-      </div>
-      <div style="margin-top:auto;">
-        <div class="demo-sidebar-label" style="margin-top:20px;">Backup Items</div>
-        <div class="demo-sidebar-item">
-          <span class="circle-indicator green-dot"></span>
-          <span>4,570 employees</span>
-        </div>
-        <div class="demo-sidebar-item">
-          <span class="circle-indicator green-dot"></span>
-          <span>312 retail locations</span>
-        </div>
+      <div class="app-acts">
+        <button class="abtn abtn-ghost">+ Add Circle</button>
+        <button class="abtn abtn-blue" id="exportBtn" onclick="doExport(this)">↓ Export PDF</button>
       </div>
     </div>
-    <div class="demo-main">
-      <div class="demo-toolbar">
-        <div class="demo-toolbar-left">
-          <div class="demo-tool-btn">
-            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+
+    <div class="app-body">
+      <div class="sb">
+        <div class="sb-head">
+          <span class="sb-title">Circles</span>
+          <span class="sb-count" id="sbCount">7</span>
+        </div>
+        <div class="sb-body" id="sbList"></div>
+      </div>
+
+      <div class="pdf-pane">
+        <div class="pdf-bar">
+          <div class="pdf-nav-g">
+            <button class="pnb">‹</button>
+            <span>Page 1 of 12</span>
+            <button class="pnb">›</button>
           </div>
-          <div class="demo-tool-btn">
-            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.06em;">ACME CORP · FORM 10-Q · Q3 2024</div>
+          <div class="pdf-nav-g">
+            <button class="pnb">−</button><span>100%</span><button class="pnb">+</button>
           </div>
-          <span class="demo-filename">ACME-Corp-10Q-Q2-2026.pdf</span>
         </div>
-        <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);">Page 14 of 67</span>
-      </div>
-      <div class="demo-pdf-area">
-        <div class="demo-text-line w90"></div>
-        <div class="demo-text-line w70"></div>
-        <div class="demo-highlight-box comfort">
-          $1,234,567,000 <span class="tag">Circle</span>
-        </div>
-        <div class="demo-text-line w80"></div>
-        <div class="demo-text-line w60"></div>
-        <table class="demo-table">
-          <tr><td>Revenue</td><td class="hl">$1,234,567</td><td class="hl">$1,102,340</td><td>12.0%</td></tr>
-          <tr><td>Operating Income</td><td class="hl">$340,122</td><td class="hl">$298,410</td><td>14.0%</td></tr>
-          <tr><td>Net Income</td><td class="hl">$89,340</td><td class="hl">$76,120</td><td>17.4%</td></tr>
-        </table>
-        <div class="demo-text-line w90"></div>
-        <div class="demo-highlight-box backup">
-          XYZ, Inc. has 4,570 employees as of June 3, 2026 <span class="tag">Backup</span>
-        </div>
-        <div class="demo-text-line w60"></div>
-        <div class="demo-text-line w40"></div>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- ═══════════════════════ PRODUCTS ═══════════════════════ -->
-<div class="divider"></div>
-<section id="products" class="section section-center reveal">
-  <div class="section-label">Products</div>
-  <h2 class="section-title">Two tools. One platform.<br>Every diligence workflow covered.</h2>
-  <p class="section-sub">Nolan AI ships two purpose-built products — one for comfort letter preparation, one for backup verification. Same platform, same security, different workflows.</p>
+        <div class="proc-ov" id="procOv">
+          <div class="spinner"></div>
+          <div class="proc-txt">Analyzing filing...</div>
+          <div class="proc-steps">
+            <div class="ps done" id="ps1"><div class="pdot"></div>Parsing SEC filing structure</div>
+            <div class="ps done" id="ps2"><div class="pdot"></div>Extracting financial statements</div>
+            <div class="ps act"  id="ps3"><div class="pdot"></div>Identifying comfort figures</div>
+            <div class="ps"      id="ps4"><div class="pdot"></div>Generating circle annotations</div>
+          </div>
+        </div>
 
-  <div class="product-toggle">
-    <button class="product-toggle-btn active" data-product="comfort" onclick="switchProduct('comfort')">
-      <span class="toggle-dot blue"></span>
-      NolanComfort
-    </button>
-    <button class="product-toggle-btn" data-product="backup" onclick="switchProduct('backup')">
-      <span class="toggle-dot green"></span>
-      NolanBackup
-    </button>
-  </div>
-
-  <!-- ─── COMFORT CONTENT ─── -->
-  <div class="product-content active" id="comfort-content">
-    <div class="feature-grid" style="text-align:left;">
-      <div class="feature-card blue-accent">
-        <div class="feature-icon blue-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <div class="pdf-scroll">
+          <div class="page" id="pdfPage">
+            <div class="comfort-stamp">COMFORT REQUEST<br><span id="stampDate"></span></div>
+            <div class="page-hdr">
+              <span>ACME CORP · FORM 10-Q</span>
+              <span>MANAGEMENT'S DISCUSSION & ANALYSIS</span>
+            </div>
+            <div class="pb">
+              <h3>Management's Discussion and Analysis of Financial Condition</h3>
+              <p>The following discussion should be read in conjunction with our consolidated financial statements. For the three months ended September 30, 2024, we reported total revenues of <span class="hl" id="h1">$178.3 million</span>, representing an increase of <span class="hl" id="h2">21.8%</span> compared to the prior year period. Our net income attributable to common stockholders was <span class="hl" id="h3">$31.4 million</span>, or <span class="hl" id="h4">$0.62</span> per diluted share.</p>
+            </div>
+            <div class="pb">
+              <p>Operating expenses totaled <span class="hl" id="h5">$134.9 million</span> for the quarter, compared to $112.1 million in the prior year period. As of September 30, 2024, we had <span class="hl" id="h6">$284.7 million</span> of cash and cash equivalents on hand. We employed <span class="hl" id="h7">4,812</span> full-time equivalent employees as of the quarter end.</p>
+            </div>
+            <div class="pb">
+              <h3>Revenue by Segment</h3>
+              <table class="tbl">
+                <tr><th></th><th>Q3 2024</th><th>Q3 2023</th><th>Change</th></tr>
+                <tr><td>Core Services</td><td>$121.4M</td><td>$98.2M</td><td>+23.6%</td></tr>
+                <tr><td>Advisory</td><td>$42.1M</td><td>$38.5M</td><td>+9.4%</td></tr>
+                <tr><td>Other</td><td>$14.8M</td><td>$9.9M</td><td>+49.5%</td></tr>
+              </table>
+            </div>
+            <div class="pb">
+              <p>Our total debt outstanding as of September 30, 2024 was <span class="hl" id="h8">$445.2 million</span>, comprised of our senior secured term loan and revolving credit facility.</p>
+            </div>
+          </div>
         </div>
-        <h3>AI Figure Identification</h3>
-        <p>Upload a 10-Q and Claude identifies every financial figure — dollar amounts, percentages, ratios, share counts — with precise PDF coordinates.</p>
-      </div>
-      <div class="feature-card blue-accent">
-        <div class="feature-icon blue-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        </div>
-        <h3>Smart Comfort Logic</h3>
-        <p>Each figure is classified as CIRCLE or EXCLUDE with 15 exclusion codes: forward-looking, flash numbers, market data, approximate language, and more.</p>
-      </div>
-      <div class="feature-card blue-accent">
-        <div class="feature-icon blue-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-        </div>
-        <h3>Review Assistant</h3>
-        <p>Chat with your document. Ask to hide forward-looking statements, keep only dollar amounts, or apply deal-specific instructions — all in natural language.</p>
-      </div>
-      <div class="feature-card blue-accent">
-        <div class="feature-icon blue-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        </div>
-        <h3>Precedent Deals</h3>
-        <p>Upload a marked-up PDF from a previous deal and Nolan learns your firm's comfort approach — which figures to circle, which to exclude, and why.</p>
-      </div>
-      <div class="feature-card blue-accent">
-        <div class="feature-icon blue-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-        </div>
-        <h3>One-Click Export</h3>
-        <p>Export a fully marked-up PDF with circled figures, ready for the auditor. Every circle has precise positioning that matches the original filing.</p>
-      </div>
-      <div class="feature-card blue-accent">
-        <div class="feature-icon blue-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        </div>
-        <h3>Filing-Aware Prompts</h3>
-        <p>Different SEC filings require different analysis. Nolan ships dedicated prompt registries for 10-Qs, 10-Ks, S-1s, and prospectuses — not a generic one-size-fits-all.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ─── BACKUP CONTENT ─── -->
-  <div class="product-content" id="backup-content">
-    <div class="feature-grid" style="text-align:left;">
-      <div class="feature-card green-accent">
-        <div class="feature-icon green-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
-        </div>
-        <h3>Statement Identification</h3>
-        <p>Claude reads every in-scope section and identifies statements of fact: headcount claims, facility counts, regulatory statements, contract terms — anything the company must prove.</p>
-      </div>
-      <div class="feature-card green-accent">
-        <div class="feature-icon green-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M3 10h18M3 14h18M3 18h18M3 6h18"/></svg>
-        </div>
-        <h3>Auto-Generated Tracker</h3>
-        <p>Every identified statement is automatically exported to a structured Excel tracker with request numbers, page references, categories, and status columns.</p>
-      </div>
-      <div class="feature-card green-accent">
-        <div class="feature-icon green-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
-        </div>
-        <h3>Full-Sentence Highlighting</h3>
-        <p>Unlike comfort where individual figures are circled, backup boxes entire sentences because the auditor and client need the full context of each factual claim.</p>
-      </div>
-      <div class="feature-card green-accent">
-        <div class="feature-icon green-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        </div>
-        <h3>In-App Tracker</h3>
-        <p>A live interactive grid linked to the PDF viewer. Click any request row and the filing scrolls to that exact statement. Track status, add notes, filter by category.</p>
-      </div>
-      <div class="feature-card green-accent">
-        <div class="feature-icon green-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        </div>
-        <h3>Client Portal</h3>
-        <p>Give clients scoped access to upload evidence documents against specific requests. Both sides see the same live tracker — no more emailing spreadsheets back and forth.</p>
-      </div>
-      <div class="feature-card green-accent">
-        <div class="feature-icon green-bg">
-          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-        </div>
-        <h3>AI-Assisted Tie-Out</h3>
-        <p>Claude reads the evidence documents and pre-verifies whether they support the claims. Lawyers shift from manual review to exception-based review.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════ HOW IT WORKS ═══════════════════════ -->
-<div class="divider"></div>
-<section id="platform" class="section section-center reveal">
-  <div class="section-label">How It Works</div>
-  <h2 class="section-title">From filing to deliverable in minutes</h2>
-  <p class="section-sub">A hybrid AI pipeline combines Azure Document Intelligence for pixel-perfect text extraction with Claude for financial reasoning. Two layers, zero hallucinations.</p>
+<!-- PRODUCTS -->
+<section class="prod-sec" id="products">
+  <div class="prod-head">
+    <div class="section-label reveal">Capabilities</div>
+    <h2 class="section-title reveal">Every workflow. Built-in validation.</h2>
+    <div class="prod-toggle reveal">
+      <div class="toggle-item active" data-product="comfort">
+        <div class="toggle-icon">◎</div>
+        NolanComfort
+      </div>
+      <div class="toggle-item" data-product="backup">
+        <div class="toggle-icon">⊟</div>
+        NolanBackup
+      </div>
+    </div>
+  </div>
 
-  <div class="process-steps">
-    <div class="process-step">
-      <div class="step-num blue-step">01</div>
-      <h4>Upload</h4>
-      <p>Drop an SEC filing into Nolan. Attach a precedent deal for context, or provide deal-specific instructions.</p>
+  <div class="feature-grid" id="comfortFeatures">
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </div>
+      <h3>AI Figure Identification</h3>
+      <p>Upload a 10-Q and Claude identifies every financial figure with precise PDF coordinates. Dollar amounts, percentages, ratios, share counts.</p>
     </div>
-    <div class="process-step">
-      <div class="step-num blue-step">02</div>
-      <h4>Extract</h4>
-      <p>Azure Document Intelligence reads every page — text, tables, positions. Every word gets a precise bounding box.</p>
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h3>Smart Comfort Logic</h3>
+      <p>Each figure is classified as CIRCLE or EXCLUDE with 15 exclusion codes: forward-looking, flash numbers, market data, approximate language, and more.</p>
     </div>
-    <div class="process-step">
-      <div class="step-num blue-step">03</div>
-      <h4>Analyze</h4>
-      <p>Claude classifies each element using filing-specific prompts and your deal preferences. Circle or exclude. Include or skip.</p>
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+      </div>
+      <h3>Review Assistant</h3>
+      <p>Chat with your document. Ask to hide forward-looking statements, keep only dollar amounts, or apply deal-specific instructions in natural language.</p>
     </div>
-    <div class="process-step">
-      <div class="step-num blue-step">04</div>
-      <h4>Review & Export</h4>
-      <p>Review the marked-up filing, refine with the Review Assistant, and export a deal-ready PDF in one click.</p>
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      </div>
+      <h3>Precedent Deals</h3>
+      <p>Upload a marked-up PDF from a previous deal and Nolan learns your firm's comfort approach. Which figures to circle, which to exclude, and why.</p>
+    </div>
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+      </div>
+      <h3>One-Click Export</h3>
+      <p>Export a fully marked-up PDF with circled figures, ready for the auditor. Every circle has precise positioning that matches the original filing.</p>
+    </div>
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <h3>Filing-Aware Prompts</h3>
+      <p>Different SEC filings require different analysis. Nolan ships dedicated prompt registries for 10-Qs, 10-Ks, S-1s, and prospectuses.</p>
+    </div>
+  </div>
+
+  <div class="feature-grid" id="backupFeatures" style="display:none;">
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+      </div>
+      <h3>Statement Identification</h3>
+      <p>Claude reads every in-scope section and identifies statements of fact: headcount claims, facility counts, regulatory statements, contract terms.</p>
+    </div>
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M3 10h18M3 14h18M3 18h18M3 6h18"/></svg>
+      </div>
+      <h3>Auto-Generated Tracker</h3>
+      <p>Every identified statement is automatically exported to a structured Excel tracker with request numbers, page references, categories, and status columns.</p>
+    </div>
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
+      </div>
+      <h3>Full-Sentence Highlighting</h3>
+      <p>Unlike comfort where individual figures are circled, backup boxes entire sentences because the auditor and client need the full context of each factual claim.</p>
+    </div>
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      </div>
+      <h3>In-App Tracker</h3>
+      <p>A live interactive grid linked to the PDF viewer. Click any request row and the filing scrolls to that exact statement. Track status, add notes, filter by category.</p>
+    </div>
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      </div>
+      <h3>Client Portal</h3>
+      <p>Give clients scoped access to upload evidence documents against specific requests. Both sides see the same live tracker.</p>
+    </div>
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+      </div>
+      <h3>AI-Assisted Tie-Out</h3>
+      <p>Claude reads the evidence documents and pre-verifies whether they support the claims. Lawyers shift from manual review to exception-based review.</p>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="comp-table reveal">
+    <div class="comp-row">
+      <div class="comp-cell"></div>
+      <div class="comp-cell"><strong>NolanComfort</strong></div>
+      <div class="comp-cell"><strong>NolanBackup</strong></div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-cell">Comfort circle automation</div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
+      <div class="comp-cell"><span class="comp-x">—</span></div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-cell">Backup request workflow</div>
+      <div class="comp-cell"><span class="comp-x">—</span></div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-cell">Cross-reference tracking</div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-cell">Tick procedure mapping</div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-cell">LTM figure handling</div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-cell">iManage export</div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-cell">Diligence grids</div>
+      <div class="comp-cell"><span class="comp-x">—</span></div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
+    </div>
+    <div class="comp-row">
+      <div class="comp-cell">CFO certificate prep</div>
+      <div class="comp-cell"><span class="comp-x">—</span></div>
+      <div class="comp-cell"><span class="comp-check">✓</span></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════ COMPARISON ═══════════════════════ -->
-<div class="divider"></div>
-<section class="section reveal">
-  <div class="section-label">Side by Side</div>
-  <h2 class="section-title">Two workflows, one architecture</h2>
-  <p class="section-sub">Comfort and Backup share the same extraction pipeline, security model, and review tools — but diverge where the workflows diverge.</p>
-
-  <table class="compare-table">
-    <thead>
-      <tr>
-        <th style="width:22%;">Dimension</th>
-        <th style="width:39%;">NolanComfort</th>
-        <th style="width:39%;">NolanBackup</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Unit of work</td>
-        <td>Individual financial figure ($, %, ratio)</td>
-        <td>Full sentence containing a factual claim</td>
-      </tr>
-      <tr>
-        <td>Highlight shape</td>
-        <td>Small box around a number</td>
-        <td>Box around an entire sentence or multi-line statement</td>
-      </tr>
-      <tr>
-        <td>Purpose</td>
-        <td>Auditor verifies figures tie to the books</td>
-        <td>Client provides evidence that statements are true</td>
-      </tr>
-      <tr>
-        <td>Output</td>
-        <td>Marked-up PDF with circles</td>
-        <td>Marked-up PDF + Excel tracker</td>
-      </tr>
-      <tr>
-        <td>Lifecycle</td>
-        <td>One-directional: lawyer to auditor</td>
-        <td>Back-and-forth: lawyer, client, lawyer</td>
-      </tr>
-      <tr>
-        <td>Parties</td>
-        <td>Lawyer + Auditor</td>
-        <td>Lawyer + Client + Auditor</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- ═══════════════════════ SECURITY ═══════════════════════ -->
-<div class="divider"></div>
-<section id="security" class="section reveal">
-  <div class="section-center" style="margin-bottom:56px;">
-    <div class="section-label">Security</div>
-    <h2 class="section-title">Built for the most sensitive<br>work in finance</h2>
-    <p class="section-sub">Law firms audit vendors before signing. Nolan is built to pass. Every architectural decision prioritizes data isolation, encryption, and auditability.</p>
-  </div>
-
-  <div class="pillars">
-    <div class="pillar">
-      <div class="pillar-icon">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-      </div>
-      <h4>AES-256 Encryption</h4>
-      <p>All data encrypted at rest and in transit. TLS 1.2+ for all connections, AES-256-GCM for stored data. No exceptions.</p>
+<!-- HOW IT WORKS -->
+<section class="how-sec" id="how">
+  <div class="section-label reveal">Process</div>
+  <h2 class="section-title reveal">Built around how deals actually work</h2>
+  <div class="steps stagger-children">
+    <div class="step reveal">
+      <div class="step-bg">01</div>
+      <div class="step-ico">📄</div>
+      <div class="step-t">Upload</div>
+      <div class="step-d">Drop any SEC document — 10-Q, 10-K, S-1, or prospectus supplement. Nolan parses it in seconds.</div>
     </div>
-    <div class="pillar">
-      <div class="pillar-icon">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      </div>
-      <h4>Zero Training Guarantee</h4>
-      <p>Your documents are never used to train AI models. We enforce this contractually with every AI provider. Inference only.</p>
+    <div class="step reveal">
+      <div class="step-bg">02</div>
+      <div class="step-ico">🔍</div>
+      <div class="step-t">Extract</div>
+      <div class="step-d">Our model identifies every financial figure requiring auditor comfort or backup support.</div>
     </div>
-    <div class="pillar">
-      <div class="pillar-icon">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-      </div>
-      <h4>SOC 2 Roadmap</h4>
-      <p>SOC 2 Type I certification targeted within 12 months of launch. Type II follows. Annual pen testing from day one.</p>
+    <div class="step reveal">
+      <div class="step-bg">03</div>
+      <div class="step-ico">✓</div>
+      <div class="step-t">Analyze</div>
+      <div class="step-d">Figures are categorized by Tick procedure and compliance with SAS 72 / AU-C 920 standards.</div>
     </div>
-    <div class="pillar">
-      <div class="pillar-icon">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
-      </div>
-      <h4>Asymmetric Auth</h4>
-      <p>RS256 JWT signing with 15-minute access tokens. Refresh token rotation, account lockout, and SSO hooks for enterprise identity providers.</p>
-    </div>
-    <div class="pillar">
-      <div class="pillar-icon">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-      </div>
-      <h4>Audit Logging</h4>
-      <p>Every action logged with full audit trail — who accessed what, when, and from where. Append-only, 7-year retention, ADMIN-only access.</p>
-    </div>
-    <div class="pillar">
-      <div class="pillar-icon">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--accent)" stroke-width="2"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-      </div>
-      <h4>Org-Level Isolation</h4>
-      <p>Every database query filters by organization. No cross-tenant data access is physically possible. Your data is yours alone.</p>
+    <div class="step reveal">
+      <div class="step-bg">04</div>
+      <div class="step-ico">⚡</div>
+      <div class="step-t">Review & Export</div>
+      <div class="step-d">Review and export numbered circles, backup tracker, or diligence grid in one click.</div>
     </div>
   </div>
 </section>
 
-
-<!-- ═══════════════════════ ROADMAP ═══════════════════════ -->
-<div class="divider"></div>
-<section id="roadmap" class="section reveal">
-  <div class="section-label">Product Roadmap</div>
-  <h2 class="section-title">What we're building — and when</h2>
-  <p class="section-sub">Transparent about where we are. Comfort is in active development. Backup follows immediately after.</p>
-
-  <div class="roadmap">
-    <div class="roadmap-item">
-      <div class="roadmap-marker live">C</div>
-      <div class="roadmap-content" style="flex:1;">
-        <h4>NolanComfort — Core Pipeline</h4>
-        <p>Upload a 10-Q, AI identifies and classifies every financial figure, export a marked-up PDF. Hybrid pipeline with Azure DI + Claude. Filing-specific prompts with 15 exclusion codes.</p>
-      </div>
-      <span class="roadmap-status building">Building</span>
+<!-- SECURITY -->
+<section class="sec-sec" id="security">
+  <div class="section-label reveal">Trust</div>
+  <h2 class="section-title reveal">Purpose-built for sensitive work</h2>
+  <div class="sec-grid">
+    <div class="sec-card reveal">
+      <div class="sec-icon">🔒</div>
+      <div class="sec-t">End-to-End Encryption</div>
+      <div class="sec-d">All documents encrypted in transit and at rest. Zero-knowledge architecture — we cannot access your filings.</div>
     </div>
-    <div class="roadmap-item">
-      <div class="roadmap-marker live">C</div>
-      <div class="roadmap-content" style="flex:1;">
-        <h4>Review Assistant + Precedent Deals</h4>
-        <p>Chat-based review with quick filter and full reanalysis modes. Upload precedent PDFs to teach Nolan your firm's approach to comfort.</p>
-      </div>
-      <span class="roadmap-status building">Building</span>
+    <div class="sec-card reveal">
+      <div class="sec-icon">🚫</div>
+      <div class="sec-t">No Training Data Use</div>
+      <div class="sec-d">Zero documents used for model training. Your filings improve only your own models, never ours.</div>
     </div>
-    <div class="roadmap-item">
-      <div class="roadmap-marker building">B</div>
-      <div class="roadmap-content" style="flex:1;">
-        <h4>NolanBackup — MVP</h4>
-        <p>Statement-of-fact identification across all in-scope sections. Auto-generated Excel tracker with request numbers, categories, and page references. Sentence-level highlighting.</p>
-      </div>
-      <span class="roadmap-status planned">Next</span>
+    <div class="sec-card reveal">
+      <div class="sec-icon">✓</div>
+      <div class="sec-t">SSAE 18 SOC 2</div>
+      <div class="sec-d">Independent security audit with SOC 2 Type II certification. Compliance infrastructure built in.</div>
     </div>
-    <div class="roadmap-item">
-      <div class="roadmap-marker building">B</div>
-      <div class="roadmap-content" style="flex:1;">
-        <h4>NolanBackup — In-App Tracker</h4>
-        <p>Interactive tracker grid linked to the PDF viewer. Click a row, see the statement. Update status, add notes, filter by category. Bidirectional sync.</p>
-      </div>
-      <span class="roadmap-status planned">Planned</span>
+    <div class="sec-card reveal">
+      <div class="sec-icon">🔐</div>
+      <div class="sec-t">Identity & Access</div>
+      <div class="sec-d">Role-based access control. Audit logs for every action. Admin controls for firm-level security policies.</div>
     </div>
-    <div class="roadmap-item">
-      <div class="roadmap-marker planned">B</div>
-      <div class="roadmap-content" style="flex:1;">
-        <h4>NolanBackup — Client Portal + AI Tie-Out</h4>
-        <p>Scoped client login for evidence upload. AI reads evidence and pre-verifies whether it supports the claims. Lawyers shift to exception-based review.</p>
-      </div>
-      <span class="roadmap-status planned">Planned</span>
+    <div class="sec-card reveal">
+      <div class="sec-icon">📋</div>
+      <div class="sec-t">Legal & Regulatory</div>
+      <div class="sec-d">Built for capital markets compliance. Meets attorney-client privilege requirements for document handling.</div>
     </div>
-    <div class="roadmap-item">
-      <div class="roadmap-marker planned">
-        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-      </div>
-      <div class="roadmap-content" style="flex:1;">
-        <h4>SOC 2 Type I Certification</h4>
-        <p>Independent audit of security, availability, and confidentiality controls. The checkpoint that unlocks enterprise law firm procurement.</p>
-      </div>
-      <span class="roadmap-status planned">Planned</span>
+    <div class="sec-card reveal">
+      <div class="sec-icon">📊</div>
+      <div class="sec-t">Data Retention</div>
+      <div class="sec-d">User-controlled data lifecycle. Auto-purge after 90 days, or on-demand. You control your data.</div>
     </div>
   </div>
 </section>
 
-<!-- ═══════════════════════ CTA ═══════════════════════ -->
-<div class="divider"></div>
-<section class="cta-sec reveal">
-  <div class="section-label" style="margin-bottom:16px;">Get started</div>
-  <h2>Ready to automate<br>your diligence workflow?</h2>
-  <p>We're onboarding design partners for early access. Get in touch to learn more.</p>
-  <div class="cta-btns">
-    <a href="https://forms.gle/T4yc24wcHq6BVC3WA" class="btn-primary">Get in touch</a>
+<!-- ROADMAP -->
+<section class="roadmap-sec" id="roadmap">
+  <div class="section-label reveal">What's Next</div>
+  <h2 class="section-title reveal">Product Roadmap</h2>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-badge">Q2 2026</div>
+      <div class="timeline-t">EDGAR Integration</div>
+      <div class="timeline-d">Direct filing ingestion from SEC EDGAR. Automatic 10-Q/10-K detection and parsing without manual upload.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-badge">Q3 2026</div>
+      <div class="timeline-t">Partner Launch</div>
+      <div class="timeline-d">Early access for design partners at top capital markets firms. Full product launch and onboarding.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-badge">Q4 2026</div>
+      <div class="timeline-t">Multi-Draft Support</div>
+      <div class="timeline-d">Track figure changes across prospectus amendments (424B4, 425, etc.). Automatic redline comparison.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-badge">Q1 2027</div>
+      <div class="timeline-t">Auditor Portal</div>
+      <div class="timeline-d">Secure portal for auditors to review and sign comfort letters directly within Nolan.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-badge">Q2 2027</div>
+      <div class="timeline-t">Procedural Workflows</div>
+      <div class="timeline-d">Step-by-step templates for each SAS 72 procedure. Guided verification workflows for non-comfort figures.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-badge">Q3 2027</div>
+      <div class="timeline-t">International Filings</div>
+      <div class="timeline-d">Support for IFRS, UK-listed companies, and non-US securities offerings. Multi-jurisdiction compliance.</div>
+    </div>
   </div>
 </section>
 
-<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<!-- CTA -->
+<section class="cta-sec" id="contact">
+  <div class="cta-card reveal from-scale">
+    <h2>Ready to automate your diligence workflow?</h2>
+    <p>We're onboarding design partners for early access. Get in touch to learn more.</p>
+    <div class="cta-actions">
+      <a href="https://forms.gle/T4yc24wcHq6BVC3WA" target="_blank" class="btn-primary">Request Early Access</a>
+    </div>
+    <div class="cta-tag">PURPOSE-BUILT FOR CAPITAL MARKETS · NEW YORK</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <span class="logo" style="margin-bottom:4px;">
-        <div class="logo-mark" style="width:22px;height:22px;font-size:10px;">N</div>
-        <span class="logo-text" style="font-size:14px;">Nolan<span> AI</span></span>
-      </span>
-      <p>Purpose-built AI for capital markets diligence. Designed by lawyers, for lawyers.</p>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h3>Products</h3>
+      <a href="#products">NolanComfort</a>
+      <a href="#products">NolanBackup</a>
+      <a href="#products">Platform</a>
     </div>
     <div class="footer-col">
-      <h5>Products</h5>
-      <a href="#comfort">NolanComfort</a>
-      <a href="#backup">NolanBackup</a>
-      <a href="#platform">Platform</a>
-    </div>
-    <div class="footer-col">
-      <h5>Contact</h5>
-      <a href="https://forms.gle/T4yc24wcHq6BVC3WA">bradford@nolanlegalai.com</a>
+      <h3>Contact</h3>
+      <a href="mailto:bradford@nolanlegalai.com">bradford@nolanlegalai.com</a>
       <a href="mailto:harris@nolanlegalai.com">harris@nolanlegalai.com</a>
     </div>
     <div class="footer-col">
-      <h5>Legal</h5>
+      <h3>Legal</h3>
       <a href="#security">Security</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <span class="footer-copy">PURPOSE-BUILT FOR CAPITAL MARKETS · NEW YORK</span>
-    <span class="footer-copy">&copy; 2026 Nolan AI, Inc.</span>
+    <div class="footer-copy">© 2026 Nolan AI, Inc.</div>
+    <div class="footer-copy">PURPOSE-BUILT FOR CAPITAL MARKETS · NEW YORK</div>
   </div>
 </footer>
 
-<!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
 <script>
-// Scroll reveal
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
+  // ─── DATE STAMP ───
+  const d = new Date();
+  document.getElementById('stampDate').textContent = (d.getMonth()+1)+'/'+d.getDate()+'/'+String(d.getFullYear()).slice(2);
+
+  // ─── CIRCLES DATA ───
+  const CIRCLES = [
+    { id:1, val:'$178.3 million', ctx:'Total revenues for Q3 2024',          type:'comfort',  hl:'h1' },
+    { id:2, val:'21.8%',          ctx:'YoY revenue increase percentage',       type:'comfort',  hl:'h2' },
+    { id:3, val:'$31.4 million',  ctx:'Net income to common stockholders',     type:'comfort',  hl:'h3' },
+    { id:4, val:'$0.62',          ctx:'Diluted EPS',                           type:'comfort',  hl:'h4' },
+    { id:5, val:'$134.9 million', ctx:'Total operating expenses',              type:'comfort',  hl:'h5' },
+    { id:6, val:'$284.7 million', ctx:'Cash and cash equivalents',             type:'comfort',  hl:'h6' },
+    { id:7, val:'4,812',          ctx:'Full-time equivalent employees',        type:'reviewed', hl:'h7' },
+  ];
+
+  let activeId = 1;
+
+  function buildSidebar() {
+    const list = document.getElementById('sbList');
+    list.innerHTML = '';
+    CIRCLES.forEach(c => {
+      const el = document.createElement('div');
+      el.className = 'ci' + (c.id === activeId ? ' on' : '');
+      el.innerHTML = `
+        <div class="ci-n">${String(c.id).padStart(2,'0')}</div>
+        <div class="ci-info">
+          <div class="ci-val">${c.val}</div>
+          <div class="ci-ctx">${c.ctx}</div>
+          <span class="ci-tag ${c.type === 'reviewed' ? 'tag-r' : 'tag-c'}">${c.type === 'reviewed' ? '✓ Reviewed' : 'Comfort'}</span>
+        </div>`;
+      el.onclick = () => { setActive(c.id); handleUserInteraction(); };
+      list.appendChild(el);
+    });
+  }
+
+  function setActive(id) {
+    activeId = id;
+    buildSidebar();
+    const oldTip = document.querySelector('.hl-tooltip');
+    if (oldTip) oldTip.remove();
+
+    CIRCLES.forEach(c => {
+      const el = document.getElementById(c.hl);
+      if (el) {
+        el.classList.toggle('active-hl', c.id === id);
+        if (c.id === id) {
+          const tooltip = document.createElement('div');
+          tooltip.className = 'hl-tooltip';
+          tooltip.textContent = 'Circle ' + String(c.id).padStart(2,'0') + ' · ' + c.ctx;
+          el.style.position = 'relative';
+          el.appendChild(tooltip);
+          requestAnimationFrame(() => requestAnimationFrame(() => tooltip.classList.add('show')));
+        }
+      }
+    });
+
+    const activeItem = document.querySelector('.ci.on');
+    const sidebar = activeItem ? activeItem.closest('.circle-sidebar') : null;
+    if (activeItem && sidebar) {
+      sidebar.scrollTop = activeItem.offsetTop - sidebar.offsetTop - 40;
     }
+  }
+
+  // ─── AUTO-CYCLE WALKTHROUGH ───
+  let autoCycleInterval = null;
+  let autoCyclePaused = false;
+
+  function startAutoCycle() {
+    if (autoCycleInterval) return;
+    autoCycleInterval = setInterval(() => {
+      if (autoCyclePaused) return;
+      const nextId = (activeId % CIRCLES.length) + 1;
+      setActive(nextId);
+    }, 2800);
+  }
+
+  function stopAutoCycle() {
+    if (autoCycleInterval) {
+      clearInterval(autoCycleInterval);
+      autoCycleInterval = null;
+    }
+  }
+
+  function handleUserInteraction() {
+    autoCyclePaused = true;
+    clearTimeout(handleUserInteraction._timer);
+    handleUserInteraction._timer = setTimeout(() => { autoCyclePaused = false; }, 6000);
+  }
+
+  document.querySelectorAll('.hl').forEach(el => {
+    el.addEventListener('click', () => {
+      const circle = CIRCLES.find(c => c.hl === el.id);
+      if (circle) {
+        setActive(circle.id);
+        handleUserInteraction();
+      }
+    });
   });
-}, { threshold: 0.06 });
-reveals.forEach(r => observer.observe(r));
 
-// Product toggle
-function switchProduct(product) {
-  document.querySelectorAll('.product-toggle-btn').forEach(btn => {
-    btn.classList.remove('active', 'backup-active');
-  });
-  document.querySelectorAll('.product-content').forEach(c => c.classList.remove('active'));
+  // ─── DEMO — SCROLL-TRIGGERED ───
+  let demoStarted = false;
+  function startDemo() {
+    if (demoStarted) return;
+    demoStarted = true;
+    const ps3 = document.getElementById('ps3');
+    const ps4 = document.getElementById('ps4');
+    const ov  = document.getElementById('procOv');
+    setTimeout(() => { ps3.className='ps done'; ps4.className='ps act'; }, 800);
+    setTimeout(() => { ps4.className='ps done'; }, 1500);
+    setTimeout(() => {
+      ov.classList.add('gone');
+      buildSidebar();
+      setActive(1);
+      setTimeout(() => startAutoCycle(), 1500);
+    }, 2100);
+  }
 
-  const activeBtn = document.querySelector(`.product-toggle-btn[data-product="${product}"]`);
-  activeBtn.classList.add('active');
-  if (product === 'backup') activeBtn.classList.add('backup-active');
+  const demoObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        startDemo();
+        if (!autoCycleInterval && demoStarted) startAutoCycle();
+      } else {
+        stopAutoCycle();
+      }
+    });
+  }, { threshold: 0.15 });
+  const appShell = document.querySelector('.app-shell');
+  if (appShell) demoObserver.observe(appShell);
 
-  document.getElementById(`${product}-content`).classList.add('active');
-}
+  function doExport(btn) {
+    btn.textContent = 'Generating...'; btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = '✓ Exported';
+      setTimeout(() => { btn.textContent = '↓ Export PDF'; btn.disabled = false; }, 2000);
+    }, 1400);
+  }
 
-// Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) {
+  // ─── SCROLL REVEAL ───
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // ─── ANIMATED NUMBER COUNTERS ───
+  let statsCounted = false;
+  function animateCounters() {
+    if (statsCounted) return;
+    statsCounted = true;
+    document.querySelectorAll('.stat-n[data-count]').forEach(el => {
+      const target = parseInt(el.dataset.count);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const duration = 1200;
+      const start = performance.now();
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(eased * target);
+        el.innerHTML = prefix + current + '<span>' + suffix + '</span>';
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    });
+  }
+
+  const statsObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) animateCounters(); });
+  }, { threshold: 0.5 });
+  const statsBar = document.getElementById('statsBar');
+  if (statsBar) statsObserver.observe(statsBar);
+
+  // ─── NAV SCROLL STATE ───
+  const mainNav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    mainNav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // ─── SUBTLE PARALLAX ───
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    document.querySelectorAll('.mesh-orb').forEach((orb, i) => {
+      const speed = 0.03 + (i * 0.015);
+      orb.style.marginTop = (scrollY * speed) + 'px';
+    });
+  }, { passive: true });
+
+  // ─── PRODUCTS DROPDOWN ───
+  (function() {
+    var toggle = document.getElementById('productsToggle');
+    var dropdown = document.getElementById('productsDropdown');
+    var parentLi = toggle.parentElement;
+
+    function openDropdown() {
+      var rect = toggle.getBoundingClientRect();
+      dropdown.style.left = rect.left + 'px';
+      dropdown.classList.add('dd-open');
+      parentLi.classList.add('dd-open');
+    }
+    function closeDropdown() {
+      dropdown.classList.remove('dd-open');
+      parentLi.classList.remove('dd-open');
+    }
+
+    toggle.addEventListener('click', function(e) {
       e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+      e.stopPropagation();
+      dropdown.classList.contains('dd-open') ? closeDropdown() : openDropdown();
+    });
+
+    dropdown.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', closeDropdown);
+    });
+
+    window.addEventListener('scroll', closeDropdown, { passive: true });
+
+    document.addEventListener('click', function(e) {
+      if (!parentLi.contains(e.target)) closeDropdown();
+    });
+  })();
+
+  // ─── PRODUCT TOGGLE ───
+  document.querySelectorAll('.toggle-item').forEach(item => {
+    item.addEventListener('click', function() {
+      document.querySelectorAll('.toggle-item').forEach(i => i.classList.remove('active'));
+      this.classList.add('active');
+
+      const product = this.dataset.product;
+      const comfortSection = document.getElementById('comfortFeatures');
+      const backupSection = document.getElementById('backupFeatures');
+
+      if (product === 'comfort') {
+        comfortSection.style.display = '';
+        backupSection.style.display = 'none';
+      } else {
+        comfortSection.style.display = 'none';
+        backupSection.style.display = '';
+      }
+    });
   });
-});
 </script>
+
 </body>
 </html>

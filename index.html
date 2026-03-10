@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nolan AI — Purpose-Built AI for Capital Markets Diligence</title>
+<title>Nolan AI. Purpose-Built AI for Capital Markets Diligence</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -692,6 +692,29 @@
   }
   .hl-tooltip.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+  .bl {
+    background: transparent;
+    font-weight: inherit; color: inherit;
+    border-bottom: 2px solid #C8102E;
+    border-top: 2px solid #C8102E;
+    border-left: 2px solid #C8102E;
+    border-right: 2px solid #C8102E;
+    border-radius: 1px;
+    padding: 1px 2px;
+    position: relative; cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .bl:hover {
+    background: rgba(200,16,46,0.04);
+  }
+  .bl.active-hl {
+    background: rgba(200,16,46,0.06);
+    border-color: #E8192F;
+    box-shadow: 0 0 0 2px rgba(200,16,46,0.12);
+  }
+
   .tbl {
     width: 100%; border-collapse: collapse;
     font-size: 13px; margin-top: 8px;
@@ -705,6 +728,25 @@
     color: var(--text);
   }
   .tbl td { color: var(--text-2); }
+
+  .tbl-circle {
+    display: inline-block;
+    width: 100%;
+  }
+  .tbl-row-hl td {
+    background: transparent;
+  }
+  .tbl-hl {
+    outline-offset: 1px;
+    font-weight: 700;
+    color: #1a1a1a;
+    display: inline-block;
+    padding: 1px 4px;
+  }
+  .hl-cell {
+    color: #1a1a1a;
+    font-weight: 700;
+  }
 
   /* ─── PRODUCTS SECTION ─── */
   .prod-sec {
@@ -772,109 +814,112 @@
   }
   .feature-card p { font-size: 13px; color: var(--muted); line-height: 1.75; font-weight: 300; }
 
-  /* ─── COMPARISON TABLE ─── */
-  .comp-table {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 60px;
-    opacity: 0; transform: translateY(20px);
-    animation: slideUp 0.6s 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
-  }
-  .comp-row {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-  }
-  .comp-row:last-child { border-bottom: none; }
-  .comp-cell {
-    flex: 1; padding: 20px;
-    font-size: 14px; color: var(--text);
-  }
-  .comp-cell:first-child {
-    background: var(--surface2);
-    font-weight: 500;
-    flex: 0.8;
-  }
-  .comp-check {
-    color: var(--green);
-  }
-  .comp-x {
-    color: var(--muted);
-  }
 
-  /* ─── SECURITY SECTION ─── */
+  /* ─── SECURITY TWO-COLUMN ─── */
   .sec-sec {
     position: relative; z-index: 1;
     padding: 100px 48px;
-    max-width: 1200px; margin: 0 auto;
+    max-width: 1100px; margin: 0 auto;
   }
-  .sec-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px; margin-top: 48px;
+  .sec-layout {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 64px; margin-top: 48px; align-items: start;
   }
-  .sec-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 28px;
-    opacity: 0; transform: translateY(24px);
-    animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+  .sec-hero {
+    position: sticky; top: 120px;
   }
-  .sec-card:nth-child(1) { animation-delay: 0.1s; }
-  .sec-card:nth-child(2) { animation-delay: 0.2s; }
-  .sec-card:nth-child(3) { animation-delay: 0.3s; }
-  .sec-card:nth-child(4) { animation-delay: 0.4s; }
-  .sec-card:nth-child(5) { animation-delay: 0.5s; }
-  .sec-card:nth-child(6) { animation-delay: 0.6s; }
-  .sec-icon {
-    font-size: 28px; margin-bottom: 12px;
+  .sec-shield {
+    width: 64px; height: 64px; border-radius: 16px;
+    background: linear-gradient(135deg, var(--blue), #4f7df5);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px;
   }
+  .sec-shield svg { width: 32px; height: 32px; color: #fff; }
+  .sec-hero-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px; font-weight: 400; color: var(--text);
+    line-height: 1.2; margin-bottom: 16px;
+  }
+  .sec-hero-sub {
+    font-size: 14px; color: var(--muted2); line-height: 1.7;
+  }
+  .sec-list {
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .sec-item {
+    display: flex; gap: 16px; padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    opacity: 0; transform: translateY(16px);
+    animation: slideUp 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .sec-item:first-child { padding-top: 0; }
+  .sec-item:last-child { border-bottom: none; }
+  .sec-item:nth-child(1) { animation-delay: 0.1s; }
+  .sec-item:nth-child(2) { animation-delay: 0.15s; }
+  .sec-item:nth-child(3) { animation-delay: 0.2s; }
+  .sec-item:nth-child(4) { animation-delay: 0.25s; }
+  .sec-item:nth-child(5) { animation-delay: 0.3s; }
+  .sec-item:nth-child(6) { animation-delay: 0.35s; }
+  .sec-item-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--surface2); display: flex;
+    align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+  }
+  .sec-item-body { flex: 1; }
   .sec-t {
-    font-size: 16px; font-weight: 500;
-    color: var(--text); margin-bottom: 10px;
+    font-size: 15px; font-weight: 500;
+    color: var(--text); margin-bottom: 6px;
   }
   .sec-d {
-    font-size: 14px; color: var(--muted2);
+    font-size: 13px; color: var(--muted2);
     line-height: 1.6;
   }
 
-  /* ─── ROADMAP SECTION ─── */
+  /* ─── ROADMAP VERTICAL TIMELINE ─── */
   .roadmap-sec {
     position: relative; z-index: 1;
     padding: 100px 48px;
-    max-width: 1200px; margin: 0 auto;
+    max-width: 800px; margin: 0 auto;
   }
-  .timeline {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px; margin-top: 48px;
+  .vtimeline {
+    position: relative; margin-top: 48px;
+    padding-left: 40px;
   }
-  .timeline-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 24px;
-    position: relative;
-    opacity: 0; transform: translateY(24px);
-    animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
+  .vtimeline::before {
+    content: '';
+    position: absolute; left: 11px; top: 8px; bottom: 8px;
+    width: 2px; background: var(--border);
   }
-  .timeline-item:nth-child(1) { animation-delay: 0.1s; }
-  .timeline-item:nth-child(2) { animation-delay: 0.2s; }
-  .timeline-item:nth-child(3) { animation-delay: 0.3s; }
-  .timeline-item:nth-child(4) { animation-delay: 0.4s; }
-  .timeline-item:nth-child(5) { animation-delay: 0.5s; }
-  .timeline-item:nth-child(6) { animation-delay: 0.6s; }
-  .timeline-badge {
-    font-family: 'DM Mono', monospace; font-size: 10px;
+  .vt-item {
+    position: relative; padding: 0 0 40px 28px;
+    opacity: 0; transform: translateY(16px);
+    animation: slideUp 0.5s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .vt-item:last-child { padding-bottom: 0; }
+  .vt-item:nth-child(1) { animation-delay: 0.1s; }
+  .vt-item:nth-child(2) { animation-delay: 0.2s; }
+  .vt-item:nth-child(3) { animation-delay: 0.3s; }
+  .vt-item:nth-child(4) { animation-delay: 0.4s; }
+  .vt-item:nth-child(5) { animation-delay: 0.5s; }
+  .vt-item:nth-child(6) { animation-delay: 0.6s; }
+  .vt-dot {
+    position: absolute; left: -33px; top: 4px;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--blue); border: 2px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--blue);
+  }
+  .vt-badge {
+    font-family: 'DM Mono', monospace; font-size: 11px;
     text-transform: uppercase; letter-spacing: 0.1em;
-    color: var(--blue); margin-bottom: 12px;
+    color: var(--blue); margin-bottom: 6px;
     font-weight: 600;
   }
-  .timeline-t {
-    font-size: 16px; font-weight: 500;
-    color: var(--text); margin-bottom: 8px;
+  .vt-t {
+    font-size: 17px; font-weight: 500;
+    color: var(--text); margin-bottom: 6px;
   }
-  .timeline-d {
+  .vt-d {
     font-size: 14px; color: var(--muted2);
     line-height: 1.6;
   }
@@ -962,55 +1007,45 @@
   }
   .footer-legal a:hover { color: var(--text); }
 
-  /* ─── HOW IT WORKS ─── */
+  /* ─── WORKFLOW PIPELINE ─── */
   .how-sec {
     position: relative; z-index: 1;
     padding: 100px 48px;
     max-width: 1000px; margin: 0 auto;
   }
-  .steps {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 32px; margin-top: 48px;
+  .pipeline {
+    display: flex; align-items: flex-start;
+    margin-top: 48px; gap: 0;
   }
-  .step {
-    position: relative;
+  .pipe-step {
+    flex: 1; text-align: center; position: relative;
+    padding: 0 20px;
     opacity: 0; transform: translateY(24px);
     animation: slideUp 0.6s cubic-bezier(0.16,1,0.3,1) forwards;
   }
-  .step:nth-child(1) { animation-delay: 0.1s; }
-  .step:nth-child(2) { animation-delay: 0.2s; }
-  .step:nth-child(3) { animation-delay: 0.3s; }
-  .step:nth-child(4) { animation-delay: 0.4s; }
-
-  .step-bg {
-    position: absolute; top: 0; left: 0;
-    font-family: 'Instrument Serif', serif;
-    font-size: 80px; font-weight: 400;
-    color: var(--surface2);
-    line-height: 1;
-    z-index: 0;
+  .pipe-step:nth-child(1) { animation-delay: 0.1s; }
+  .pipe-step:nth-child(3) { animation-delay: 0.2s; }
+  .pipe-step:nth-child(5) { animation-delay: 0.3s; }
+  .pipe-step:nth-child(7) { animation-delay: 0.4s; }
+  .pipe-num {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--blue); color: #fff;
+    font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
   }
-  .step-ico {
-    font-size: 32px; margin-bottom: 16px;
-    position: relative; z-index: 1;
+  .pipe-t {
+    font-size: 16px; font-weight: 600; color: var(--text);
+    margin-bottom: 10px;
   }
-  .step-t {
-    font-size: 18px; font-weight: 500;
-    color: var(--text);
-    margin-bottom: 12px;
-    position: relative; z-index: 1;
+  .pipe-d {
+    font-size: 13px; color: var(--muted2); line-height: 1.6;
   }
-  .step-d {
-    font-size: 14px; color: var(--muted2);
-    line-height: 1.6;
-    position: relative; z-index: 1;
-    margin-bottom: 12px;
+  .pipe-arrow {
+    display: flex; align-items: center; padding-top: 12px;
+    opacity: 0; animation: slideUp 0.4s 0.3s cubic-bezier(0.16,1,0.3,1) forwards;
   }
-  .step-m {
-    font-size: 12px; color: var(--blue);
-    font-weight: 500;
-    position: relative; z-index: 1;
-  }
+  .pipe-arrow svg { color: var(--border); }
 
   /* ─── REVEAL ANIMATION ─── */
   .reveal {
@@ -1074,9 +1109,13 @@
       padding: 60px 24px;
     }
 
-    .feature-grid, .sec-grid, .timeline {
+    .feature-grid {
       grid-template-columns: 1fr;
     }
+    .pipeline { flex-direction: column; gap: 0; }
+    .pipe-arrow { transform: rotate(90deg); justify-content: center; padding: 8px 0; }
+    .sec-layout { grid-template-columns: 1fr; gap: 32px; }
+    .sec-hero { position: static; }
 
     .cta-card { padding: 40px 24px; }
     .cta-card h2 { font-size: 32px; }
@@ -1110,13 +1149,13 @@
   <ul class="nav-links" id="navLinks">
     <li>
       <a href="#" id="productsToggle">
-        Products
+        Product Capabilities
         <svg class="chevron" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </a>
       <div class="nav-dropdown" id="productsDropdown">
-        <a href="#products" class="dropdown-item">
+        <a href="#products" class="dropdown-item" data-target="comfort">
           <div class="dropdown-icon">◎</div>
           <div>
             <span class="dropdown-label">NolanComfort</span>
@@ -1124,7 +1163,7 @@
           </div>
         </a>
         <div class="dropdown-divider"></div>
-        <a href="#products" class="dropdown-item">
+        <a href="#products" class="dropdown-item" data-target="backup">
           <div class="dropdown-icon">⊟</div>
           <div>
             <span class="dropdown-label">NolanBackup</span>
@@ -1133,10 +1172,10 @@
         </a>
       </div>
     </li>
-    <li><a href="#how">Platform</a></li>
+    <li><a href="#demo">How it Works</a></li>
+    <li><a href="#how">Workflow</a></li>
     <li><a href="#security">Security</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#security">Trust Center</a></li>
   </ul>
 
   <div class="nav-actions">
@@ -1154,10 +1193,11 @@
   <div class="hero-content">
     <div class="hero-badge">
       <div class="badge-dot"></div>
-      Early access — coming Q3 2026
+      Early access. Coming Q3 2026
     </div>
-    <h1>Capital markets diligence, automated.</h1>
-    <p class="hero-sub">From SEC filings to signed comfort letter, Nolan handles the verification work that slows every deal. NolanComfort and NolanBackup automate the workflows your team still does manually — with the accuracy your partners will actually sign off on.</p>
+    <h1>Capital markets diligence. Automated.</h1>
+    <p class="hero-sub">Nolan automates the most time consuming parts of securities deals: comfort circles and backup requests. Upload an offering document or SEC filing and Nolan identifies the figures and statements lawyers would normally spend hours reviewing and tracking by hand.</p>
+    <p class="hero-sub" style="margin-top: 8px; font-size: 15px; opacity: 0.75;">Lawyers should focus on judgment, not shuffling through documents. Nolan handles the rest.</p>
     <div class="hero-btns">
       <a href="#demo" class="btn-primary">See how it works</a>
     </div>
@@ -1178,17 +1218,122 @@
     <span class="stat-n">0<span></span></span>
     <span class="stat-l">Documents used for AI training</span>
   </div>
-  <div class="stat">
-    <span class="stat-n">2<span></span></span>
-    <span class="stat-l">Purpose-built diligence tools</span>
-  </div>
 </div>
+
+<!-- PRODUCTS -->
+<section class="prod-sec" id="products">
+  <div class="prod-head">
+    <div class="section-label reveal">Product Capabilities</div>
+    <h2 class="section-title reveal">Two workflows. One system.</h2>
+    <p class="section-sub reveal">Nolan reads SEC filings and prepares the comfort circles and backup requests lawyers normally build manually.</p>
+    <div class="prod-toggle reveal">
+      <div class="toggle-item active" data-product="comfort">
+        <div class="toggle-icon">◎</div>
+        NolanComfort
+      </div>
+      <div class="toggle-item" data-product="backup">
+        <div class="toggle-icon">⊟</div>
+        NolanBackup
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-grid" id="comfortFeatures">
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </div>
+      <h3>Financial Figure Identification</h3>
+      <p>Upload an offering document or other SEC filing. Nolan identifies financial figures typically included in comfort requests: dollar amounts, percentages, ratios, and share counts.</p>
+    </div>
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h3>Precision Figure Circling</h3>
+      <p>Nolan automatically places circles around financial figures directly in the PDF. Circles are placed tightly around the numbers so the output mirrors how lawyers prepare comfort requests for auditors.</p>
+    </div>
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+      </div>
+      <h3>Filing Coverage</h3>
+      <p>Nolan works across offering documents and incorporated SEC filings including S-1s, 10-Ks, 10-Qs, prospectus supplements, and other incorporated filings.</p>
+    </div>
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      </div>
+      <h3>Auditor Ready Output</h3>
+      <p>Export a marked PDF showing every circled figure exactly where it appears in the document. The output can be used directly as a draft comfort request to send to auditors.</p>
+    </div>
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+      </div>
+      <h3>Precedent Learning</h3>
+      <p>Upload a marked comfort request from a prior deal. Nolan learns which figures were circled and applies that logic when reviewing new filings.</p>
+    </div>
+    <div class="feature-card blue-accent reveal">
+      <div class="feature-icon blue-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      </div>
+      <h3>Document Review Assistant</h3>
+      <p>Ask questions about the filing in natural language. Show all circled figures, show only dollar amounts, hide percentages, or apply custom filters.</p>
+    </div>
+  </div>
+
+  <div class="feature-grid" id="backupFeatures" style="display:none;">
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+      </div>
+      <h3>Statement Identification</h3>
+      <p>Nolan reads the full filing and identifies statements that typically require backup support. Examples include employee counts, market position claims, and other factual statements about the company.</p>
+    </div>
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M3 10h18M3 14h18M3 18h18M3 6h18"/></svg>
+      </div>
+      <h3>Full Statement Highlighting</h3>
+      <p>Unlike comfort circles which mark individual numbers, backup highlights the full statement so the underlying claim can be supported with evidence.</p>
+    </div>
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
+      </div>
+      <h3>Backup Request Tracker</h3>
+      <p>Every highlighted statement is exported into a structured tracker with page references and request numbers. This mirrors the tracker lawyers create when sending backup requests to the company.</p>
+    </div>
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      </div>
+      <h3>Linked Filing Viewer</h3>
+      <p>Click any request in the tracker and Nolan jumps directly to the highlighted statement in the filing.</p>
+    </div>
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      </div>
+      <h3>Evidence Upload</h3>
+      <p>Upload supporting documents from the company and link them directly to the corresponding backup request.</p>
+    </div>
+    <div class="feature-card green-accent reveal">
+      <div class="feature-icon green-bg">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      </div>
+      <h3>Draft Comparison</h3>
+      <p>When new drafts of the filing are uploaded, Nolan identifies new or changed statements so backup requests stay up to date across revisions. This mirrors the real diligence workflow where lawyers review redlines to identify new statements that require backup.</p>
+    </div>
+  </div>
+
+</section>
 
 <!-- LIVE DEMO -->
 <section class="demo-wrap" id="demo">
-  <div class="section-label reveal">Live Product</div>
-  <h2 class="section-title reveal">From raw filing to comfort request — in seconds</h2>
-  <p class="section-sub reveal">Upload any SEC filing. Nolan identifies every financial figure requiring auditor comfort, draws the circles, and numbers them — ready for your review.</p>
+  <h2 class="section-title reveal">From raw filing to comfort request. In seconds.</h2>
+  <p class="section-sub reveal">Upload any SEC filing. Nolan identifies every financial figure requiring auditor comfort, draws the circles, and numbers them. Ready for your review.</p>
 
   <div class="app-shell reveal from-scale">
     <div class="app-bar">
@@ -1201,7 +1346,6 @@
       <div class="app-tabs">
         <div class="app-tab on">Comfort</div>
         <div class="app-tab">Back-up</div>
-        <div class="app-tab">Diligence</div>
       </div>
       <div class="app-acts">
         <button class="abtn abtn-ghost">+ Add Circle</button>
@@ -1213,7 +1357,7 @@
       <div class="sb">
         <div class="sb-head">
           <span class="sb-title">Circles</span>
-          <span class="sb-count" id="sbCount">7</span>
+          <span class="sb-count" id="sbCount">14</span>
         </div>
         <div class="sb-body" id="sbList"></div>
       </div>
@@ -1244,7 +1388,6 @@
 
         <div class="pdf-scroll">
           <div class="page" id="pdfPage">
-            <div class="comfort-stamp">COMFORT REQUEST<br><span id="stampDate"></span></div>
             <div class="page-hdr">
               <span>ACME CORP · FORM 10-Q</span>
               <span>MANAGEMENT'S DISCUSSION & ANALYSIS</span>
@@ -1254,19 +1397,68 @@
               <p>The following discussion should be read in conjunction with our consolidated financial statements. For the three months ended September 30, 2024, we reported total revenues of <span class="hl" id="h1">$178.3 million</span>, representing an increase of <span class="hl" id="h2">21.8%</span> compared to the prior year period. Our net income attributable to common stockholders was <span class="hl" id="h3">$31.4 million</span>, or <span class="hl" id="h4">$0.62</span> per diluted share.</p>
             </div>
             <div class="pb">
-              <p>Operating expenses totaled <span class="hl" id="h5">$134.9 million</span> for the quarter, compared to $112.1 million in the prior year period. As of September 30, 2024, we had <span class="hl" id="h6">$284.7 million</span> of cash and cash equivalents on hand. We employed <span class="hl" id="h7">4,812</span> full-time equivalent employees as of the quarter end.</p>
+              <p>Operating expenses totaled <span class="hl" id="h5">$134.9 million</span> for the quarter, compared to <span class="hl" id="h8a">$112.1 million</span> in the prior year period. As of September 30, 2024, we had <span class="hl" id="h6">$284.7 million</span> of cash and cash equivalents on hand. We employed 4,812 full-time equivalent employees as of the quarter end.</p>
             </div>
             <div class="pb">
-              <h3>Revenue by Segment</h3>
-              <table class="tbl">
-                <tr><th></th><th>Q3 2024</th><th>Q3 2023</th><th>Change</th></tr>
-                <tr><td>Core Services</td><td>$121.4M</td><td>$98.2M</td><td>+23.6%</td></tr>
-                <tr><td>Advisory</td><td>$42.1M</td><td>$38.5M</td><td>+9.4%</td></tr>
-                <tr><td>Other</td><td>$14.8M</td><td>$9.9M</td><td>+49.5%</td></tr>
-              </table>
+              <h3>Selected Financial Data</h3>
+              <div class="tbl-circle">
+                <table class="tbl">
+                  <tr><th>(in thousands)</th><th>Three Months Ended<br>Sep 30, 2024</th><th>Three Months Ended<br>Sep 30, 2023</th></tr>
+                  <tr class="tbl-row-hl"><td>Net sales to external customers</td><td><span class="hl tbl-hl" id="t1">$178,300</span></td><td><span class="hl tbl-hl" id="t2">$146,300</span></td></tr>
+                  <tr class="tbl-row-hl"><td>Operating expenses</td><td><span class="hl tbl-hl" id="t3">$134,900</span></td><td><span class="hl tbl-hl" id="t4">$112,100</span></td></tr>
+                  <tr class="tbl-row-hl"><td>Net income</td><td><span class="hl tbl-hl" id="t5">$31,400</span></td><td><span class="hl tbl-hl" id="t6">$25,800</span></td></tr>
+                </table>
+              </div>
             </div>
             <div class="pb">
-              <p>Our total debt outstanding as of September 30, 2024 was <span class="hl" id="h8">$445.2 million</span>, comprised of our senior secured term loan and revolving credit facility.</p>
+              <p>Our total debt outstanding as of September 30, 2024 was <span class="hl" id="h9">$445.2 million</span>, comprised of our senior secured term loan and revolving credit facility.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BACKUP VIEW (hidden by default) -->
+    <div class="app-body" id="backupView" style="display:none;">
+      <div class="sb">
+        <div class="sb-head">
+          <span class="sb-title">Requests</span>
+          <span class="sb-count" id="sbCountBackup">4</span>
+        </div>
+        <div class="sb-body" id="sbListBackup"></div>
+      </div>
+
+      <div class="pdf-pane">
+        <div class="pdf-bar">
+          <div class="pdf-nav-g">
+            <button class="pnb">‹</button>
+            <span>Page 1 of 12</span>
+            <button class="pnb">›</button>
+          </div>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.06em;">ACME CORP · FORM 10-Q · Q3 2024</div>
+          <div class="pdf-nav-g">
+            <button class="pnb">−</button><span>100%</span><button class="pnb">+</button>
+          </div>
+        </div>
+
+        <div class="pdf-scroll">
+          <div class="page" id="pdfPageBackup">
+            <div class="page-hdr">
+              <span>ACME CORP · FORM 10-Q</span>
+              <span>BUSINESS OVERVIEW</span>
+            </div>
+            <div class="pb">
+              <h3>Business Overview</h3>
+              <p>Acme Corporation is a global manufacturer and distributor of explosive products, demolition equipment, and specialty propulsion systems. The Company operates through two reportable segments: Consumer Explosives and Industrial Solutions. For the three months ended September 30, 2024, consolidated net revenues were $178.3 million, an increase of 21.8% compared to the prior year period. <span class="bl" id="b1">As of September 30, 2024, we employed 4,812 full-time equivalent employees across 12 offices in North America and Europe.</span> Total compensation expense for the quarter was $47.3 million, reflecting annual merit increases effective July 2024.</p>
+            </div>
+            <div class="pb">
+              <p>Our Consumer Explosives segment generated net revenues of $121.4 million for the quarter, an increase of 23.6% compared to the prior year period. <span class="bl" id="b2">We are the largest supplier of dynamite and controlled demolition products in North America, holding an estimated 34% market share as of the date of this filing.</span> Gross margins in the Industrial Solutions segment improved to 42.8% from 38.1% in the year-ago quarter, driven primarily by supply chain optimization and raw material cost reductions.</p>
+            </div>
+            <div class="pb">
+              <p>We attribute our continued growth to longstanding client relationships and consistent product quality. <span class="bl" id="b3">Our customer retention rate has exceeded 95% for the past eight consecutive fiscal years.</span> Revenue per active customer increased to approximately $248,000 during the quarter, up from $219,000 in the comparable prior year period. Operating expenses totaled $134.9 million, compared to $112.1 million in the prior year period.</p>
+            </div>
+            <div class="pb">
+              <p>Capital expenditures during the quarter were $18.7 million, primarily directed toward expansion of our Tucson manufacturing facility. <span class="bl" id="b4">We maintain exclusive distribution agreements with over 200 licensed contractors and government agencies across 14 countries.</span> Management believes these relationships provide a significant competitive advantage in securing large-scale project contracts.</p>
             </div>
           </div>
         </div>
@@ -1275,229 +1467,96 @@
   </div>
 </section>
 
-<!-- PRODUCTS -->
-<section class="prod-sec" id="products">
-  <div class="prod-head">
-    <div class="section-label reveal">Capabilities</div>
-    <h2 class="section-title reveal">Every workflow. Built-in validation.</h2>
-    <div class="prod-toggle reveal">
-      <div class="toggle-item active" data-product="comfort">
-        <div class="toggle-icon">◎</div>
-        NolanComfort
-      </div>
-      <div class="toggle-item" data-product="backup">
-        <div class="toggle-icon">⊟</div>
-        NolanBackup
-      </div>
-    </div>
-  </div>
-
-  <div class="feature-grid" id="comfortFeatures">
-    <div class="feature-card blue-accent reveal">
-      <div class="feature-icon blue-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-      </div>
-      <h3>AI Figure Identification</h3>
-      <p>Upload a 10-Q and Claude identifies every financial figure with precise PDF coordinates. Dollar amounts, percentages, ratios, share counts.</p>
-    </div>
-    <div class="feature-card blue-accent reveal">
-      <div class="feature-icon blue-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      </div>
-      <h3>Smart Comfort Logic</h3>
-      <p>Each figure is classified as CIRCLE or EXCLUDE with 15 exclusion codes: forward-looking, flash numbers, market data, approximate language, and more.</p>
-    </div>
-    <div class="feature-card blue-accent reveal">
-      <div class="feature-icon blue-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-      </div>
-      <h3>Review Assistant</h3>
-      <p>Chat with your document. Ask to hide forward-looking statements, keep only dollar amounts, or apply deal-specific instructions in natural language.</p>
-    </div>
-    <div class="feature-card blue-accent reveal">
-      <div class="feature-icon blue-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-      </div>
-      <h3>Precedent Deals</h3>
-      <p>Upload a marked-up PDF from a previous deal and Nolan learns your firm's comfort approach. Which figures to circle, which to exclude, and why.</p>
-    </div>
-    <div class="feature-card blue-accent reveal">
-      <div class="feature-icon blue-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-      </div>
-      <h3>One-Click Export</h3>
-      <p>Export a fully marked-up PDF with circled figures, ready for the auditor. Every circle has precise positioning that matches the original filing.</p>
-    </div>
-    <div class="feature-card blue-accent reveal">
-      <div class="feature-icon blue-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--blue)" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-      </div>
-      <h3>Filing-Aware Prompts</h3>
-      <p>Different SEC filings require different analysis. Nolan ships dedicated prompt registries for 10-Qs, 10-Ks, S-1s, and prospectuses.</p>
-    </div>
-  </div>
-
-  <div class="feature-grid" id="backupFeatures" style="display:none;">
-    <div class="feature-card green-accent reveal">
-      <div class="feature-icon green-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
-      </div>
-      <h3>Statement Identification</h3>
-      <p>Claude reads every in-scope section and identifies statements of fact: headcount claims, facility counts, regulatory statements, contract terms.</p>
-    </div>
-    <div class="feature-card green-accent reveal">
-      <div class="feature-icon green-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M3 10h18M3 14h18M3 18h18M3 6h18"/></svg>
-      </div>
-      <h3>Auto-Generated Tracker</h3>
-      <p>Every identified statement is automatically exported to a structured Excel tracker with request numbers, page references, categories, and status columns.</p>
-    </div>
-    <div class="feature-card green-accent reveal">
-      <div class="feature-icon green-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
-      </div>
-      <h3>Full-Sentence Highlighting</h3>
-      <p>Unlike comfort where individual figures are circled, backup boxes entire sentences because the auditor and client need the full context of each factual claim.</p>
-    </div>
-    <div class="feature-card green-accent reveal">
-      <div class="feature-icon green-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-      </div>
-      <h3>In-App Tracker</h3>
-      <p>A live interactive grid linked to the PDF viewer. Click any request row and the filing scrolls to that exact statement. Track status, add notes, filter by category.</p>
-    </div>
-    <div class="feature-card green-accent reveal">
-      <div class="feature-icon green-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-      </div>
-      <h3>Client Portal</h3>
-      <p>Give clients scoped access to upload evidence documents against specific requests. Both sides see the same live tracker.</p>
-    </div>
-    <div class="feature-card green-accent reveal">
-      <div class="feature-icon green-bg">
-        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="var(--green)" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-      </div>
-      <h3>AI-Assisted Tie-Out</h3>
-      <p>Claude reads the evidence documents and pre-verifies whether they support the claims. Lawyers shift from manual review to exception-based review.</p>
-    </div>
-  </div>
-
-  <!-- COMPARISON TABLE -->
-  <div class="comp-table reveal">
-    <div class="comp-row">
-      <div class="comp-cell"></div>
-      <div class="comp-cell"><strong>NolanComfort</strong></div>
-      <div class="comp-cell"><strong>NolanBackup</strong></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">Comfort circle automation</div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-      <div class="comp-cell"><span class="comp-x">—</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">Backup request workflow</div>
-      <div class="comp-cell"><span class="comp-x">—</span></div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">Cross-reference tracking</div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">Tick procedure mapping</div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">LTM figure handling</div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">iManage export</div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">Diligence grids</div>
-      <div class="comp-cell"><span class="comp-x">—</span></div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-    </div>
-    <div class="comp-row">
-      <div class="comp-cell">CFO certificate prep</div>
-      <div class="comp-cell"><span class="comp-x">—</span></div>
-      <div class="comp-cell"><span class="comp-check">✓</span></div>
-    </div>
-  </div>
-</section>
-
 <!-- HOW IT WORKS -->
 <section class="how-sec" id="how">
-  <div class="section-label reveal">Process</div>
+  <div class="section-label reveal">The Nolan Workflow</div>
   <h2 class="section-title reveal">Built around how deals actually work</h2>
-  <div class="steps stagger-children">
-    <div class="step reveal">
-      <div class="step-bg">01</div>
-      <div class="step-ico">📄</div>
-      <div class="step-t">Upload</div>
-      <div class="step-d">Drop any SEC document — 10-Q, 10-K, S-1, or prospectus supplement. Nolan parses it in seconds.</div>
+  <div class="pipeline">
+    <div class="pipe-step">
+      <div class="pipe-num">01</div>
+      <div class="pipe-t">Upload</div>
+      <div class="pipe-d">Upload any SEC filing or offering document including 10-Qs, 10-Ks, S-1s, and prospectus supplements.</div>
     </div>
-    <div class="step reveal">
-      <div class="step-bg">02</div>
-      <div class="step-ico">🔍</div>
-      <div class="step-t">Extract</div>
-      <div class="step-d">Our model identifies every financial figure requiring auditor comfort or backup support.</div>
+    <div class="pipe-arrow">
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
-    <div class="step reveal">
-      <div class="step-bg">03</div>
-      <div class="step-ico">✓</div>
-      <div class="step-t">Analyze</div>
-      <div class="step-d">Figures are categorized by Tick procedure and compliance with SAS 72 / AU-C 920 standards.</div>
+    <div class="pipe-step">
+      <div class="pipe-num">02</div>
+      <div class="pipe-t">Extract</div>
+      <div class="pipe-d">Nolan identifies financial figures and factual statements that typically require comfort or backup support.</div>
     </div>
-    <div class="step reveal">
-      <div class="step-bg">04</div>
-      <div class="step-ico">⚡</div>
-      <div class="step-t">Review & Export</div>
-      <div class="step-d">Review and export numbered circles, backup tracker, or diligence grid in one click.</div>
+    <div class="pipe-arrow">
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">03</div>
+      <div class="pipe-t">Analyze</div>
+      <div class="pipe-d">Figures and statements are organized into comfort circles and backup requests aligned with capital markets diligence workflows.</div>
+    </div>
+    <div class="pipe-arrow">
+      <svg width="24" height="24" fill="none" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="pipe-step">
+      <div class="pipe-num">04</div>
+      <div class="pipe-t">Review & Export</div>
+      <div class="pipe-d">Review and export numbered comfort circles, backup requests, or an Excel backup tracker in one click.</div>
     </div>
   </div>
 </section>
 
 <!-- SECURITY -->
 <section class="sec-sec" id="security">
-  <div class="section-label reveal">Trust</div>
-  <h2 class="section-title reveal">Purpose-built for sensitive work</h2>
-  <div class="sec-grid">
-    <div class="sec-card reveal">
-      <div class="sec-icon">🔒</div>
-      <div class="sec-t">End-to-End Encryption</div>
-      <div class="sec-d">All documents encrypted in transit and at rest. Zero-knowledge architecture — we cannot access your filings.</div>
+  <div class="sec-layout">
+    <div class="sec-hero reveal">
+      <div class="sec-shield">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+      </div>
+      <div class="sec-hero-title">Purpose built for sensitive legal work</div>
+      <div class="sec-hero-sub">Security and compliance are built into every layer of the platform. Nolan is designed for the sensitivity that capital markets work demands.</div>
     </div>
-    <div class="sec-card reveal">
-      <div class="sec-icon">🚫</div>
-      <div class="sec-t">No Training Data Use</div>
-      <div class="sec-d">Zero documents used for model training. Your filings improve only your own models, never ours.</div>
-    </div>
-    <div class="sec-card reveal">
-      <div class="sec-icon">✓</div>
-      <div class="sec-t">SSAE 18 SOC 2</div>
-      <div class="sec-d">Independent security audit with SOC 2 Type II certification. Compliance infrastructure built in.</div>
-    </div>
-    <div class="sec-card reveal">
-      <div class="sec-icon">🔐</div>
-      <div class="sec-t">Identity & Access</div>
-      <div class="sec-d">Role-based access control. Audit logs for every action. Admin controls for firm-level security policies.</div>
-    </div>
-    <div class="sec-card reveal">
-      <div class="sec-icon">📋</div>
-      <div class="sec-t">Legal & Regulatory</div>
-      <div class="sec-d">Built for capital markets compliance. Meets attorney-client privilege requirements for document handling.</div>
-    </div>
-    <div class="sec-card reveal">
-      <div class="sec-icon">📊</div>
-      <div class="sec-t">Data Retention</div>
-      <div class="sec-d">User-controlled data lifecycle. Auto-purge after 90 days, or on-demand. You control your data.</div>
+    <div class="sec-list">
+      <div class="sec-item reveal">
+        <div class="sec-item-icon">🔒</div>
+        <div class="sec-item-body">
+          <div class="sec-t">End to End Encryption</div>
+          <div class="sec-d">All documents encrypted in transit and at rest. Access to documents is restricted to authorized users only.</div>
+        </div>
+      </div>
+      <div class="sec-item reveal">
+        <div class="sec-item-icon">🚫</div>
+        <div class="sec-item-body">
+          <div class="sec-t">No Training Data Use</div>
+          <div class="sec-d">Customer documents are never used to train shared models. Your filings remain private to your workspace.</div>
+        </div>
+      </div>
+      <div class="sec-item reveal">
+        <div class="sec-item-icon">✓</div>
+        <div class="sec-item-body">
+          <div class="sec-t">Enterprise Security Architecture</div>
+          <div class="sec-d">Security infrastructure designed to support enterprise compliance standards as the platform scales.</div>
+        </div>
+      </div>
+      <div class="sec-item reveal">
+        <div class="sec-item-icon">🔐</div>
+        <div class="sec-item-body">
+          <div class="sec-t">Identity & Access</div>
+          <div class="sec-d">Role based access controls with full audit logs. Admin controls allow firms to manage workspace permissions.</div>
+        </div>
+      </div>
+      <div class="sec-item reveal">
+        <div class="sec-item-icon">📋</div>
+        <div class="sec-item-body">
+          <div class="sec-t">Legal & Regulatory</div>
+          <div class="sec-d">Built for capital markets workflows and sensitive legal documents. Designed to support attorney client privilege and secure diligence processes.</div>
+        </div>
+      </div>
+      <div class="sec-item reveal">
+        <div class="sec-item-icon">📊</div>
+        <div class="sec-item-body">
+          <div class="sec-t">Data Retention</div>
+          <div class="sec-d">Customer controlled data lifecycle with configurable retention policies and deletion on request.</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1506,36 +1565,42 @@
 <section class="roadmap-sec" id="roadmap">
   <div class="section-label reveal">What's Next</div>
   <h2 class="section-title reveal">Product Roadmap</h2>
-  <div class="timeline">
-    <div class="timeline-item reveal">
-      <div class="timeline-badge">Q2 2026</div>
-      <div class="timeline-t">EDGAR Integration</div>
-      <div class="timeline-d">Direct filing ingestion from SEC EDGAR. Automatic 10-Q/10-K detection and parsing without manual upload.</div>
+  <div class="vtimeline">
+    <div class="vt-item reveal">
+      <div class="vt-dot"></div>
+      <div class="vt-badge">Q2 2026</div>
+      <div class="vt-t">EDGAR Integration</div>
+      <div class="vt-d">Import filings directly from SEC EDGAR instead of uploading documents manually.</div>
     </div>
-    <div class="timeline-item reveal">
-      <div class="timeline-badge">Q3 2026</div>
-      <div class="timeline-t">Partner Launch</div>
-      <div class="timeline-d">Early access for design partners at top capital markets firms. Full product launch and onboarding.</div>
+    <div class="vt-item reveal">
+      <div class="vt-dot"></div>
+      <div class="vt-badge">Q3 2026</div>
+      <div class="vt-t">Design Partner Launch</div>
+      <div class="vt-d">Early access for capital markets teams helping shape the product before broader release.</div>
     </div>
-    <div class="timeline-item reveal">
-      <div class="timeline-badge">Q4 2026</div>
-      <div class="timeline-t">Multi-Draft Support</div>
-      <div class="timeline-d">Track figure changes across prospectus amendments (424B4, 425, etc.). Automatic redline comparison.</div>
+    <div class="vt-item reveal">
+      <div class="vt-dot"></div>
+      <div class="vt-badge">Q4 2026</div>
+      <div class="vt-t">Multi Draft Tracking</div>
+      <div class="vt-d">Track changes to figures and statements across prospectus drafts and amendments.</div>
     </div>
-    <div class="timeline-item reveal">
-      <div class="timeline-badge">Q1 2027</div>
-      <div class="timeline-t">Auditor Portal</div>
-      <div class="timeline-d">Secure portal for auditors to review and sign comfort letters directly within Nolan.</div>
+    <div class="vt-item reveal">
+      <div class="vt-dot"></div>
+      <div class="vt-badge">Q1 2027</div>
+      <div class="vt-t">Auditor Collaboration</div>
+      <div class="vt-d">Secure workspace for auditors to review comfort circles and verification work.</div>
     </div>
-    <div class="timeline-item reveal">
-      <div class="timeline-badge">Q2 2027</div>
-      <div class="timeline-t">Procedural Workflows</div>
-      <div class="timeline-d">Step-by-step templates for each SAS 72 procedure. Guided verification workflows for non-comfort figures.</div>
+    <div class="vt-item reveal">
+      <div class="vt-dot"></div>
+      <div class="vt-badge">Q2 2027</div>
+      <div class="vt-t">Procedural Workflows</div>
+      <div class="vt-d">Guided verification workflows aligned with SAS 72 procedures.</div>
     </div>
-    <div class="timeline-item reveal">
-      <div class="timeline-badge">Q3 2027</div>
-      <div class="timeline-t">International Filings</div>
-      <div class="timeline-d">Support for IFRS, UK-listed companies, and non-US securities offerings. Multi-jurisdiction compliance.</div>
+    <div class="vt-item reveal">
+      <div class="vt-dot"></div>
+      <div class="vt-badge">Q3 2027</div>
+      <div class="vt-t">International Filings</div>
+      <div class="vt-d">Support for non US offerings and international disclosure standards.</div>
     </div>
   </div>
 </section>
@@ -1543,12 +1608,12 @@
 <!-- CTA -->
 <section class="cta-sec" id="contact">
   <div class="cta-card reveal from-scale">
-    <h2>Ready to automate your diligence workflow?</h2>
-    <p>We're onboarding design partners for early access. Get in touch to learn more.</p>
+    <h2>Ready to automate capital markets diligence?</h2>
+    <p>We're onboarding design partners for early access. Contact us to learn more.</p>
     <div class="cta-actions">
       <a href="https://forms.gle/T4yc24wcHq6BVC3WA" target="_blank" class="btn-primary">Request Early Access</a>
     </div>
-    <div class="cta-tag">PURPOSE-BUILT FOR CAPITAL MARKETS · NEW YORK</div>
+    <div class="cta-tag">BUILT FOR CAPITAL MARKETS · NEW YORK</div>
   </div>
 </section>
 
@@ -1556,44 +1621,59 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-col">
-      <h3>Products</h3>
-      <a href="#products">NolanComfort</a>
-      <a href="#products">NolanBackup</a>
-      <a href="#products">Platform</a>
+      <h3>Product</h3>
+      <a href="#products" class="footer-product-link" data-target="comfort">NolanComfort</a>
+      <a href="#products" class="footer-product-link" data-target="backup">NolanBackup</a>
+      <a href="#demo">How it Works</a>
+    </div>
+    <div class="footer-col">
+      <h3>Company</h3>
+      <a href="#how">Workflow</a>
+      <a href="#security">Security</a>
+      <a href="#roadmap">Roadmap</a>
     </div>
     <div class="footer-col">
       <h3>Contact</h3>
       <a href="mailto:bradford@nolanlegalai.com">bradford@nolanlegalai.com</a>
       <a href="mailto:harris@nolanlegalai.com">harris@nolanlegalai.com</a>
     </div>
-    <div class="footer-col">
-      <h3>Legal</h3>
-      <a href="#security">Security</a>
-    </div>
   </div>
   <div class="footer-bottom">
     <div class="footer-copy">© 2026 Nolan AI, Inc.</div>
-    <div class="footer-copy">PURPOSE-BUILT FOR CAPITAL MARKETS · NEW YORK</div>
+    <div class="footer-copy">BUILT FOR CAPITAL MARKETS · NEW YORK</div>
   </div>
 </footer>
 
 <script>
-  // ─── DATE STAMP ───
-  const d = new Date();
-  document.getElementById('stampDate').textContent = (d.getMonth()+1)+'/'+d.getDate()+'/'+String(d.getFullYear()).slice(2);
-
   // ─── CIRCLES DATA ───
   const CIRCLES = [
-    { id:1, val:'$178.3 million', ctx:'Total revenues for Q3 2024',          type:'comfort',  hl:'h1' },
-    { id:2, val:'21.8%',          ctx:'YoY revenue increase percentage',       type:'comfort',  hl:'h2' },
-    { id:3, val:'$31.4 million',  ctx:'Net income to common stockholders',     type:'comfort',  hl:'h3' },
-    { id:4, val:'$0.62',          ctx:'Diluted EPS',                           type:'comfort',  hl:'h4' },
-    { id:5, val:'$134.9 million', ctx:'Total operating expenses',              type:'comfort',  hl:'h5' },
-    { id:6, val:'$284.7 million', ctx:'Cash and cash equivalents',             type:'comfort',  hl:'h6' },
-    { id:7, val:'4,812',          ctx:'Full-time equivalent employees',        type:'reviewed', hl:'h7' },
+    { id:1,  val:'$178.3 million', ctx:'Total revenues for Q3 2024',          type:'comfort',  hl:'h1' },
+    { id:2,  val:'21.8%',          ctx:'YoY revenue increase percentage',     type:'comfort',  hl:'h2' },
+    { id:3,  val:'$31.4 million',  ctx:'Net income to common stockholders',   type:'comfort',  hl:'h3' },
+    { id:4,  val:'$0.62',          ctx:'Diluted EPS',                         type:'comfort',  hl:'h4' },
+    { id:5,  val:'$134.9 million', ctx:'Total operating expenses',            type:'comfort',  hl:'h5' },
+    { id:6,  val:'$284.7 million', ctx:'Cash and cash equivalents',           type:'comfort',  hl:'h6' },
+    { id:7,  val:'$112.1 million', ctx:'Prior year operating expenses',       type:'comfort',  hl:'h8a' },
+    { id:8,  val:'$178,300',       ctx:'Net sales, Q3 2024',                  type:'comfort',  hl:'t1' },
+    { id:9,  val:'$146,300',       ctx:'Net sales, Q3 2023',                  type:'comfort',  hl:'t2' },
+    { id:10, val:'$134,900',       ctx:'Operating expenses, Q3 2024',         type:'comfort',  hl:'t3' },
+    { id:11, val:'$112,100',       ctx:'Operating expenses, Q3 2023',         type:'comfort',  hl:'t4' },
+    { id:12, val:'$31,400',        ctx:'Net income, Q3 2024',                 type:'comfort',  hl:'t5' },
+    { id:13, val:'$25,800',        ctx:'Net income, Q3 2023',                 type:'comfort',  hl:'t6' },
+    { id:14, val:'$445.2 million', ctx:'Total debt outstanding',               type:'comfort',  hl:'h9' },
+  ];
+
+  // ─── BACKUP DATA ───
+  const BACKUP = [
+    { id:1, val:'We employed 4,812 full-time equivalent employees across 12 offices...', ctx:'Employee Count', hl:'b1' },
+    { id:2, val:'We are the largest supplier of dynamite and controlled demolition products...', ctx:'Market Position', hl:'b2' },
+    { id:3, val:'Our customer retention rate has exceeded 95% for the past eight consecutive...', ctx:'Operational Metric', hl:'b3' },
+    { id:4, val:'We maintain exclusive distribution agreements with over 200 licensed...', ctx:'Business Relationship', hl:'b4' },
   ];
 
   let activeId = 1;
+  let activeBackupId = 1;
+  let currentView = 'comfort'; // 'comfort' or 'backup'
 
   function buildSidebar() {
     const list = document.getElementById('sbList');
@@ -1641,14 +1721,79 @@
     }
   }
 
+  function buildBackupSidebar() {
+    const list = document.getElementById('sbListBackup');
+    list.innerHTML = '';
+    BACKUP.forEach(b => {
+      const el = document.createElement('div');
+      el.className = 'ci' + (b.id === activeBackupId ? ' on' : '');
+      el.innerHTML = `
+        <div class="ci-n">${String(b.id).padStart(2,'0')}</div>
+        <div class="ci-info">
+          <div class="ci-val">${b.val}</div>
+          <div class="ci-ctx">${b.ctx}</div>
+          <span class="ci-tag" style="background:rgba(5,150,105,0.1);color:#059669;border-color:rgba(5,150,105,0.2);">${b.ctx}</span>
+        </div>`;
+      el.onclick = () => { setActiveBackup(b.id); handleUserInteraction(); };
+      list.appendChild(el);
+    });
+  }
+
+  function setActiveBackup(id) {
+    activeBackupId = id;
+    buildBackupSidebar();
+    const oldTip = document.querySelector('.hl-tooltip');
+    if (oldTip) oldTip.remove();
+
+    BACKUP.forEach(b => {
+      const el = document.getElementById(b.hl);
+      if (el) {
+        el.classList.toggle('active-hl', b.id === id);
+      }
+    });
+
+    const activeItem = document.querySelector('#sbListBackup .ci.on');
+    const sidebar = activeItem ? activeItem.closest('.sb') : null;
+    if (activeItem && sidebar) {
+      sidebar.scrollTop = activeItem.offsetTop - sidebar.offsetTop - 40;
+    }
+  }
+
+  // ─── TAB SWITCHING ───
+  document.querySelectorAll('.app-tab').forEach((tab, idx) => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.app-tab').forEach(t => t.classList.remove('on'));
+      tab.classList.add('on');
+
+      const isBackup = idx === 1;
+      if (isBackup) {
+        currentView = 'backup';
+        document.querySelector('.app-body:not(#backupView)').style.display = 'none';
+        document.getElementById('backupView').style.display = 'flex';
+        buildBackupSidebar();
+        setActiveBackup(1);
+        stopAutoCycle();
+      } else {
+        currentView = 'comfort';
+        document.getElementById('backupView').style.display = 'none';
+        const comfortBody = document.querySelector('.app-body:not(#backupView)');
+        if (comfortBody) comfortBody.style.display = 'flex';
+        buildSidebar();
+        setActive(1);
+        startAutoCycle();
+      }
+      handleUserInteraction();
+    });
+  });
+
   // ─── AUTO-CYCLE WALKTHROUGH ───
   let autoCycleInterval = null;
   let autoCyclePaused = false;
 
   function startAutoCycle() {
-    if (autoCycleInterval) return;
+    if (autoCycleInterval || currentView !== 'comfort') return;
     autoCycleInterval = setInterval(() => {
-      if (autoCyclePaused) return;
+      if (autoCyclePaused || currentView !== 'comfort') return;
       const nextId = (activeId % CIRCLES.length) + 1;
       setActive(nextId);
     }, 2800);
@@ -1669,6 +1814,7 @@
 
   document.querySelectorAll('.hl').forEach(el => {
     el.addEventListener('click', () => {
+      if (currentView !== 'comfort') return;
       const circle = CIRCLES.find(c => c.hl === el.id);
       if (circle) {
         setActive(circle.id);
@@ -1677,7 +1823,18 @@
     });
   });
 
-  // ─── DEMO — SCROLL-TRIGGERED ───
+  document.querySelectorAll('.bl').forEach(el => {
+    el.addEventListener('click', () => {
+      if (currentView !== 'backup') return;
+      const backup = BACKUP.find(b => b.hl === el.id);
+      if (backup) {
+        setActiveBackup(backup.id);
+        handleUserInteraction();
+      }
+    });
+  });
+
+  // ─── DEMO. SCROLL-TRIGGERED ───
   let demoStarted = false;
   function startDemo() {
     if (demoStarted) return;
@@ -1792,7 +1949,16 @@
     });
 
     dropdown.querySelectorAll('a').forEach(function(a) {
-      a.addEventListener('click', closeDropdown);
+      a.addEventListener('click', function(e) {
+        e.preventDefault();
+        closeDropdown();
+        var target = this.getAttribute('data-target');
+        if (target) {
+          var toggleItem = document.querySelector('.toggle-item[data-product="' + target + '"]');
+          if (toggleItem) toggleItem.click();
+        }
+        document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     });
 
     window.addEventListener('scroll', closeDropdown, { passive: true });
@@ -1803,22 +1969,33 @@
   })();
 
   // ─── PRODUCT TOGGLE ───
+  function activateProduct(product) {
+    document.querySelectorAll('.toggle-item').forEach(i => i.classList.remove('active'));
+    var target = document.querySelector('.toggle-item[data-product="' + product + '"]');
+    if (target) target.classList.add('active');
+    var comfortSection = document.getElementById('comfortFeatures');
+    var backupSection = document.getElementById('backupFeatures');
+    if (product === 'comfort') {
+      comfortSection.style.display = '';
+      backupSection.style.display = 'none';
+    } else {
+      comfortSection.style.display = 'none';
+      backupSection.style.display = '';
+    }
+  }
+
   document.querySelectorAll('.toggle-item').forEach(item => {
     item.addEventListener('click', function() {
-      document.querySelectorAll('.toggle-item').forEach(i => i.classList.remove('active'));
-      this.classList.add('active');
+      activateProduct(this.dataset.product);
+    });
+  });
 
-      const product = this.dataset.product;
-      const comfortSection = document.getElementById('comfortFeatures');
-      const backupSection = document.getElementById('backupFeatures');
-
-      if (product === 'comfort') {
-        comfortSection.style.display = '';
-        backupSection.style.display = 'none';
-      } else {
-        comfortSection.style.display = 'none';
-        backupSection.style.display = '';
-      }
+  // Footer product links
+  document.querySelectorAll('.footer-product-link').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      activateProduct(this.getAttribute('data-target'));
+      document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 </script>

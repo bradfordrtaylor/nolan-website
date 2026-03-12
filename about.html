@@ -14,6 +14,7 @@
       --surface: #FFFFFF;
       --surface2: #F4F6F9;
       --blue: #2B6EF5;
+      --blue-dark: #1a3a6e;
       --text: #0F172A;
       --muted: #64748B;
       --border: rgba(0,0,0,0.08);
@@ -126,48 +127,164 @@
 
     /* Hero Section */
     .hero {
-      padding: 6rem 2rem;
+      padding: 5rem 2rem 3rem;
       text-align: center;
       max-width: 900px;
       margin: 0 auto;
+    }
+
+    .hero-label {
+      display: inline-block;
+      background-color: rgba(43, 110, 245, 0.08);
+      color: var(--blue);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      margin-bottom: 2rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
 
     .hero h1 {
       font-family: 'Instrument Serif', serif;
       font-size: 3.5rem;
       font-weight: 400;
-      line-height: 1.1;
+      line-height: 1.15;
       margin-bottom: 1.5rem;
       color: var(--text);
     }
 
-    .hero p {
-      font-size: 1.125rem;
+    .hero h1 em {
+      color: var(--blue);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      font-size: 1.2rem;
       color: var(--muted);
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto;
       line-height: 1.7;
     }
 
     @media (max-width: 768px) {
       .hero {
-        padding: 4rem 1.5rem;
+        padding: 3rem 1.5rem 2rem;
       }
 
       .hero h1 {
         font-size: 2.5rem;
       }
 
-      .hero p {
+      .hero-sub {
         font-size: 1rem;
+      }
+    }
+
+    /* Mission Banner */
+    .mission-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #2B6EF5 100%);
+      padding: 5rem 2rem;
+      margin: 2rem 0 0;
+    }
+
+    .mission-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .mission-banner h2 {
+      font-family: 'Instrument Serif', italic;
+      font-style: italic;
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: white;
+      line-height: 1.5;
+      opacity: 0.95;
+    }
+
+    @media (max-width: 768px) {
+      .mission-banner {
+        padding: 3rem 1.5rem;
+      }
+      .mission-banner h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* About Content */
+    .about-content {
+      padding: 5rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .about-text h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.25rem;
+      font-weight: 400;
+      margin-bottom: 2rem;
+      color: var(--text);
+    }
+
+    .about-text p {
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+      line-height: 1.8;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .stat-number {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      color: var(--blue);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .about-text h2 {
+        font-size: 1.875rem;
       }
     }
 
     /* Story Section */
     .story {
       background-color: var(--surface);
-      padding: 6rem 2rem;
-      margin: 4rem 0;
+      padding: 5rem 2rem;
     }
 
     .story-container {
@@ -179,7 +296,7 @@
       font-family: 'Instrument Serif', serif;
       font-size: 2.5rem;
       font-weight: 400;
-      margin-bottom: 3rem;
+      margin-bottom: 2.5rem;
       color: var(--text);
     }
 
@@ -192,8 +309,7 @@
 
     @media (max-width: 768px) {
       .story {
-        padding: 4rem 1.5rem;
-        margin: 2rem 0;
+        padding: 3.5rem 1.5rem;
       }
 
       .story h2 {
@@ -205,99 +321,252 @@
       }
     }
 
-    /* Bios Section */
-    .bios {
-      padding: 6rem 2rem;
+    /* Founders Section */
+    .founders {
+      padding: 5rem 2rem;
       max-width: 1000px;
       margin: 0 auto;
     }
 
-    .bios h2 {
+    .founders-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .founders-header h2 {
       font-family: 'Instrument Serif', serif;
       font-size: 2.5rem;
       font-weight: 400;
-      margin-bottom: 3rem;
-      text-align: center;
       color: var(--text);
     }
 
-    .bios-grid {
+    .founders-header h2 em {
+      color: var(--blue);
+      font-style: italic;
+    }
+
+    .founders-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 3rem;
     }
 
-    .bio-card {
-      background-color: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
+    .founder-card {
       text-align: center;
     }
 
-    .bio-photo {
-      width: 160px;
-      height: 160px;
+    .founder-photo {
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
       margin: 0 auto 1.5rem;
       overflow: hidden;
-      flex-shrink: 0;
+      background: linear-gradient(135deg, #1a3a6e, #2B6EF5);
+      padding: 6px;
     }
 
-    .bio-photo img {
+    .founder-photo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .founder-photo-inner img {
       display: block;
-      width: 160px;
-      height: 160px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
     }
 
-    .bio-card h3 {
+    .founder-card h3 {
       font-family: 'Instrument Serif', serif;
       font-size: 1.5rem;
       font-weight: 400;
-      margin-bottom: 1.5rem;
       color: var(--text);
+      margin-bottom: 0.25rem;
     }
 
-    .bio-title {
+    .founder-title {
       font-size: 0.9rem;
       color: var(--blue);
-      font-weight: 500;
-      margin-bottom: 1rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
     }
 
-    .bio-card ul {
-      list-style: none;
-      font-size: 0.95rem;
+    .founder-bio {
+      font-size: 0.925rem;
       color: var(--muted);
-      line-height: 2;
+      line-height: 1.75;
+      text-align: left;
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .founder-creds {
+      list-style: none;
+      font-size: 0.85rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .founder-creds li {
+      padding: 0.35rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .founder-creds li:last-child {
+      border-bottom: 1px solid var(--border);
     }
 
     @media (max-width: 768px) {
-      .bios {
-        padding: 4rem 1.5rem;
+      .founders {
+        padding: 3.5rem 1.5rem;
       }
 
-      .bios h2 {
+      .founders-header h2 {
         font-size: 1.875rem;
       }
 
-      .bios-grid {
+      .founders-grid {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 3rem;
       }
 
-      .bio-card {
-        padding: 1.5rem;
+      .founder-photo {
+        width: 160px;
+        height: 160px;
+      }
+    }
+
+    /* Principles Section */
+    .principles {
+      background-color: var(--surface);
+      padding: 5rem 2rem;
+    }
+
+    .principles-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .principles-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .principles-header h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    .principles-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .principle-card {
+      padding: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--bg);
+    }
+
+    .principle-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(43, 110, 245, 0.08);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .principle-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .principle-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .principles {
+        padding: 3.5rem 1.5rem;
       }
 
-      .bio-photo {
-        width: 120px;
-        height: 120px;
+      .principles-header h2 {
+        font-size: 1.875rem;
       }
 
-      .bio-card h3 {
-        font-size: 1.25rem;
+      .principles-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .cta-box {
+      max-width: 700px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #2B6EF5 100%);
+      border-radius: 16px;
+      padding: 4rem 3rem;
+    }
+
+    .cta-box h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .cta-box p {
+      color: rgba(255,255,255,0.8);
+      font-size: 1rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: white;
+      color: var(--text);
+      padding: 0.875rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    @media (max-width: 768px) {
+      .cta-box {
+        padding: 3rem 1.5rem;
+      }
+
+      .cta-box h2 {
+        font-size: 1.5rem;
       }
     }
 
@@ -306,7 +575,6 @@
       background-color: var(--surface);
       border-top: 1px solid var(--border);
       padding: 4rem 2rem 2rem;
-      margin-top: 6rem;
     }
 
     .footer-content {
@@ -409,13 +677,47 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <h1>About Nolan</h1>
-    <p>Nolan is building AI for the most manual parts of capital markets transactions.</p>
-    <p style="margin-top: 1rem;">In every securities offering, lawyers spend hours identifying financial figures, circling statements, and coordinating backup with auditors for comfort letters. The process is critical to the deal but has remained largely unchanged for decades.</p>
-    <p style="margin-top: 1rem;">Despite advances across the legal industry, comfort and backup preparation still happens through spreadsheets, tracked changes, and manual review.</p>
-    <p style="margin-top: 1rem;">Nolan automates that workflow.</p>
-    <p style="margin-top: 1rem;">Upload an offering document or SEC filing and Nolan identifies financial figures, places circles, and organizes the backup requests that lawyers and auditors rely on during diligence.</p>
-    <p style="margin-top: 1rem;">The goal is simple. Let lawyers focus on judgment instead of document mechanics.</p>
+    <div class="hero-label">About Nolan</div>
+    <h1>AI built for the <em>real work</em> of capital markets</h1>
+    <p class="hero-sub">Nolan is building AI for the most manual parts of capital markets transactions.</p>
+  </section>
+
+  <!-- Mission Banner -->
+  <section class="mission-banner">
+    <div class="mission-inner">
+      <h2>"The goal is simple. Let lawyers focus on judgment instead of document mechanics."</h2>
+    </div>
+  </section>
+
+  <!-- About Content -->
+  <section class="about-content">
+    <div class="about-grid">
+      <div class="about-text">
+        <h2>About Nolan</h2>
+        <p>In every securities offering, lawyers spend hours identifying financial figures, circling statements, and coordinating backup with auditors for comfort letters. The process is critical to the deal but has remained largely unchanged for decades.</p>
+        <p>Despite advances across the legal industry, comfort and backup preparation still happens through spreadsheets, tracked changes, and manual review.</p>
+        <p>Nolan automates that workflow.</p>
+        <p>Upload an offering document or SEC filing and Nolan identifies financial figures, places circles, and organizes the backup requests that lawyers and auditors rely on during diligence.</p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-number">100s</div>
+          <div class="stat-label">of associate hours spent per deal on comfort and backup</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">0</div>
+          <div class="stat-label">purpose-built tools existed for this workflow before Nolan</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">Every</div>
+          <div class="stat-label">IPO, follow on, and debt deal requires this process</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">Decades</div>
+          <div class="stat-label">since this workflow last changed meaningfully</div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Story Section -->
@@ -439,32 +741,82 @@
     </div>
   </section>
 
-  <!-- Bios Section -->
-  <section class="bios">
-    <h2>The Founders</h2>
-    <div class="bios-grid">
-      <div class="bio-card">
-        <div class="bio-photo"><img src="/bradford-headshot.jpg" alt="Bradford Taylor"></div>
+  <!-- Founders Section -->
+  <section class="founders">
+    <div class="founders-header">
+      <h2>The <em>Founders</em></h2>
+    </div>
+    <div class="founders-grid">
+      <div class="founder-card">
+        <div class="founder-photo">
+          <div class="founder-photo-inner">
+            <img src="/bradford-headshot.jpg" alt="Bradford Taylor">
+          </div>
+        </div>
         <h3>Bradford Taylor</h3>
-        <p class="bio-title">Co-Founder & CEO</p>
-        <p style="font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; text-align: left;">Bradford is a capital markets lawyer who has worked on IPOs, follow on offerings, and debt transactions for public and private companies. After years preparing comfort circles and coordinating backup across deals, he started building Nolan to automate the most repetitive parts of securities diligence.</p>
-        <ul>
+        <p class="founder-title">Co-Founder & CEO</p>
+        <p class="founder-bio">Bradford is a capital markets lawyer who has worked on IPOs, follow on offerings, and debt transactions for public and private companies. After years preparing comfort circles and coordinating backup across deals, he started building Nolan to automate the most repetitive parts of securities diligence.</p>
+        <ul class="founder-creds">
           <li>Howard University School of Law</li>
           <li>University of Pennsylvania</li>
           <li>Based in New York</li>
         </ul>
       </div>
-      <div class="bio-card">
-        <div class="bio-photo"><img src="/harris-headshot.jpg" alt="Harris Scott"></div>
+      <div class="founder-card">
+        <div class="founder-photo">
+          <div class="founder-photo-inner">
+            <img src="/harris-headshot.jpg" alt="Harris Scott">
+          </div>
+        </div>
         <h3>Harris Scott</h3>
-        <p class="bio-title">Co-Founder & CTO</p>
-        <p style="font-size: 0.95rem; color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; text-align: left;">Harris is a capital markets lawyer focused on securities offerings and public company transactions. Working on deals alongside Bradford, he saw firsthand how manual the comfort and backup workflow remained across the industry. He now leads Nolan's product and technical development, building AI systems designed specifically for capital markets workflows.</p>
-        <ul>
+        <p class="founder-title">Co-Founder & CTO</p>
+        <p class="founder-bio">Harris is a capital markets lawyer focused on securities offerings and public company transactions. Working on deals alongside Bradford, he saw firsthand how manual the comfort and backup workflow remained across the industry. He now leads Nolan's product and technical development, building AI systems designed specifically for capital markets workflows.</p>
+        <ul class="founder-creds">
           <li>Howard University School of Law</li>
           <li>Harvard University</li>
           <li>Based in New York</li>
         </ul>
       </div>
+    </div>
+  </section>
+
+  <!-- Principles Section -->
+  <section class="principles">
+    <div class="principles-inner">
+      <div class="principles-header">
+        <h2>What We Believe</h2>
+      </div>
+      <div class="principles-grid">
+        <div class="principle-card">
+          <div class="principle-icon">&#9878;</div>
+          <h3>Domain Expertise First</h3>
+          <p>We build for capital markets lawyers because we are capital markets lawyers. Every feature reflects how diligence actually works on real deals.</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">&#9881;</div>
+          <h3>Precision Over Speed</h3>
+          <p>In securities work, accuracy is everything. Nolan is built to get the details right, not just move fast.</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">&#9733;</div>
+          <h3>Workflow, Not Features</h3>
+          <p>We are not building generic legal AI. We are building around a specific, well-defined workflow that every capital markets team runs on every deal.</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">&#10003;</div>
+          <h3>Trust Through Transparency</h3>
+          <p>Lawyers need to verify what AI produces. Nolan shows its work so teams can review, adjust, and move forward with confidence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-box">
+      <h2>See Nolan in Action</h2>
+      <p>Talk directly with the founders and see how Nolan handles comfort and backup workflows on real documents.</p>
+      <a href="/contact.html" class="cta-btn">Book a Demo</a>
     </div>
   </section>
 

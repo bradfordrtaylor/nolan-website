@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Nolan AI</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --bg: #FAFBFD;
+            --surface: #FFFFFF;
+            --surface2: #F4F6F9;
+            --blue: #2B6EF5;
+            --blue-2: #1A5CE0;
+            --text: #0F172A;
+            --muted: #64748B;
+            --border: rgba(0,0,0,0.08);
+            --success: #10B981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--blue);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--surface);
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        nav-menu {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        nav-link {
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        nav-link:hover {
+            color: var(--blue);
+        }
+
+        .dropdown-arrow {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+            min-width: 180px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--surface2);
+            color: var(--blue);
+        }
+
+        .cta-button {
+            background-color: var(--blue);
+            color: var(--surface);
+            padding: 0.625rem 1.25rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .cta-button:hover {
+            background-color: var(--blue-2);
+        }
+
+        /* Main content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-left {
+            padding-top: 1rem;
+        }
+
+        .label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            color: var(--text);
+        }
+
+        .benefits {
+            list-style: none;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .checkmark {
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+            font-size: 1.25rem;
+        }
+
+        .benefit-text {
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Form Card */
+        .form-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .required {
+            color: #EF4444;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background-color: var(--surface);
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px rgba(43, 110, 245, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .checkbox-group {
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            margin-bottom: 0.75rem;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 0.15rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checkbox-label {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .privacy-note {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-top: 1rem;
+            line-height: 1.5;
+        }
+
+        .privacy-note a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        .privacy-note a:hover {
+            text-decoration: underline;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--blue);
+            color: var(--surface);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 2rem;
+        }
+
+        .submit-button:hover {
+            background-color: var(--blue-2);
+        }
+
+        .submit-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Success state */
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--surface);
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .success-message h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .success-message p {
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--blue);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--blue-2);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--surface);
+            border-top: 1px solid var(--border);
+            margin-top: 6rem;
+            padding: 3rem 2rem;
+        }
+
+        footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        footer-section h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        footer-section ul {
+            list-style: none;
+        }
+
+        footer-section li {
+            margin-bottom: 0.75rem;
+        }
+
+        footer-section a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        footer-section a:hover {
+            color: var(--blue);
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .footer-bottom-right {
+            text-align: right;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .footer-bottom-right {
+                text-align: center;
+            }
+
+            main {
+                padding: 2rem 1rem;
+            }
+
+            .form-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <nav-wrapper>
+            <a href="/" class="logo">
+                <div class="logo-icon">N</div>
+                <span>Nolan AI</span>
+            </a>
+            <nav-menu>
+                <nav-item>
+                    <span class="nav-link">Product Capabilities</span>
+                    <span class="dropdown-arrow">▼</span>
+                    <div class="dropdown-menu">
+                        <a href="/#products" class="dropdown-item">NolanComfort</a>
+                        <a href="/#products" class="dropdown-item">NolanBackup</a>
+                    </div>
+                </nav-item>
+                <nav-item>
+                    <span class="nav-link">Company</span>
+                    <span class="dropdown-arrow">▼</span>
+                    <div class="dropdown-menu">
+                        <a href="/about.html" class="dropdown-item">About Us</a>
+                        <a href="/blog.html" class="dropdown-item">Resources</a>
+                    </div>
+                </nav-item>
+                <a href="/#demo" class="nav-link">How it Works</a>
+                <a href="/#security" class="nav-link">Security</a>
+                <a href="/#roadmap" class="nav-link">Roadmap</a>
+                <a href="/contact.html" class="cta-button">Book a Demo</a>
+            </nav-menu>
+        </nav-wrapper>
+    </nav>
+
+    <!-- Main content -->
+    <main>
+        <div class="contact-container">
+            <!-- Left side -->
+            <div class="contact-left">
+                <div class="label">Get in touch with Nolan</div>
+                <h1>See How Nolan Can Transform Your Diligence Workflow</h1>
+                <ul class="benefits">
+                    <li class="benefit-item">
+                        <span class="checkmark">✓</span>
+                        <span class="benefit-text">Automate comfort letter preparation</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="checkmark">✓</span>
+                        <span class="benefit-text">Cut backup verification time by 70%</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="checkmark">✓</span>
+                        <span class="benefit-text">Built for capital markets, not general legal</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right side - Form -->
+            <div class="contact-right">
+                <div class="form-card">
+                    <form id="contactForm">
+                        <!-- First and Last Name -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name<span class="required">*</span></label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name<span class="required">*</span></label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+
+                        <!-- Company Name -->
+                        <div class="form-group">
+                            <label for="company">Company Name<span class="required">*</span></label>
+                            <input type="text" id="company" name="company" required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group">
+                            <label for="email">Email<span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+
+                        <!-- Message -->
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="4"></textarea>
+                        </div>
+
+                        <!-- Checkboxes -->
+                        <div class="checkbox-group">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="communications" name="communications" required>
+                                <label for="communications" class="checkbox-label">I agree to receive communications from Nolan AI about products, services, and content that may be of interest.</label>
+                            </div>
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" id="dataProcessing" name="dataProcessing" required>
+                                <label for="dataProcessing" class="checkbox-label">I agree to allow Nolan AI to store and process my personal data for the purpose of responding to this inquiry.<span class="required">*</span></label>
+                            </div>
+                        </div>
+
+                        <!-- Privacy note -->
+                        <p class="privacy-note">You can unsubscribe from these communications at any time. For more information, please review our <a href="/privacy.html">Privacy Policy</a>.</p>
+
+                        <!-- Submit button -->
+                        <button type="submit" class="submit-button">Submit</button>
+                    </form>
+
+                    <!-- Success message -->
+                    <div class="success-message" id="successMessage">
+                        <div class="success-icon">✓</div>
+                        <h2>Thank you for reaching out</h2>
+                        <p>We'll get back to you within 24 hours.</p>
+                        <a href="/" class="back-link">Back to home</a>
+                    </div>
+                </div>
+
+                <!-- Form submission note -->
+                <!-- Form submissions go to Formspree → bradford@ and harris@ -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <footer-content>
+            <footer-grid>
+                <footer-section>
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="/#products">NolanComfort</a></li>
+                        <li><a href="/#products">NolanBackup</a></li>
+                        <li><a href="/#demo">How it Works</a></li>
+                    </ul>
+                </footer-section>
+                <footer-section>
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/blog.html">Resources</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                    </ul>
+                </footer-section>
+                <footer-section>
+                    <h3>Contact</h3>
+                    <ul>
+                        <li><a href="mailto:bradford@nolan.legal">bradford@nolan.legal</a></li>
+                        <li><a href="mailto:harris@nolan.legal">harris@nolan.legal</a></li>
+                    </ul>
+                </footer-section>
+            </footer-grid>
+            <div class="footer-bottom">
+                <div>© 2026 Nolan Legal, Inc.</div>
+                <div class="footer-bottom-right">BUILT FOR CAPITAL MARKETS · NEW YORK</div>
+            </div>
+        </footer-content>
+    </footer>
+
+    <script>
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+        const formCard = document.querySelector('.form-card');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Validate form
+            if (!contactForm.checkValidity()) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Get form data
+            const formData = new FormData(contactForm);
+            const data = {
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                company: formData.get('company'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                message: formData.get('message'),
+                communications: formData.get('communications') ? true : false,
+                dataProcessing: formData.get('dataProcessing') ? true : false,
+                timestamp: new Date().toISOString()
+            };
+
+            // Submit to Formspree
+            fetch('https://formspree.io/f/xjgargwq', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+            .then(function(response) {
+                if (response.ok) {
+                    showSuccess();
+                } else {
+                    alert('Something went wrong. Please try again or email us at bradford@nolan.legal');
+                }
+            })
+            .catch(function(error) {
+                alert('Something went wrong. Please try again or email us at bradford@nolan.legal');
+            });
+        });
+
+        function showSuccess() {
+            contactForm.style.display = 'none';
+            successMessage.classList.add('show');
+        }
+    </script>
+</body>
+</html>

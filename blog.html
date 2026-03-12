@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Nolan AI</title>
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #FAFBFD;
+            --surface: #FFFFFF;
+            --surface2: #F4F6F9;
+            --blue: #2B6EF5;
+            --text: #0F172A;
+            --muted: #64748B;
+            --border: rgba(0,0,0,0.08);
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            height: 56px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 40px;
+            z-index: 100;
+            border-bottom: 1px solid transparent;
+            background: rgba(250,251,253,0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+        }
+        nav.scrolled {
+            border-bottom-color: var(--border);
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.06);
+        }
+
+        .logo {
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; color: var(--text);
+            font-size: 15px; font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+        .logo-mark {
+            width: 24px; height: 24px;
+            background: var(--blue);
+            border-radius: 5px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 13px; color: white;
+            box-shadow: 0 2px 8px rgba(43,110,245,0.3);
+        }
+        .logo-text span { color: var(--blue); }
+
+        .nav-links {
+            display: flex; gap: 6px; list-style: none;
+            position: absolute; left: 50%; transform: translateX(-50%);
+        }
+        .nav-links > li {
+            position: relative;
+        }
+        .nav-links a {
+            color: var(--muted); text-decoration: none;
+            font-size: 13px; font-weight: 400;
+            padding: 6px 12px; border-radius: 6px;
+            transition: color 0.15s, background 0.15s;
+            letter-spacing: -0.1px;
+            display: flex; align-items: center; gap: 3px;
+            position: relative;
+        }
+        .nav-links a:hover { color: var(--text); background: rgba(0,0,0,0.03); }
+        .nav-links a.active { color: var(--text); font-weight: 500; }
+        .chevron { width: 10px; height: 10px; transition: transform 0.2s; }
+        .dd-open > a .chevron { transform: rotate(180deg); }
+
+        .nav-dropdown {
+            position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%) translateY(-6px);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 6px;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+            min-width: 260px;
+            z-index: 200;
+            margin-top: 6px;
+        }
+        .nav-dropdown.dd-open {
+            opacity: 1; visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .dropdown-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 12px; border-radius: 7px;
+            text-decoration: none; color: var(--text);
+            transition: background 0.12s;
+        }
+        .dropdown-item:hover { background: var(--surface2); }
+        .dropdown-icon {
+            width: 32px; height: 32px;
+            background: rgba(43,110,245,0.08);
+            border: 1px solid rgba(43,110,245,0.15);
+            border-radius: 7px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; flex-shrink: 0;
+        }
+        .dropdown-label { font-size: 13px; font-weight: 500; display: block; }
+        .dropdown-sub { font-size: 11px; color: var(--muted); display: block; margin-top: 1px; }
+        .dropdown-divider { height: 1px; background: var(--border); margin: 4px 12px; }
+
+        .nav-actions { display: flex; gap: 8px; align-items: center; }
+        .btn-nav-demo {
+            background: var(--blue);
+            color: white; text-decoration: none;
+            padding: 7px 16px; font-size: 13px; font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(43,110,245,0.3);
+        }
+        .btn-nav-demo:hover {
+            background: #1A5CE0;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(43,110,245,0.3);
+        }
+
+        @media (max-width: 1100px) {
+            .nav-links { gap: 4px; }
+            .nav-links a { padding: 4px 8px; font-size: 12px; }
+            .nav-actions { gap: 4px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-actions { display: none; }
+            nav { padding: 0 1rem; }
+        }
+
+        /* Hero Section */
+        .hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 24px 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 56px;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 48px 16px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+        }
+
+        /* Articles Grid */
+        .articles-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 32px;
+        }
+
+        .article-card {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            border-color: var(--blue);
+            box-shadow: 0 4px 20px rgba(43, 110, 245, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .article-tag {
+            display: inline-block;
+            background-color: var(--surface2);
+            color: var(--blue);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            width: fit-content;
+            margin-bottom: 16px;
+        }
+
+        .article-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: 24px;
+            line-height: 1.3;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .article-subtitle {
+            font-size: 16px;
+            color: var(--muted);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: auto;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .article-author {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .article-date {
+            color: var(--muted);
+        }
+
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .article-card {
+                padding: 24px;
+            }
+
+            .article-title {
+                font-size: 20px;
+            }
+
+            .article-subtitle {
+                font-size: 14px;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--surface);
+            border-top: 1px solid var(--border);
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-column a:hover {
+            color: var(--blue);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                padding: 40px 16px;
+            }
+
+            .footer-grid {
+                gap: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Nav -->
+    <nav id="mainNav">
+        <a href="/" class="logo">
+            <div class="logo-mark">N</div>
+            <span class="logo-text">Nolan<span> AI</span></span>
+        </a>
+
+        <ul class="nav-links" id="navLinks">
+            <li>
+                <a href="#" id="productsToggle">
+                    Product Capabilities
+                    <svg class="chevron" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <div class="nav-dropdown" id="productsDropdown">
+                    <a href="/#products" class="dropdown-item">
+                        <div class="dropdown-icon">&#9678;</div>
+                        <div>
+                            <span class="dropdown-label">NolanComfort</span>
+                            <span class="dropdown-sub">Comfort letter automation</span>
+                        </div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/#products" class="dropdown-item">
+                        <div class="dropdown-icon">&#8863;</div>
+                        <div>
+                            <span class="dropdown-label">NolanBackup</span>
+                            <span class="dropdown-sub">Backup request workflows</span>
+                        </div>
+                    </a>
+                </div>
+            </li>
+            <li><a href="/#demo">How it Works</a></li>
+            <li><a href="/#how">Workflow</a></li>
+            <li><a href="/#security">Security</a></li>
+            <li><a href="/#roadmap">Roadmap</a></li>
+            <li>
+                <a href="#" id="companyToggle">
+                    Company
+                    <svg class="chevron" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+                <div class="nav-dropdown" id="companyDropdown">
+                    <a href="/about.html" class="dropdown-item">
+                        <div class="dropdown-icon">&#128101;</div>
+                        <div>
+                            <span class="dropdown-label">About Us</span>
+                            <span class="dropdown-sub">Our team and mission</span>
+                        </div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/blog.html" class="dropdown-item">
+                        <div class="dropdown-icon">&#128196;</div>
+                        <div>
+                            <span class="dropdown-label">Resources</span>
+                            <span class="dropdown-sub">Articles and insights</span>
+                        </div>
+                    </a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="/contact.html" class="btn-nav-demo">Book a Demo</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Blog</h1>
+        <p>Insights on capital markets diligence, legal technology, and the future of securities workflows.</p>
+    </section>
+
+    <!-- Articles Section -->
+    <section class="articles-section">
+        <div class="articles-grid">
+            <!-- Article 1 -->
+            <a href="#" class="article-card">
+                <span class="article-tag">Capital Markets</span>
+                <h2 class="article-title">The Anatomy of a Comfort Letter</h2>
+                <p class="article-subtitle">A practitioner's guide to the most misunderstood deliverable in securities offerings</p>
+                <div class="article-meta">
+                    <span class="article-author">Harris Scott</span>
+                    <span class="article-date">March 2026</span>
+                </div>
+            </a>
+
+            <!-- Article 2 -->
+            <a href="#" class="article-card">
+                <span class="article-tag">Legal Tech</span>
+                <h2 class="article-title">The Hidden Cost of Manual Diligence</h2>
+                <p class="article-subtitle">Why backup preparation is the most expensive workflow no one talks about</p>
+                <div class="article-meta">
+                    <span class="article-author">Harris Scott</span>
+                    <span class="article-date">March 2026</span>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>Product</h3>
+                    <ul>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">How it Works</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Roadmap</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="/about.html">About Us</a></li>
+                        <li><a href="/blog.html">Resources</a></li>
+                        <li><a href="/contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Nolan Legal, Inc.</p>
+            </div>
+        </div>
+    </footer>
+<script>
+// ─── NAV SCROLL STATE ───
+const mainNav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+    mainNav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// ─── PRODUCTS DROPDOWN ───
+(function() {
+    var toggle = document.getElementById('productsToggle');
+    var dropdown = document.getElementById('productsDropdown');
+    var parentLi = toggle.parentElement;
+
+    function openDropdown() {
+        dropdown.classList.add('dd-open');
+        parentLi.classList.add('dd-open');
+    }
+    function closeDropdown() {
+        dropdown.classList.remove('dd-open');
+        parentLi.classList.remove('dd-open');
+    }
+
+    toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropdown.classList.contains('dd-open') ? closeDropdown() : openDropdown();
+    });
+
+    window.addEventListener('scroll', closeDropdown, { passive: true });
+
+    document.addEventListener('click', function(e) {
+        if (!parentLi.contains(e.target)) closeDropdown();
+    });
+})();
+
+// ─── COMPANY DROPDOWN ───
+(function() {
+    var toggle = document.getElementById('companyToggle');
+    var dropdown = document.getElementById('companyDropdown');
+    var parentLi = toggle.parentElement;
+
+    function openDropdown() {
+        dropdown.classList.add('dd-open');
+        parentLi.classList.add('dd-open');
+    }
+    function closeDropdown() {
+        dropdown.classList.remove('dd-open');
+        parentLi.classList.remove('dd-open');
+    }
+
+    toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropdown.classList.contains('dd-open') ? closeDropdown() : openDropdown();
+    });
+
+    window.addEventListener('scroll', closeDropdown, { passive: true });
+
+    document.addEventListener('click', function(e) {
+        if (!parentLi.contains(e.target)) closeDropdown();
+    });
+})();
+</script>
+</body>
+</html>

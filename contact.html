@@ -36,126 +36,106 @@
 
         /* Navigation */
         nav {
-            background-color: var(--surface);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
+            position: sticky; top: 0; left: 0; right: 0;
+            height: 56px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 40px;
             z-index: 100;
-        }
-
-        nav-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 1px 12px rgba(0,0,0,0.06);
         }
 
         .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            text-decoration: none;
-            color: var(--text);
-            font-weight: 600;
-            font-size: 1.1rem;
+            display: flex; align-items: center; gap: 8px;
+            text-decoration: none; color: var(--text);
+            font-size: 15px; font-weight: 600;
+            letter-spacing: -0.3px;
         }
-
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background-color: var(--blue);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--surface);
-            font-weight: 700;
-            font-size: 1rem;
+        .logo-mark {
+            width: 24px; height: 24px;
+            background: var(--blue);
+            border-radius: 5px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 13px; color: white;
+            box-shadow: 0 2px 8px rgba(43,110,245,0.3);
         }
+        .logo-text span { color: var(--blue); }
 
-        nav-menu {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
+        .nav-links {
+            display: flex; gap: 6px; list-style: none;
+            position: absolute; left: 50%; transform: translateX(-50%);
         }
-
-        nav-item {
+        .nav-links > li {
             position: relative;
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            padding-bottom: 0.5rem;
-            margin-bottom: -0.5rem;
         }
-
-        nav-link, a.nav-link {
-            text-decoration: none;
-            color: var(--muted);
-            font-size: 0.875rem;
-            font-weight: 400;
-            transition: color 0.2s;
+        .nav-links a, .nav-links .nav-toggle {
+            color: var(--muted); text-decoration: none;
+            font-size: 13px; font-weight: 400;
+            padding: 6px 12px; border-radius: 6px;
+            transition: color 0.15s, background 0.15s;
+            letter-spacing: -0.1px;
+            display: flex; align-items: center; gap: 3px;
             cursor: pointer;
+            background: none; border: none; font-family: inherit;
         }
+        .nav-links a:hover, .nav-links .nav-toggle:hover { color: var(--text); background: rgba(0,0,0,0.03); }
+        .chevron { width: 10px; height: 10px; transition: transform 0.2s; }
+        .dd-open > .nav-toggle .chevron { transform: rotate(180deg); }
 
-        nav-link:hover, a.nav-link:hover {
-            color: var(--text);
-        }
-
-        .dropdown-arrow {
-            width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.6rem;
-            color: var(--muted);
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: var(--surface);
+        .nav-dropdown {
+            position: absolute; top: 100%; left: 50%;
+            transform: translateX(-50%) translateY(-6px);
+            background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.5rem 0;
-            margin-top: 0;
-            min-width: 180px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-radius: 10px;
+            padding: 6px;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+            min-width: 260px;
+            z-index: 200;
+            margin-top: 6px;
         }
-
-        nav-item:hover .dropdown-menu {
-            display: block;
+        .nav-dropdown.dd-open {
+            opacity: 1; visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
-
         .dropdown-item {
-            display: block;
-            padding: 0.75rem 1rem;
-            text-decoration: none;
-            color: var(--text);
-            font-size: 0.9rem;
-            transition: background-color 0.2s;
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 12px; border-radius: 7px;
+            text-decoration: none; color: var(--text);
+            transition: background 0.12s;
+            font-size: 13px;
         }
-
-        .dropdown-item:hover {
-            background-color: var(--surface2);
-            color: var(--blue);
+        .dropdown-item:hover { background: var(--surface2); }
+        .dropdown-icon {
+            width: 32px; height: 32px;
+            background: rgba(43,110,245,0.08);
+            border: 1px solid rgba(43,110,245,0.15);
+            border-radius: 7px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; flex-shrink: 0;
         }
+        .dropdown-label { font-size: 13px; font-weight: 500; display: block; }
+        .dropdown-sub { font-size: 11px; color: var(--muted); display: block; margin-top: 1px; }
+        .dropdown-divider { height: 1px; background: var(--border); margin: 4px 12px; }
 
-        .cta-button {
-            background-color: var(--blue);
-            color: var(--surface);
-            padding: 0.625rem 1.25rem;
+        .nav-actions { display: flex; gap: 8px; align-items: center; }
+        .btn-nav-demo {
+            background: var(--blue);
+            color: white; text-decoration: none;
+            padding: 7px 16px; font-size: 13px; font-weight: 500;
             border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(43,110,245,0.3);
+        }
+        .btn-nav-demo:hover {
+            background: var(--blue-2);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(43,110,245,0.3);
         }
 
         .cta-button:hover {
@@ -453,10 +433,12 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            nav-menu {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
+            nav {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                display: none;
             }
 
             .contact-container {
@@ -499,34 +481,71 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <nav-wrapper>
-            <a href="/" class="logo">
-                <div class="logo-icon">N</div>
-                <span>Nolan AI</span>
-            </a>
-            <nav-menu>
-                <nav-item>
-                    <span class="nav-link">Product Capabilities</span>
-                    <span class="dropdown-arrow">▼</span>
-                    <div class="dropdown-menu">
-                        <a href="/#products" class="dropdown-item">NolanComfort</a>
-                        <a href="/#products" class="dropdown-item">NolanBackup</a>
-                    </div>
-                </nav-item>
-                <a href="/#demo" class="nav-link">How it Works</a>
-                <a href="/#security" class="nav-link">Security</a>
-                <a href="/#roadmap" class="nav-link">Roadmap</a>
-                <nav-item>
-                    <span class="nav-link">Company</span>
-                    <span class="dropdown-arrow">▼</span>
-                    <div class="dropdown-menu">
-                        <a href="/about.html" class="dropdown-item">About Us</a>
-                        <a href="/blog.html" class="dropdown-item">Resources</a>
-                    </div>
-                </nav-item>
-                <a href="/contact.html" class="cta-button">Book a Demo</a>
-            </nav-menu>
-        </nav-wrapper>
+        <a href="/" class="logo">
+            <div class="logo-mark">N</div>
+            <span class="logo-text">Nolan<span> AI</span></span>
+        </a>
+
+        <ul class="nav-links">
+            <li>
+                <span class="nav-toggle" id="productsToggle">
+                    Product Capabilities
+                    <svg class="chevron" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <div class="nav-dropdown" id="productsDropdown">
+                    <a href="/#products" class="dropdown-item">
+                        <div class="dropdown-icon">&#9678;</div>
+                        <div>
+                            <span class="dropdown-label">NolanComfort</span>
+                            <span class="dropdown-sub">Comfort letter automation</span>
+                        </div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/#products" class="dropdown-item">
+                        <div class="dropdown-icon">&#8863;</div>
+                        <div>
+                            <span class="dropdown-label">NolanBackup</span>
+                            <span class="dropdown-sub">Backup request workflows</span>
+                        </div>
+                    </a>
+                </div>
+            </li>
+            <li><a href="/#demo">How it Works</a></li>
+            <li><a href="/#how">Workflow</a></li>
+            <li><a href="/#security">Security</a></li>
+            <li><a href="/#roadmap">Roadmap</a></li>
+            <li>
+                <span class="nav-toggle" id="companyToggle">
+                    Company
+                    <svg class="chevron" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <div class="nav-dropdown" id="companyDropdown">
+                    <a href="/about.html" class="dropdown-item">
+                        <div class="dropdown-icon">&#128101;</div>
+                        <div>
+                            <span class="dropdown-label">About Us</span>
+                            <span class="dropdown-sub">Our team and mission</span>
+                        </div>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="/blog.html" class="dropdown-item">
+                        <div class="dropdown-icon">&#128196;</div>
+                        <div>
+                            <span class="dropdown-label">Resources</span>
+                            <span class="dropdown-sub">Articles and insights</span>
+                        </div>
+                    </a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="/contact.html" class="btn-nav-demo">Book a Demo</a>
+        </div>
     </nav>
 
     <!-- Main content -->
@@ -662,6 +681,40 @@
     </footer>
 
     <script>
+        // Dropdown toggles
+        document.querySelectorAll('.nav-toggle').forEach(toggle => {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const li = this.parentElement;
+                const dropdown = this.nextElementSibling;
+                const isOpen = li.classList.contains('dd-open');
+                document.querySelectorAll('.nav-links > li').forEach(item => {
+                    item.classList.remove('dd-open');
+                    const dd = item.querySelector('.nav-dropdown');
+                    if (dd) dd.classList.remove('dd-open');
+                });
+                if (!isOpen) {
+                    li.classList.add('dd-open');
+                    dropdown.classList.add('dd-open');
+                }
+            });
+        });
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.nav-links > li').forEach(item => {
+                item.classList.remove('dd-open');
+                const dd = item.querySelector('.nav-dropdown');
+                if (dd) dd.classList.remove('dd-open');
+            });
+        });
+        window.addEventListener('scroll', function() {
+            document.querySelectorAll('.nav-links > li').forEach(item => {
+                item.classList.remove('dd-open');
+                const dd = item.querySelector('.nav-dropdown');
+                if (dd) dd.classList.remove('dd-open');
+            });
+        });
+
         const contactForm = document.getElementById('contactForm');
         const successMessage = document.getElementById('successMessage');
         const formCard = document.querySelector('.form-card');

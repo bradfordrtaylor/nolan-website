@@ -1179,12 +1179,35 @@
     <li><a href="#how">Workflow</a></li>
     <li><a href="#security">Security</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="/blog.html">Blog</a></li>
-    <li><a href="/about.html">About</a></li>
+    <li>
+      <a href="#" id="companyToggle">
+        Company
+        <svg class="chevron" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <div class="nav-dropdown" id="companyDropdown">
+        <a href="/about.html" class="dropdown-item">
+          <div class="dropdown-icon">👥</div>
+          <div>
+            <span class="dropdown-label">About Us</span>
+            <span class="dropdown-sub">Our team and mission</span>
+          </div>
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="/blog.html" class="dropdown-item">
+          <div class="dropdown-icon">📄</div>
+          <div>
+            <span class="dropdown-label">Resources</span>
+            <span class="dropdown-sub">Articles and insights</span>
+          </div>
+        </a>
+      </div>
+    </li>
   </ul>
 
   <div class="nav-actions">
-    <a href="https://forms.gle/T4yc24wcHq6BVC3WA" target="_blank" class="btn-nav-demo">Get in touch</a>
+    <a href="/contact.html" class="btn-nav-demo">Book a Demo</a>
   </div>
 </nav>
 
@@ -1616,7 +1639,7 @@
     <h2>Ready to automate capital markets diligence?</h2>
     <p>We're onboarding design partners for early access. Contact us to learn more.</p>
     <div class="cta-actions">
-      <a href="https://forms.gle/T4yc24wcHq6BVC3WA" target="_blank" class="btn-primary">Request Early Access</a>
+      <a href="/contact.html" class="btn-primary">Request Early Access</a>
     </div>
     <div class="cta-tag">BUILT FOR CAPITAL MARKETS · NEW YORK</div>
   </div>
@@ -1633,14 +1656,14 @@
     </div>
     <div class="footer-col">
       <h3>Company</h3>
-      <a href="#how">Workflow</a>
+      <a href="/about.html">About Us</a>
+      <a href="/blog.html">Resources</a>
       <a href="#security">Security</a>
       <a href="#roadmap">Roadmap</a>
-      <a href="/blog.html">Blog</a>
-      <a href="/about.html">About</a>
     </div>
     <div class="footer-col">
       <h3>Contact</h3>
+      <a href="/contact.html">Book a Demo</a>
       <a href="mailto:bradford@nolanlegalai.com">bradford@nolanlegalai.com</a>
       <a href="mailto:harris@nolanlegalai.com">harris@nolanlegalai.com</a>
     </div>
@@ -1966,6 +1989,36 @@
         }
         document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
+    });
+
+    window.addEventListener('scroll', closeDropdown, { passive: true });
+
+    document.addEventListener('click', function(e) {
+      if (!parentLi.contains(e.target)) closeDropdown();
+    });
+  })();
+
+  // ─── COMPANY DROPDOWN ───
+  (function() {
+    var toggle = document.getElementById('companyToggle');
+    var dropdown = document.getElementById('companyDropdown');
+    var parentLi = toggle.parentElement;
+
+    function openDropdown() {
+      var rect = toggle.getBoundingClientRect();
+      dropdown.style.left = rect.left + 'px';
+      dropdown.classList.add('dd-open');
+      parentLi.classList.add('dd-open');
+    }
+    function closeDropdown() {
+      dropdown.classList.remove('dd-open');
+      parentLi.classList.remove('dd-open');
+    }
+
+    toggle.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      dropdown.classList.contains('dd-open') ? closeDropdown() : openDropdown();
     });
 
     window.addEventListener('scroll', closeDropdown, { passive: true });

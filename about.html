@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Nolan AI</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAFBFD;
+      --surface: #FFFFFF;
+      --surface2: #F4F6F9;
+      --blue: #2B6EF5;
+      --text: #0F172A;
+      --muted: #64748B;
+      --border: rgba(0,0,0,0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    nav {
+      background-color: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.875rem;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-square {
+      width: 32px;
+      height: 32px;
+      background-color: var(--blue);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .nav-cta {
+      background-color: var(--blue);
+      color: white;
+      padding: 0.625rem 1.25rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: background-color 0.2s;
+    }
+
+    .nav-cta:hover {
+      background-color: #1f5ad4;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 0 1rem;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .logo {
+        gap: 0.5rem;
+      }
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 6rem 2rem;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 3.5rem;
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .hero p {
+      font-size: 1.125rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 4rem 1.5rem;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+    }
+
+    /* Story Section */
+    .story {
+      background-color: var(--surface);
+      padding: 6rem 2rem;
+      margin: 4rem 0;
+    }
+
+    .story-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .story h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin-bottom: 3rem;
+      color: var(--text);
+    }
+
+    .story p {
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 768px) {
+      .story {
+        padding: 4rem 1.5rem;
+        margin: 2rem 0;
+      }
+
+      .story h2 {
+        font-size: 1.875rem;
+      }
+
+      .story p {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Bios Section */
+    .bios {
+      padding: 6rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .bios h2 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      margin-bottom: 3rem;
+      text-align: center;
+      color: var(--text);
+    }
+
+    .bios-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .bio-card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .bio-photo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      margin: 0 auto 1.5rem;
+      overflow: hidden;
+    }
+
+    .bio-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .bio-card h3 {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .bio-title {
+      font-size: 0.9rem;
+      color: var(--blue);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .bio-card ul {
+      list-style: none;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 2;
+    }
+
+    @media (max-width: 768px) {
+      .bios {
+        padding: 4rem 1.5rem;
+      }
+
+      .bios h2 {
+        font-size: 1.875rem;
+      }
+
+      .bios-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .bio-card {
+        padding: 1.5rem;
+      }
+
+      .bio-photo {
+        width: 120px;
+        height: 120px;
+      }
+
+      .bio-card h3 {
+        font-size: 1.25rem;
+      }
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 4rem 2rem 2rem;
+      margin-top: 6rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .footer-section h4 {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.875rem;
+      display: block;
+      margin-bottom: 0.75rem;
+      transition: color 0.2s;
+    }
+
+    .footer-section a:hover {
+      color: var(--blue);
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo-square {
+      width: 28px;
+      height: 28px;
+      background-color: var(--blue);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.875rem;
+    }
+
+    .footer-logo-text {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.875rem;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding-top: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 768px) {
+      footer {
+        padding: 3rem 1.5rem 1.5rem;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-left">
+      <a href="/" class="logo">
+        <div class="logo-square">N</div>
+        <span>Nolan AI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/">Product</a></li>
+        <li><a href="/about.html">About Us</a></li>
+        <li><a href="/blog.html">Resources</a></li>
+      </ul>
+    </div>
+    <a href="/contact.html" class="nav-cta">Book a Demo</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>About Nolan</h1>
+    <p>Purpose-built AI designed for capital markets lawyers. We're making the comfort letter and backup request workflow faster, more accurate, and more collaborative.</p>
+  </section>
+
+  <!-- Story Section -->
+  <section class="story">
+    <div class="story-container">
+      <h2>Why We're Building This</h2>
+
+      <p>Bradford Taylor and Harris Scott met at Howard University School of Law, where Bradford mentored Harris. Both went on to work as capital markets associates at top law firms, spending years on securities offerings.</p>
+
+      <p>They saw firsthand how the comfort letter and backup preparation process consumed hundreds of associate hours per deal. The same manual workflow, repeated on every IPO, every follow-on, every debt deal.</p>
+
+      <p>Every other part of the deal process had been touched by technology. But comfort and backup preparation remained stuck in spreadsheets and tracked changes.</p>
+
+      <p>They started building Nolan to fix that. Purpose-built AI that understands how capital markets lawyers actually work.</p>
+    </div>
+  </section>
+
+  <!-- Bios Section -->
+  <section class="bios">
+    <h2>The Founders</h2>
+    <div class="bios-grid">
+      <div class="bio-card">
+        <div class="bio-photo"><img src="/bradford-headshot.jpg" alt="Bradford Taylor"></div>
+        <h3>Bradford Taylor</h3>
+        <p class="bio-title">Co-Founder & CEO</p>
+        <ul>
+          <li>Howard University School of Law</li>
+          <li>University of Pennsylvania (class of 2017)</li>
+          <li>Capital markets associate focused on securities offerings</li>
+          <li>Based in New York</li>
+        </ul>
+      </div>
+      <div class="bio-card">
+        <div class="bio-photo"><img src="/harris-headshot.jpg" alt="Harris Scott"></div>
+        <h3>Harris Scott</h3>
+        <p class="bio-title">Co-Founder & CTO</p>
+        <ul>
+          <li>Howard University School of Law</li>
+          <li>Harvard University</li>
+          <li>Capital markets associate focused on securities offerings</li>
+          <li>Based in New York</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <div class="footer-logo-square">N</div>
+          <span class="footer-logo-text">Nolan AI</span>
+        </div>
+        <p style="font-size: 0.875rem; color: var(--muted); line-height: 1.6;">AI for capital markets lawyers. Purpose-built for the comfort letter and backup request workflow.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/">Product</a></li>
+          <li><a href="/about.html">About Us</a></li>
+          <li><a href="/blog.html">Resources</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/contact.html">Book a Demo</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Nolan Legal, Inc. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

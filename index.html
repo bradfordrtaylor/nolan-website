@@ -1963,7 +1963,13 @@
 
     function openDropdown() {
       var rect = toggle.getBoundingClientRect();
-      dropdown.style.left = rect.left + 'px';
+      var toggleCenter = rect.left + rect.width / 2;
+      var ddWidth = dropdown.offsetWidth || 260;
+      var left = toggleCenter - ddWidth / 2;
+      if (left < 8) left = 8;
+      if (left + ddWidth > window.innerWidth - 8) left = window.innerWidth - ddWidth - 8;
+      dropdown.style.left = left + 'px';
+      dropdown.style.right = 'auto';
       dropdown.classList.add('dd-open');
       parentLi.classList.add('dd-open');
     }
@@ -2006,7 +2012,13 @@
 
     function openDropdown() {
       var rect = toggle.getBoundingClientRect();
-      dropdown.style.left = rect.left + 'px';
+      var toggleCenter = rect.left + rect.width / 2;
+      var ddWidth = dropdown.offsetWidth || 260;
+      var left = toggleCenter - ddWidth / 2;
+      if (left < 8) left = 8;
+      if (left + ddWidth > window.innerWidth - 8) left = window.innerWidth - ddWidth - 8;
+      dropdown.style.left = left + 'px';
+      dropdown.style.right = 'auto';
       dropdown.classList.add('dd-open');
       parentLi.classList.add('dd-open');
     }

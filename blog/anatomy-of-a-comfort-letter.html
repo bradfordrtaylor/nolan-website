@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+anatomy-of-a-comfort-letter<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -170,14 +170,16 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            color: var(--blue);
+            color: var(--muted);
             text-decoration: none;
             font-size: 13px;
             font-weight: 500;
-            margin-bottom: 32px;
-            transition: opacity 0.2s;
+            transition: color 0.2s;
         }
-        .article-header .back-link:hover { opacity: 0.8; }
+        .article-header .back-link:hover { color: var(--blue); }
+        .article-header .back-row {
+            margin-bottom: 32px;
+        }
 
         .article-header .tag {
             display: inline-block;
@@ -481,10 +483,12 @@
 
     <!-- Article Header -->
     <header class="article-header">
-        <a href="/blog.html" class="back-link">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Back to Blog
-        </a>
+        <div class="back-row">
+            <a href="/blog.html" class="back-link">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Back to Blog
+            </a>
+        </div>
         <div class="tag">Capital Markets</div>
         <h1>The Anatomy of a Comfort Letter</h1>
         <p class="subtitle">A Practitioner's Guide to the Most Misunderstood Deliverable in Securities Offerings</p>

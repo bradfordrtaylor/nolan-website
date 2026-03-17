@@ -762,11 +762,11 @@
     max-width: 1200px; margin: 0 auto;
   }
   .prod-head {
-    text-align: center; margin-bottom: 60px;
+    text-align: center; margin-bottom: 0;
   }
   .prod-toggle {
     display: flex; align-items: center; justify-content: center;
-    gap: 12px; margin-top: 32px;
+    gap: 12px; margin-top: 32px; margin-bottom: 36px;
   }
   .toggle-item {
     display: flex; align-items: center; gap: 8px;
@@ -1343,15 +1343,16 @@
     <div class="section-label reveal">Product Capabilities</div>
     <h2 class="section-title reveal">Two workflows. One system.</h2>
     <p class="section-sub reveal">Nolan reads SEC filings and prepares the comfort circles and backup requests lawyers normally build manually.</p>
-    <div class="prod-toggle reveal">
-      <div class="toggle-item active" data-product="comfort">
-        <div class="toggle-icon">◎</div>
-        NolanComfort
-      </div>
-      <div class="toggle-item" data-product="backup">
-        <div class="toggle-icon">⊟</div>
-        NolanBackup
-      </div>
+  </div>
+
+  <div class="prod-toggle reveal">
+    <div class="toggle-item active" data-product="comfort">
+      <div class="toggle-icon">◎</div>
+      NolanComfort
+    </div>
+    <div class="toggle-item" data-product="backup">
+      <div class="toggle-icon">⊟</div>
+      NolanBackup
     </div>
   </div>
 

@@ -15,18 +15,18 @@
     --surface:  #FFFFFF;
     --surface2: #F4F6F9;
     --surface3: #EDF0F5;
-    --blue:     #2B6EF5;
-    --blue-2:   #1A5CE0;
-    --blue-3:   #1048C8;
-    --accent:   #2B6EF5;
-    --accent-2: #1A5CE0;
+    --blue:     #2e3a51;
+    --blue-2:   #232d40;
+    --blue-3:   #1a2233;
+    --accent:   #2e3a51;
+    --accent-2: #232d40;
     --green:    #059669;
     --text:     #0F172A;
     --text-2:   #1E293B;
     --muted:    #64748B;
     --muted2:   #475569;
     --border:   rgba(0,0,0,0.08);
-    --border2:  rgba(43,110,245,0.2);
+    --border2:  rgba(46,58,81,0.2);
   }
 
   html { scroll-behavior: auto; }
@@ -76,20 +76,20 @@
   }
 
   .logo {
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 10px;
     text-decoration: none; color: var(--text);
-    font-size: 15px; font-weight: 600;
+    font-size: 16px; font-weight: 600;
     letter-spacing: -0.3px;
   }
-  .logo-mark {
-    width: 24px; height: 24px;
-    background: var(--blue);
-    border-radius: 5px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 13px; color: white;
-    box-shadow: 0 2px 8px rgba(43,110,245,0.3);
+  .logo-icon {
+    width: 26px; height: 26px;
+    color: var(--blue);
   }
-  .logo-text span { color: var(--accent); }
+  .logo-divider {
+    width: 1px; height: 20px;
+    background: var(--border);
+  }
+  .logo-text { font-weight: 500; font-size: 15px; }
 
   .nav-links {
     display: flex; gap: 6px; list-style: none;
@@ -139,8 +139,8 @@
   .dropdown-item:hover { background: var(--surface2); }
   .dropdown-icon {
     width: 32px; height: 32px;
-    background: rgba(43,110,245,0.08);
-    border: 1px solid rgba(43,110,245,0.15);
+    background: rgba(46,58,81,0.08);
+    border: 1px solid rgba(46,58,81,0.15);
     border-radius: 7px;
     display: flex; align-items: center; justify-content: center;
     font-size: 14px; flex-shrink: 0;
@@ -156,12 +156,12 @@
     padding: 7px 16px; font-size: 13px; font-weight: 500;
     border-radius: 6px;
     transition: all 0.2s;
-    box-shadow: 0 1px 3px rgba(43,110,245,0.3);
+    box-shadow: 0 1px 3px rgba(46,58,81,0.3);
   }
   .btn-nav-demo:hover {
     background: var(--blue-2);
     transform: translateY(-1px);
-    box-shadow: 0 4px 16px rgba(43,110,245,0.3);
+    box-shadow: 0 4px 16px rgba(46,58,81,0.3);
   }
 
   /* ─── HERO ─── */
@@ -208,8 +208,8 @@
 
   .hero-badge {
     display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(43,110,245,0.06);
-    border: 1px solid rgba(43,110,245,0.15);
+    background: rgba(46,58,81,0.06);
+    border: 1px solid rgba(46,58,81,0.15);
     border-radius: 100px;
     padding: 6px 16px 6px 10px;
     font-family: 'DM Mono', monospace;
@@ -221,7 +221,7 @@
   }
   .badge-dot {
     width: 18px; height: 18px;
-    background: rgba(43,110,245,0.12);
+    background: rgba(46,58,81,0.12);
     border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
@@ -249,7 +249,7 @@
   }
   .hero h1 em {
     font-style: italic;
-    background: linear-gradient(135deg, var(--blue), #4F8EFF);
+    background: linear-gradient(135deg, var(--blue), #4a5a73);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -289,7 +289,7 @@
     border-radius: 8px;
     transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
     display: inline-flex; align-items: center; gap: 6px;
-    box-shadow: 0 1px 3px rgba(43,110,245,0.3);
+    box-shadow: 0 1px 3px rgba(46,58,81,0.3);
     position: relative;
     overflow: hidden;
   }
@@ -302,7 +302,7 @@
   .btn-primary:hover {
     background: var(--blue-2);
     transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(43,110,245,0.35);
+    box-shadow: 0 8px 28px rgba(46,58,81,0.35);
   }
 
   .btn-ghost {
@@ -539,7 +539,7 @@
     font-weight: 500; letter-spacing: 0.02em;
   }
   .ci-tag.tag-c {
-    background: rgba(43,110,245,0.1); color: var(--blue);
+    background: rgba(46,58,81,0.1); color: var(--blue);
   }
   .ci-tag.tag-r {
     background: rgba(5,150,105,0.1); color: var(--green);
@@ -806,14 +806,14 @@
   }
   .feature-card.blue-accent::before { background: linear-gradient(90deg, var(--blue), #60A5FA); }
   .feature-card.green-accent::before { background: linear-gradient(90deg, #059669, #34D399); }
-  .feature-card:hover { border-color: rgba(43,110,245,0.15); transform: translateY(-2px); }
+  .feature-card:hover { border-color: rgba(46,58,81,0.15); transform: translateY(-2px); }
   .feature-card:hover::before { opacity: 1; }
   .feature-icon {
     width: 38px; height: 38px; border-radius: 9px;
     display: flex; align-items: center; justify-content: center;
     font-size: 18px; margin-bottom: 18px;
   }
-  .feature-icon.blue-bg { background: rgba(43,110,245,0.08); border: 1px solid rgba(43,110,245,0.15); }
+  .feature-icon.blue-bg { background: rgba(46,58,81,0.08); border: 1px solid rgba(46,58,81,0.15); }
   .feature-icon.green-bg { background: rgba(5,150,105,0.08); border: 1px solid rgba(5,150,105,0.15); }
   .feature-card h3 {
     font-family: 'Instrument Serif', serif;
@@ -837,7 +837,7 @@
   }
   .sec-shield {
     width: 64px; height: 64px; border-radius: 16px;
-    background: linear-gradient(135deg, var(--blue), #4f7df5);
+    background: linear-gradient(135deg, var(--blue), #4a5a73);
     display: flex; align-items: center; justify-content: center;
     margin-bottom: 24px;
   }
@@ -1214,9 +1214,12 @@
 <body>
 
 <nav id="mainNav">
-  <a href="#" class="logo">
-    <div class="logo-mark">N</div>
-    <span class="logo-text">Nolan<span> AI</span></span>
+  <a href="/" class="logo">
+    <svg class="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="currentColor" d="M39.167,28.416c-0.288,0-0.562,0.051-0.827,0.124L35.313,24l3.027-4.541c0.266,0.073,0.539,0.124,0.827,0.124c1.746,0,3.167-1.421,3.167-3.167s-1.421-3.167-3.167-3.167c-0.874,0-1.666,0.356-2.239,0.93l-9.806-4.903c0.021-0.146,0.045-0.291,0.045-0.442c0-1.746-1.421-3.167-3.167-3.167s-3.167,1.421-3.167,3.167c0,0.151,0.024,0.296,0.045,0.442l-9.806,4.903c-0.574-0.574-1.366-0.93-2.239-0.93c-1.746,0-3.167,1.421-3.167,3.167s1.421,3.167,3.167,3.167c0.288,0,0.562-0.051,0.827-0.124L12.687,24l-3.026,4.54c-0.266-0.073-0.54-0.124-0.828-0.124c-1.746,0-3.167,1.421-3.167,3.167S7.087,34.75,8.833,34.75c0.873,0,1.665-0.355,2.238-0.929l9.807,4.903c-0.021,0.146-0.045,0.291-0.045,0.442c0,1.746,1.421,3.167,3.167,3.167s3.167-1.421,3.167-3.167c0-0.151-0.024-0.297-0.045-0.442l9.807-4.903c0.574,0.574,1.366,0.929,2.238,0.929c1.746,0,3.167-1.421,3.167-3.167S40.913,28.416,39.167,28.416z M36.246,29.005l-3.202-1.602l1.067-1.601L36.246,29.005z M24.827,36.124c-0.265-0.073-0.539-0.124-0.827-0.124s-0.562,0.051-0.827,0.123l-5.296-7.943l3.884-1.942C22.334,26.812,23.126,27.167,24,27.167s1.666-0.355,2.239-0.93l3.884,1.942L24.827,36.124z M23.173,11.876c0.265,0.073,0.539,0.124,0.827,0.124s0.562-0.051,0.827-0.124l5.295,7.943l-3.884,1.942c-0.573-0.574-1.365-0.929-2.238-0.929s-1.665,0.355-2.238,0.929l-3.884-1.942L23.173,11.876z M25.167,24c0,0.644-0.523,1.167-1.167,1.167S22.833,24.644,22.833,24S23.356,22.833,24,22.833S25.167,23.356,25.167,24z M20.878,23.557c-0.021,0.146-0.045,0.291-0.045,0.443c0,0.151,0.024,0.296,0.045,0.442l-4.119,2.06L15.091,24l1.668-2.503L20.878,23.557z M27.122,24.442c0.021-0.146,0.045-0.296,0.045-0.442c0-0.152-0.025-0.297-0.045-0.443l4.118-2.06L32.909,24l-1.668,2.502L27.122,24.442z M33.043,20.596l3.203-1.602l-2.135,3.203L33.043,20.596z M39.167,15.249c0.644,0,1.167,0.523,1.167,1.167s-0.523,1.167-1.167,1.167S38,17.06,38,16.416S38.523,15.249,39.167,15.249z M36.045,16.858l-4.12,2.06l-5.005-7.508l9.125,4.563C36.024,16.12,36,16.265,36,16.416S36.024,16.712,36.045,16.858z M24,7.666c0.644,0,1.167,0.523,1.167,1.167S24.644,10,24,10s-1.167-0.523-1.167-1.167S23.356,7.666,24,7.666z M21.081,11.411L16.075,18.918l-4.12-2.06c0.021-0.146,0.045-0.291,0.045-0.442s-0.024-0.296-0.045-0.442L21.081,11.411z M7.666,16.416c0-0.644,0.523-1.167,1.167-1.167S10,15.772,10,16.416s-0.523,1.167-1.167,1.167S7.666,17.06,7.666,16.416z M11.754,18.994l3.203,1.602l-1.067,1.602L11.754,18.994z M14.956,27.403l-3.202,1.602l2.135-3.202L14.956,27.403z M8.833,32.75c-0.644,0-1.167-0.523-1.167-1.167s0.523-1.167,1.167-1.167S10,30.939,10,31.583S9.477,32.75,8.833,32.75z M11.955,31.141l4.119-2.06l5.005,7.508l-9.125-4.563C11.976,31.88,12,31.734,12,31.583S11.976,31.286,11.955,31.141z M24,40.334c-0.644,0-1.167-0.523-1.167-1.167S23.356,38,24,38s1.167,0.523,1.167,1.167S24.644,40.334,24,40.334z M26.921,36.589l5.005-7.508l4.119,2.06C36.024,31.286,36,31.432,36,31.583s0.024,0.297,0.045,0.443L26.921,36.589z M39.167,32.75c-0.644,0-1.167-0.523-1.167-1.167s0.523-1.167,1.167-1.167s1.167,0.523,1.167,1.167S39.811,32.75,39.167,32.75z"/>
+    </svg>
+    <span class="logo-divider"></span>
+    <span class="logo-text">Nolan AI</span>
   </a>
 
   <ul class="nav-links" id="navLinks">
